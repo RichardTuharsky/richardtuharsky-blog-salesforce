@@ -1,7 +1,8 @@
 {
   "permissions": {
     "allow": [
-      "PowerShell(tree \"C:\\\\richardtuharsky-blog-salesforce\\\\src\" -L 3)"
+      "PowerShell(tree \"C:\\\\richardtuharsky-blog-salesforce\\\\src\" -L 3)",
+      "Bash(del *)"
     ]
   }
 }

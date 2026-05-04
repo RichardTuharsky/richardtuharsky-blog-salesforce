@@ -25,7 +25,7 @@ const blog = defineCollection({
       title: z.string(),
       cover: image().optional(),
       date: z.coerce.date(),
-      tags: z.array(reference("tags")).default(["default"]),
+      tags: z.array(reference("tags")).default(["salesforce-core"]),
       lastmod: z.coerce.date().optional(),
       draft: z.boolean().default(false),
       summary: z.string(),
