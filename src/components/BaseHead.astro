@@ -2,7 +2,6 @@
 import "@/styles/global.css";
 import { SITE_METADATA } from "@/consts";
 import { ClientRouter } from "astro:transitions";
-import "@fontsource/onest";
 import { SEO } from "astro-seo";
 import { getEntry, type CollectionEntry } from "astro:content";
 import Favicon from "@/assets/favicon.svg";
@@ -130,4 +129,7 @@ const isProduction = import.meta.env.PROD;
   />
   {isProduction && <Analytics />}
   <ClientRouter />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@200..700&display=swap" rel="stylesheet" />
 </head>
