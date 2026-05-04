@@ -5,7 +5,7 @@ export const ui = {
     // Site Metadata
     'siteMetadata.title': 'Richard Tuharsky - Salesforce',
     'siteMetadata.headerTitle': 'Richard Tuharsky',   
-    'siteMetadata.description': 'A blog created with Astro and Tailwind.css',
+    'siteMetadata.description': 'A Salesforce blog by Richard Tuharsky focused on delivering value and practical business solutions.',
     'siteMetadata.language': 'en-US',
 
     // Pages
