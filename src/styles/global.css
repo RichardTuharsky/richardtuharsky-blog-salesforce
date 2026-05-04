@@ -28,6 +28,10 @@
     --color-primary-950: var(--color-indigo-950);
 }
 
+html {
+    font-size: 125%;
+}
+
 body {
     font-weight: 400;
 }
