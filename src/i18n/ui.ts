@@ -44,10 +44,10 @@ export const ui = {
 
     // Navigation
     'nav.home': 'Home',
-    'nav.blog': 'Blog',
-    'nav.projects': 'Projects',
-    'nav.tags': 'Tags',
     'nav.about': 'About',
+    'nav.caseStudies': 'Case Studies',
+    'nav.blog': 'Blog',
+    'nav.newsletter': 'Newsletter',
 
     // Layouts
     'layouts.authorLayout.aboutAuthor': 'About {author}',

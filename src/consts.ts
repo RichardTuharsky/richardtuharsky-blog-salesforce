@@ -76,10 +76,10 @@ export const ITEMS_PER_PAGE = 5;
  */
 export const NAVIGATION = [
   { href: "/", title: "nav.home" },
-  { href: "/blog", title: "nav.blog" },
-  { href: "/tags", title: "nav.tags" },
-  { href: "/projects", title: "nav.projects" },
   { href: "/about", title: "nav.about" },
+  { href: "/case-studies", title: "nav.caseStudies" },
+  { href: "/blog", title: "nav.blog" },
+  { href: "/newsletter", title: "nav.newsletter" },
 ] as const;
 
 export const POST_METADATA = {
