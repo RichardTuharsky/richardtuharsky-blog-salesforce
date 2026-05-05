@@ -3,6 +3,8 @@ import { Image } from "astro:assets";
 import { type CollectionEntry, getCollection } from "astro:content";
 
 import SocialIcon from "@/components/social-icons/index.astro";
+import MailIcon from "@/components/social-icons/icons/Mail.astro";
+import CVIcon from "@/components/social-icons/icons/CV.astro";
 import RootLayout from "./RootLayout.astro";
 import Link from "../components/Link.astro";
 import { sortBlogPosts } from "../functions";
@@ -72,11 +74,28 @@ const authorPosts = await getCollection(
         </h2>
         <div class="text-gray-500 dark:text-gray-400">{occupation}</div>
         <div class="text-gray-500 dark:text-gray-400">{company}</div>
-        <div class="flex space-x-3 pt-6">
-          {email && <SocialIcon kind="mail" href={`mailto:${email}`} />}
-          {linkedin && <SocialIcon kind="linkedin" href={linkedin} />}
-          {twitter && <SocialIcon kind="twitter" href={twitter} />}
-          {trailblazer && <SocialIcon kind="trailblazer" href={trailblazer} />}
+        <div class="flex items-center space-x-3 pt-6">
+          {email && (
+            <button
+              id="copy-email-btn"
+              data-email={email}
+              class="cursor-pointer text-gray-700 hover:text-primary-500 transition-colors"
+              aria-label="Copy email address"
+            >
+              <MailIcon class="fill-current h-6 w-6" />
+            </button>
+          )}
+          {linkedin && <SocialIcon kind="linkedin" href={linkedin} size={6} />}
+          {twitter && <SocialIcon kind="twitter" href={twitter} size={6} />}
+          {trailblazer && <SocialIcon kind="trailblazer" href={trailblazer} size={6} />}
+          <a
+            href="/cv.pdf"
+            download
+            class="text-gray-700 hover:text-primary-500 transition-colors"
+            aria-label="Download CV"
+          >
+            <CVIcon class="fill-current h-6 w-6" />
+          </a>
         </div>
       </div>
       <div class="xl:col-span-2 max-w-none d-flex">
@@ -103,3 +122,32 @@ const authorPosts = await getCollection(
     </div>
   </div>
 </RootLayout>
+
+<div
+  id="email-toast"
+  class="fixed bottom-6 left-1/2 -translate-x-1/2 bg-gray-900 text-white text-sm px-5 py-3 rounded-xl shadow-lg z-50 flex items-center gap-2 transition-opacity duration-300 opacity-0 pointer-events-none"
+>
+  <span>✓</span>
+  <span id="email-toast-text"></span>
+</div>
+
+<script>
+  const btn = document.getElementById('copy-email-btn');
+  const toast = document.getElementById('email-toast');
+  const toastText = document.getElementById('email-toast-text');
+
+  if (btn && toast && toastText) {
+    btn.addEventListener('click', () => {
+      const email = (btn as HTMLButtonElement).dataset.email ?? '';
+      navigator.clipboard.writeText(email).then(() => {
+        toastText.textContent = email + ' copied to clipboard';
+        toast.classList.remove('opacity-0', 'pointer-events-none');
+        toast.classList.add('opacity-100');
+        setTimeout(() => {
+          toast.classList.remove('opacity-100');
+          toast.classList.add('opacity-0', 'pointer-events-none');
+        }, 2500);
+      });
+    });
+  }
+</script>
