@@ -15,17 +15,17 @@
     --line-height-14: 3.5rem;
 
     /* Map custom primary color scale to indigo for tech/business branding */
-    --color-primary-50: var(--color-indigo-50);
-    --color-primary-100: var(--color-indigo-100);
-    --color-primary-200: var(--color-indigo-200);
-    --color-primary-300: var(--color-indigo-300);
-    --color-primary-400: var(--color-indigo-400);
-    --color-primary-500: var(--color-indigo-500);
-    --color-primary-600: var(--color-indigo-600);
-    --color-primary-700: var(--color-indigo-700);
-    --color-primary-800: var(--color-indigo-800);
-    --color-primary-900: var(--color-indigo-900);
-    --color-primary-950: var(--color-indigo-950);
+    --color-primary-50: var(--color-blue-50);
+    --color-primary-100: var(--color-blue-100);
+    --color-primary-200: var(--color-blue-200);
+    --color-primary-300: var(--color-blue-300);
+    --color-primary-400: var(--color-blue-400);
+    --color-primary-500: var(--color-blue-500);
+    --color-primary-600: var(--color-blue-600);
+    --color-primary-700: var(--color-blue-700);
+    --color-primary-800: var(--color-blue-800);
+    --color-primary-900: var(--color-blue-900);
+    --color-primary-950: var(--color-blue-950);
 }
 
 html {
@@ -34,12 +34,12 @@ html {
 
 body {
     font-weight: 400;
-    background-color: #f8fafc;
+    background-color: #eeeeeec4;
     background-image:
-        radial-gradient(ellipse at 0% 0%, rgba(195, 217, 223, 0.623) 0%, transparent 55%),
-        radial-gradient(ellipse at 100% 0%, rgba(196, 191, 199, 0.45) 0%, transparent 50%),
-        radial-gradient(ellipse at 100% 100%, rgba(165, 217, 252, 0.35) 0%, transparent 55%),
-        radial-gradient(ellipse at 0% 100%, rgba(212, 219, 254, 0.3) 0%, transparent 50%);
+        radial-gradient(ellipse at 0% 0%, rgba(160, 198, 209, 0.623) 0%, transparent 55%),
+        radial-gradient(ellipse at 100% 0%, rgba(174, 204, 224, 0.45) 0%, transparent 50%),
+        radial-gradient(ellipse at 100% 100%, rgba(179, 240, 182, 0.35) 0%, transparent 55%),
+        radial-gradient(ellipse at 0% 100%, rgba(168, 180, 241, 0.3) 0%, transparent 50%);
     background-attachment: fixed;
 }
 
