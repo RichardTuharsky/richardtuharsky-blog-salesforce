@@ -22,7 +22,7 @@ const {
   occupation,
   company,
   email,
-  github,
+  trailblazer,
   linkedin,
   twitter,
   shortBio,
@@ -74,9 +74,9 @@ const authorPosts = await getCollection(
         <div class="text-gray-500 dark:text-gray-400">{company}</div>
         <div class="flex space-x-3 pt-6">
           {email && <SocialIcon kind="mail" href={`mailto:${email}`} />}
-          {github && <SocialIcon kind="github" href={github} />}
           {linkedin && <SocialIcon kind="linkedin" href={linkedin} />}
           {twitter && <SocialIcon kind="twitter" href={twitter} />}
+          {trailblazer && <SocialIcon kind="trailblazer" href={trailblazer} />}
         </div>
       </div>
       <div class="xl:col-span-2 max-w-none d-flex">
