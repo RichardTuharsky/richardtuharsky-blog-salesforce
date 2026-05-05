@@ -34,13 +34,7 @@ html {
 
 body {
     font-weight: 400;
-    background-color: #eeeeeec4;
-    background-image:
-        radial-gradient(ellipse at 0% 0%, rgba(160, 198, 209, 0.623) 0%, transparent 55%),
-        radial-gradient(ellipse at 100% 0%, rgba(174, 204, 224, 0.45) 0%, transparent 50%),
-        radial-gradient(ellipse at 100% 100%, rgba(179, 240, 182, 0.35) 0%, transparent 55%),
-        radial-gradient(ellipse at 0% 100%, rgba(168, 180, 241, 0.3) 0%, transparent 50%);
-    background-attachment: fixed;
+    background-color: #f7f8fa;
 }
 
 h1, h2, h3, h4, h5, h6 {
