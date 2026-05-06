@@ -1,0 +1,788 @@
+---
+import RootLayout from "@/layouts/RootLayout.astro";
+
+const triggerCode = `trigger ProductStockUpdate on TechGear_Orders__c (after insert) {
+
+   Set<Id> productIds = new Set<Id>();
+
+   for (TechGear_Orders__c order : Trigger.new) {
+       if (order.TechGear_Product__c != null) {
+           productIds.add(order.TechGear_Product__c);
+       }
+   }
+
+   Map<Id, TechGear_Products__c> productsMap = new Map<Id, TechGear_Products__c>(
+       [SELECT Id, Stock_Quantity__c, Name
+        FROM TechGear_Products__c
+        WHERE Id IN :productIds]
+   );
+
+   List<TechGear_Products__c> productsToUpdate = new List<TechGear_Products__c>();
+
+   for (TechGear_Orders__c order : Trigger.new) {
+       if (order.TechGear_Product__c != null &&
+           productsMap.containsKey(order.TechGear_Product__c)) {
+
+           TechGear_Products__c product = productsMap.get(order.TechGear_Product__c);
+
+           if (product.Stock_Quantity__c >= order.Quantity__c) {
+               product.Stock_Quantity__c -= order.Quantity__c;
+               productsToUpdate.add(product);
+           } else {
+               order.addError('Insufficient stock for product: ' + product.Name +
+                              '. Available: ' + product.Stock_Quantity__c +
+                              ', Requested: ' + order.Quantity__c);
+           }
+       }
+   }
+
+   if (!productsToUpdate.isEmpty()) {
+       update productsToUpdate;
+   }
+}`;
+
+const handlerCode = `public class OpportunityTriggerHandler {
+
+   public static void handleStageChange(List<Opportunity> newOpps,
+                                       Map<Id, Opportunity> oldOppsMap) {
+
+       List<Task> tasksToCreate = new List<Task>();
+
+       for (Opportunity opp : newOpps) {
+           Opportunity oldOpp = oldOppsMap.get(opp.Id);
+
+           if (opp.StageName != oldOpp.StageName) {
+               Task newTask = new Task();
+               newTask.Subject = 'Follow up on stage change to ' + opp.StageName;
+               newTask.Description = 'Contact customer if necessary.';
+               newTask.WhatId = opp.Id;
+               newTask.OwnerId = opp.OwnerId;
+               newTask.ActivityDate = System.today().addDays(1);
+               newTask.Status = 'Not Started';
+               newTask.Priority = 'Normal';
+               tasksToCreate.add(newTask);
+           }
+       }
+
+       if (!tasksToCreate.isEmpty()) {
+           try {
+               insert tasksToCreate;
+           } catch (DmlException e) {
+               System.debug('Error creating tasks: ' + e.getMessage());
+           }
+       }
+   }
+}`;
+
+const serviceReportCode = `public class ServiceReportGenerator {
+
+   @InvocableMethod(label='Generate Service Report'
+                    description='Creates a service report file for closed cases')
+   public static void generateReports(List<Id> caseIds) {
+       List<ContentVersion> reportsToCreate = new List<ContentVersion>();
+
+       List<Case> cases = [SELECT CaseNumber, Subject, Description, Status,
+                                  Resolution_Date__c, Support_Agent__c,
+                                  TechGear_Product__r.Name, Account.Name
+                           FROM Case
+                           WHERE Id IN :caseIds];
+
+       for (Case c : cases) {
+           String reportContent = createReportTemplate(c);
+
+           ContentVersion cv = new ContentVersion();
+           cv.Title = 'Service_Report_' + c.CaseNumber;
+           cv.PathOnClient = 'Service_Report_' + c.CaseNumber + '.txt';
+           cv.VersionData = Blob.valueOf(reportContent);
+           cv.FirstPublishLocationId = c.Id;
+           reportsToCreate.add(cv);
+       }
+
+       if (!reportsToCreate.isEmpty()) {
+           insert reportsToCreate;
+       }
+   }
+
+   private static String createReportTemplate(Case c) {
+       return '--------------------------------------------------\\n' +
+              'TECHGEARS LTD. - SERVICE REPORT\\n' +
+              '--------------------------------------------------\\n' +
+              'Case Number: ' + c.CaseNumber + '\\n' +
+              'Account: ' + c.Account.Name + '\\n' +
+              'Subject: ' + c.Subject + '\\n' +
+              '--------------------------------------------------\\n' +
+              'Product: ' + (c.TechGear_Product__r.Name != null ?
+                            c.TechGear_Product__r.Name : 'General Inquiry') + '\\n' +
+              'Support Agent: ' + c.Support_Agent__c + '\\n' +
+              'Resolution Date: ' + c.Resolution_Date__c + '\\n' +
+              '--------------------------------------------------\\n' +
+              'ISSUE DESCRIPTION:\\n' + c.Description + '\\n' +
+              '--------------------------------------------------\\n' +
+              'Internal Use Only - TechGears Ltd. Proprietary';
+   }
+}`;
+
+const productCatalogCode = `import { LightningElement, wire, api } from 'lwc';
+import getAvailableProducts from '@salesforce/apex/ProductController.getAvailableProducts';
+import addProductToOpportunity from '@salesforce/apex/ProductController.addProductToOpportunity';
+import { ShowToastEvent } from 'lightning/platformShowToastEvent';
+
+export default class ProductCatalog extends LightningElement {
+   @api recordId;
+   products;
+   error;
+
+   @wire(getAvailableProducts)
+   wiredProducts({ error, data }) {
+       if (data) {
+           this.products = data;
+       } else if (error) {
+           this.error = error;
+       }
+   }
+
+   handleAddToOpp(event) {
+       const productId = event.target.dataset.id;
+
+       addProductToOpportunity({ productId, opportunityId: this.recordId })
+           .then(() => {
+               this.dispatchEvent(new ShowToastEvent({
+                   title: 'Success',
+                   message: 'Product added to opportunity',
+                   variant: 'success'
+               }));
+           })
+           .catch(error => {
+               let message = 'Unknown error';
+               if (Array.isArray(error.body)) {
+                   message = error.body.map(e => e.message).join(', ');
+               } else if (typeof error.body.message === 'string') {
+                   message = error.body.message;
+               }
+               this.dispatchEvent(new ShowToastEvent({
+                   title: 'Error Creating Order',
+                   message,
+                   variant: 'error',
+                   mode: 'sticky'
+               }));
+           });
+   }
+}`;
+
+const caseDashboardCode = `import { LightningElement, track, wire } from 'lwc';
+import getCasesByPriority from '@salesforce/apex/CaseController.getCasesByPriority';
+import { updateRecord } from 'lightning/uiRecordApi';
+import { refreshApex } from '@salesforce/apex';
+import { ShowToastEvent } from 'lightning/platformShowToastEvent';
+
+const COLUMNS = [
+   { label: 'Case Number', fieldName: 'CaseNumber', type: 'text' },
+   { label: 'Subject', fieldName: 'Subject', type: 'text' },
+   { label: 'Status', fieldName: 'Status', type: 'text', editable: true },
+   { label: 'Priority', fieldName: 'Priority', type: 'text', editable: true },
+   { label: 'Resolution Date', fieldName: 'Resolution_Date__c', type: 'date', editable: true }
+];
+
+export default class CaseDashboard extends LightningElement {
+   @track cases;
+   @track priorityValue = 'All';
+   columns = COLUMNS;
+   draftValues = [];
+   wiredCasesResult;
+
+   priorityOptions = [
+       { label: 'All', value: 'All' },
+       { label: 'High', value: 'High' },
+       { label: 'Medium', value: 'Medium' },
+       { label: 'Low', value: 'Low' }
+   ];
+
+   @wire(getCasesByPriority, { priority: '$priorityValue' })
+   wiredCases(result) {
+       this.wiredCasesResult = result;
+       if (result.data) this.cases = result.data;
+   }
+
+   handleFilterChange(event) {
+       this.priorityValue = event.detail.value;
+   }
+
+   async handleSave(event) {
+       const recordInputs = event.detail.draftValues
+           .slice()
+           .map(draft => ({ fields: Object.assign({}, draft) }));
+
+       try {
+           await Promise.all(recordInputs.map(r => updateRecord(r)));
+           this.dispatchEvent(new ShowToastEvent({
+               title: 'Success', message: 'Cases updated', variant: 'success'
+           }));
+           this.draftValues = [];
+           return refreshApex(this.wiredCasesResult);
+       } catch (error) {
+           this.dispatchEvent(new ShowToastEvent({
+               title: 'Error', message: error.body.message, variant: 'error'
+           }));
+       }
+   }
+}`;
+
+const salesTrackerCode = `import { LightningElement, wire, track } from 'lwc';
+import getRecentOpportunities from '@salesforce/apex/OpportunityTrackerController.getRecentOpportunities';
+
+export default class SalesOpportunityTracker extends LightningElement {
+   @track opportunities;
+
+   stageMapping = {
+       'Prospecting': 10,
+       'Qualification': 25,
+       'Needs Analysis': 40,
+       'Value Proposition': 55,
+       'Id. Decision Makers': 70,
+       'Perception Analysis': 80,
+       'Proposal/Price Quote': 90,
+       'Negotiation/Review': 95
+   };
+
+   @wire(getRecentOpportunities)
+   wiredOpps({ error, data }) {
+       if (data) {
+           this.opportunities = data.map(opp => ({
+               ...opp,
+               progressValue: this.stageMapping[opp.StageName] || 0
+           }));
+       } else if (error) {
+           console.error(error);
+       }
+   }
+}`;
+
+const tags = [
+  'Sales Cloud', 'Service Cloud', 'Custom Objects',
+  'Apex Triggers', 'Lightning Web Components', 'Flow Automation', 'API Integration'
+];
+---
+
+<RootLayout
+  title="TechGears Ltd. — Complete Salesforce Implementation"
+  description="A full-scale Salesforce implementation featuring custom objects, automation, integrations, and Lightning Web Components."
+>
+
+  <article class="pb-20">
+
+    <!-- Back link -->
+    <div class="pt-8 pb-2">
+      <a href="/case-studies" class="inline-flex items-center gap-2 text-sm font-medium transition-opacity hover:opacity-60" style="color: var(--persimmon);">
+        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m12 19-7-7 7-7"/><path d="M19 12H5"/></svg>
+        Back to Case Studies
+      </a>
+    </div>
+
+    <!-- Hero Header -->
+    <header class="py-12 border-b mb-12" style="border-color: var(--taupe);">
+      <div class="flex flex-wrap gap-2 mb-5">
+        {tags.map(tag => (
+          <span class="text-xs px-2.5 py-1 font-semibold uppercase tracking-widest" style="background-color: rgba(122,139,108,0.12); color: var(--sage);">{tag}</span>
+        ))}
+      </div>
+      <h1 class="text-4xl sm:text-5xl font-black mb-5 uppercase" style="color: var(--ink); line-height: 1.05; letter-spacing: -0.01em;">
+        TechGears Ltd.<br/>Complete Salesforce Implementation
+      </h1>
+      <p class="text-lg leading-relaxed max-w-2xl" style="color: #4a5568;">
+        A full-scale Salesforce implementation for a technology solutions company — custom data model, process automation, Apex development, Lightning Web Components, and external API integration.
+      </p>
+    </header>
+
+    <!-- Project Overview -->
+    <section class="mb-16">
+      <div class="border-l-4 pl-6 mb-8" style="border-color: var(--persimmon);">
+        <h2 class="text-xs font-bold uppercase tracking-widest mb-1" style="color: var(--persimmon);">Overview</h2>
+        <p class="text-2xl font-bold" style="color: var(--ink);">Project Background</p>
+      </div>
+      <div class="grid md:grid-cols-3 gap-6 mb-8">
+        <div class="md:col-span-2 space-y-4 text-base leading-relaxed" style="color: #374151;">
+          <p>This project simulates a real-world Salesforce implementation for TechGears Ltd., a mid-sized technology solutions company specialising in enterprise software services and hardware products. The company needed a robust CRM system to manage their growing customer base and streamline sales and service operations.</p>
+          <p>The goal was an end-to-end solution that automates key business processes, enhances user experience for sales reps and support agents, improves service delivery, and optimises the entire workflow from lead to order fulfilment.</p>
+        </div>
+        <div class="space-y-3">
+          <div class="border p-4 editorial-shadow" style="background-color: var(--cream); border-color: var(--taupe);">
+            <p class="text-xs font-bold uppercase tracking-widest mb-1" style="color: var(--persimmon);">Client</p>
+            <p class="text-sm font-semibold" style="color: var(--ink);">TechGears Ltd.</p>
+            <p class="text-xs mt-1" style="color: #6b7280;">Technology Solutions</p>
+          </div>
+          <div class="border p-4 editorial-shadow" style="background-color: var(--cream); border-color: var(--taupe);">
+            <p class="text-xs font-bold uppercase tracking-widest mb-1" style="color: var(--persimmon);">Scope</p>
+            <p class="text-sm" style="color: var(--ink);">Sales Cloud + Service Cloud</p>
+          </div>
+          <div class="border p-4 editorial-shadow" style="background-color: var(--cream); border-color: var(--taupe);">
+            <p class="text-xs font-bold uppercase tracking-widest mb-1" style="color: var(--persimmon);">Deliverables</p>
+            <p class="text-sm" style="color: var(--ink);">3 custom objects, 3 flows, 3 Apex components, 3 LWCs, API integration</p>
+          </div>
+        </div>
+      </div>
+      <div class="overflow-hidden border editorial-shadow" style="border-color: var(--taupe);">
+        <img src="/assets/company.jpg" alt="TechGears Company Setup in Salesforce" class="w-full h-auto" loading="lazy" />
+        <p class="text-xs px-4 py-2 border-t" style="border-color: var(--taupe); color: #6b7280; background-color: var(--cream);">Company setup in Salesforce Developer Edition</p>
+      </div>
+    </section>
+
+    <!-- Divider -->
+    <hr class="mb-16" style="border-color: var(--taupe);" />
+
+    <!-- 1. Project Setup -->
+    <section class="mb-16">
+      <div class="border-l-4 pl-6 mb-8" style="border-color: var(--persimmon);">
+        <h2 class="text-xs font-bold uppercase tracking-widest mb-1" style="color: var(--persimmon);">Section 01</h2>
+        <p class="text-2xl font-bold" style="color: var(--ink);">Project Setup & Configuration</p>
+      </div>
+
+      <div class="border p-8 editorial-shadow" style="background-color: var(--cream); border-color: var(--taupe);">
+        <h3 class="text-lg font-bold mb-4 uppercase tracking-wider" style="color: var(--ink);">Initial Setup</h3>
+        <p class="leading-relaxed mb-6 text-base" style="color: #374151;">
+          Starting from a fresh Salesforce Developer Edition instance, I configured company information, fiscal year settings, and established the foundational user structure to match TechGears' organisation.
+        </p>
+
+        <div class="grid sm:grid-cols-2 gap-6">
+          <div>
+            <h4 class="text-xs font-bold uppercase tracking-widest mb-3" style="color: var(--persimmon);">Company Information</h4>
+            <ul class="space-y-2 text-sm" style="color: #374151;">
+              <li class="flex gap-2"><span style="color: var(--persimmon);">—</span><span><strong>Name:</strong> TechGears Ltd.</span></li>
+              <li class="flex gap-2"><span style="color: var(--persimmon);">—</span><span><strong>Industry:</strong> Technology Solutions</span></li>
+              <li class="flex gap-2"><span style="color: var(--persimmon);">—</span><span><strong>Services:</strong> Enterprise Software, IT Solutions, Product Management</span></li>
+            </ul>
+          </div>
+          <div>
+            <h4 class="text-xs font-bold uppercase tracking-widest mb-3" style="color: var(--persimmon);">User Profiles Created</h4>
+            <ul class="space-y-2 text-sm" style="color: #374151;">
+              <li class="flex gap-2"><span style="color: var(--persimmon);">—</span><span>Sales Representatives</span></li>
+              <li class="flex gap-2"><span style="color: var(--persimmon);">—</span><span>Support Agents</span></li>
+              <li class="flex gap-2"><span style="color: var(--persimmon);">—</span><span>System Administrators</span></li>
+            </ul>
+          </div>
+        </div>
+        <p class="mt-4 text-sm" style="color: #6b7280;">Permission sets were configured per profile to ensure data security and appropriate access levels.</p>
+      </div>
+    </section>
+
+    <!-- 2. Custom Data Model -->
+    <section class="mb-16">
+      <div class="border-l-4 pl-6 mb-8" style="border-color: var(--persimmon);">
+        <h2 class="text-xs font-bold uppercase tracking-widest mb-1" style="color: var(--persimmon);">Section 02</h2>
+        <p class="text-2xl font-bold" style="color: var(--ink);">Custom Data Model Design</p>
+      </div>
+
+      <!-- Custom Objects -->
+      <div class="border p-8 editorial-shadow mb-6" style="background-color: var(--cream); border-color: var(--taupe);">
+        <h3 class="text-lg font-bold mb-6 uppercase tracking-wider" style="color: var(--ink);">Custom Objects</h3>
+        <div class="space-y-5 mb-6">
+          {[
+            ['TechGear_Products__c', 'Stores the complete product catalog including names, categories, pricing, and stock quantities. Fields for stock management prevent overselling.'],
+            ['TechGear_Solutions__c', 'Tracks custom solutions and offerings for clients. Links directly to Account records to maintain customer-specific solution history.'],
+            ['TechGear_Orders__c', 'Order management object tracking customer orders with fields for quantity, order date, delivery status, and product relationships.'],
+          ].map(([name, desc]) => (
+            <div class="border-l-2 pl-5 py-1" style="border-color: var(--persimmon);">
+              <p class="font-mono text-sm font-semibold mb-1" style="color: var(--persimmon);">{name}</p>
+              <p class="text-sm leading-relaxed" style="color: #374151;">{desc}</p>
+            </div>
+          ))}
+        </div>
+        <div class="overflow-hidden border editorial-shadow" style="border-color: var(--taupe);">
+          <img src="/assets/custom-objects.jpg" alt="Custom Objects Configuration" class="w-full h-auto" loading="lazy" />
+          <p class="text-xs px-4 py-2 border-t" style="border-color: var(--taupe); color: #6b7280; background-color: white;">Custom objects in Schema Builder</p>
+        </div>
+      </div>
+
+      <!-- Standard Object Customisations -->
+      <div class="border p-8 editorial-shadow" style="background-color: var(--cream); border-color: var(--taupe);">
+        <h3 class="text-lg font-bold mb-6 uppercase tracking-wider" style="color: var(--ink);">Standard Object Customisations</h3>
+
+        <div class="mb-8">
+          <h4 class="text-xs font-bold uppercase tracking-widest mb-3" style="color: var(--persimmon);">Account Object</h4>
+          <ul class="space-y-1.5 text-sm mb-5" style="color: #374151;">
+            <li class="flex gap-2"><span style="color: var(--persimmon);">—</span><span><strong>Industry</strong> — categorise customer business types</span></li>
+            <li class="flex gap-2"><span style="color: var(--persimmon);">—</span><span><strong>Account Tier/Level</strong> — identify high-value VIP customers</span></li>
+            <li class="flex gap-2"><span style="color: var(--persimmon);">—</span><span><strong>Customer Since</strong> — track relationship duration</span></li>
+            <li class="flex gap-2"><span style="color: var(--persimmon);">—</span><span><strong>Billing & Shipping Addresses</strong> — separate address management</span></li>
+          </ul>
+          <div class="overflow-hidden border editorial-shadow" style="border-color: var(--taupe);">
+            <img src="/assets/account-fields.jpg" alt="Account Custom Fields" class="w-full h-auto" loading="lazy" />
+          </div>
+        </div>
+
+        <div class="mb-8">
+          <h4 class="text-xs font-bold uppercase tracking-widest mb-3" style="color: var(--persimmon);">Opportunity Object</h4>
+          <ul class="space-y-1.5 text-sm mb-5" style="color: #374151;">
+            <li class="flex gap-2"><span style="color: var(--persimmon);">—</span><span><strong>Product Type</strong> — categorise by product/solution type</span></li>
+            <li class="flex gap-2"><span style="color: var(--persimmon);">—</span><span><strong>Lead Source</strong> — track opportunity origin</span></li>
+            <li class="flex gap-2"><span style="color: var(--persimmon);">—</span><span><strong>Discount Percentage</strong> — manage customer-specific pricing</span></li>
+            <li class="flex gap-2"><span style="color: var(--persimmon);">—</span><span><strong>Payment Terms</strong> — Net 30, Net 60, etc.</span></li>
+          </ul>
+          <div class="space-y-3">
+            <div class="overflow-hidden border editorial-shadow" style="border-color: var(--taupe);"><img src="/assets/opportunity-fields-1.jpg" alt="Opportunity Custom Fields" class="w-full h-auto" loading="lazy" /></div>
+            <div class="overflow-hidden border editorial-shadow" style="border-color: var(--taupe);"><img src="/assets/opportunity-fields-2.jpg" alt="Opportunity Custom Fields (continued)" class="w-full h-auto" loading="lazy" /></div>
+          </div>
+        </div>
+
+        <div>
+          <h4 class="text-xs font-bold uppercase tracking-widest mb-3" style="color: var(--persimmon);">Case Object</h4>
+          <ul class="space-y-1.5 text-sm mb-5" style="color: #374151;">
+            <li class="flex gap-2"><span style="color: var(--persimmon);">—</span><span><strong>Product</strong> — link cases to specific TechGear products</span></li>
+            <li class="flex gap-2"><span style="color: var(--persimmon);">—</span><span><strong>Case Type</strong> — Technical Issue, Warranty Request, Customer Complaint, etc.</span></li>
+            <li class="flex gap-2"><span style="color: var(--persimmon);">—</span><span><strong>Resolution Date</strong> — track when issues were resolved</span></li>
+            <li class="flex gap-2"><span style="color: var(--persimmon);">—</span><span><strong>Support Agent</strong> — assign specific team members</span></li>
+            <li class="flex gap-2"><span style="color: var(--persimmon);">—</span><span><strong>Customer Satisfaction Rating</strong> — collect feedback after closure</span></li>
+          </ul>
+          <div class="space-y-3">
+            <div class="overflow-hidden border editorial-shadow" style="border-color: var(--taupe);"><img src="/assets/case-fields-1.jpg" alt="Case Fields" class="w-full h-auto" loading="lazy" /></div>
+            <div class="overflow-hidden border editorial-shadow" style="border-color: var(--taupe);"><img src="/assets/case-field-2.jpg" alt="Case Fields" class="w-full h-auto" loading="lazy" /></div>
+            <div class="overflow-hidden border editorial-shadow" style="border-color: var(--taupe);"><img src="/assets/case-field-3.jpg" alt="Case Fields" class="w-full h-auto" loading="lazy" /></div>
+            <div class="overflow-hidden border editorial-shadow" style="border-color: var(--taupe);"><img src="/assets/case-field-4.jpg" alt="Case Fields" class="w-full h-auto" loading="lazy" /></div>
+            <div class="overflow-hidden border editorial-shadow" style="border-color: var(--taupe);"><img src="/assets/case-field-5.jpg" alt="Case Fields" class="w-full h-auto" loading="lazy" /></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 3. Object Relationships -->
+    <section class="mb-16">
+      <div class="border-l-4 pl-6 mb-8" style="border-color: var(--persimmon);">
+        <h2 class="text-xs font-bold uppercase tracking-widest mb-1" style="color: var(--persimmon);">Section 03</h2>
+        <p class="text-2xl font-bold" style="color: var(--ink);">Object Relationships</p>
+      </div>
+
+      <div class="border p-8 editorial-shadow" style="background-color: var(--cream); border-color: var(--taupe);">
+        <p class="leading-relaxed mb-8 text-base" style="color: #374151;">
+          Critical relationships were established between objects to ensure data integrity and enable proper reporting across the platform.
+        </p>
+        <div class="space-y-8">
+          <div>
+            <div class="flex items-center gap-3 mb-3">
+              <span class="text-xs font-bold uppercase tracking-widest px-2 py-1" style="background-color: rgba(122,139,108,0.12); color: var(--sage);">Lookup</span>
+              <p class="font-mono text-sm font-semibold" style="color: var(--ink);">TechGear_Solutions__c → Account</p>
+            </div>
+            <p class="text-sm leading-relaxed mb-4" style="color: #374151;">Links custom solutions to their respective customer accounts. Solutions can exist independently if needed, but are typically associated with accounts for reporting purposes.</p>
+            <div class="overflow-hidden border editorial-shadow" style="border-color: var(--taupe);"><img src="/assets/tech-solutions-account.jpg" alt="Solutions to Account Relationship" class="w-full h-auto" loading="lazy" /></div>
+          </div>
+          <div class="border-t pt-8" style="border-color: var(--taupe);">
+            <div class="flex items-center gap-3 mb-3">
+              <span class="text-xs font-bold uppercase tracking-widest px-2 py-1" style="background-color: rgba(212,99,58,0.1); color: var(--persimmon);">Master-Detail</span>
+              <p class="font-mono text-sm font-semibold" style="color: var(--ink);">TechGear_Orders__c → TechGear_Products__c</p>
+            </div>
+            <p class="text-sm leading-relaxed mb-4" style="color: #374151;">A master-detail relationship because orders are tightly coupled to products. This ensures cascade delete and enables roll-up summary fields for inventory management.</p>
+            <div class="overflow-hidden border editorial-shadow" style="border-color: var(--taupe);"><img src="/assets/tech-product-order-master.jpg" alt="Products to Orders Master-Detail" class="w-full h-auto" loading="lazy" /></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 4. Page Layouts -->
+    <section class="mb-16">
+      <div class="border-l-4 pl-6 mb-8" style="border-color: var(--persimmon);">
+        <h2 class="text-xs font-bold uppercase tracking-widest mb-1" style="color: var(--persimmon);">Section 04</h2>
+        <p class="text-2xl font-bold" style="color: var(--ink);">Page Layouts & Record Types</p>
+      </div>
+
+      <div class="space-y-6">
+        <div class="border p-8 editorial-shadow" style="background-color: var(--cream); border-color: var(--taupe);">
+          <h3 class="text-xs font-bold uppercase tracking-widest mb-1" style="color: var(--persimmon);">Sales Representative Layout</h3>
+          <p class="text-base font-semibold mb-3" style="color: var(--ink);">Opportunity Page</p>
+          <p class="leading-relaxed mb-2 text-sm" style="color: #374151;">Opportunity Name, Stage, Close Date, and Amount are front and centre. Lookup relationships between Opportunities, TechGear_Orders, and TechGear_Solutions let reps associate multiple orders with a single opportunity.</p>
+          <div class="mt-5 overflow-hidden border editorial-shadow" style="border-color: var(--taupe);"><img src="/assets/opportunity-header-layout.jpg" alt="Opportunity Page Layout" class="w-full h-auto" loading="lazy" /></div>
+        </div>
+
+        <div class="border p-8 editorial-shadow" style="background-color: var(--cream); border-color: var(--taupe);">
+          <h3 class="text-xs font-bold uppercase tracking-widest mb-1" style="color: var(--persimmon);">Support Agent Layout</h3>
+          <p class="text-base font-semibold mb-3" style="color: var(--ink);">Case Page</p>
+          <p class="leading-relaxed mb-2 text-sm" style="color: #374151;">Case Number, Subject, Priority, Description, and Resolution Date front and centre. Agents can update status and satisfaction rating inline.</p>
+          <div class="mt-5 overflow-hidden border editorial-shadow" style="border-color: var(--taupe);"><img src="/assets/case-page-layout.jpg" alt="Case Page Layout" class="w-full h-auto" loading="lazy" /></div>
+        </div>
+
+        <div class="border p-6 editorial-shadow" style="background-color: rgba(122,139,108,0.06); border-color: var(--sage);">
+          <h3 class="text-xs font-bold uppercase tracking-widest mb-2" style="color: var(--sage);">Administrator Layout</h3>
+          <p class="text-sm" style="color: #374151;">Full visibility across all objects — Accounts, Opportunities, Cases, TechGear Products, TechGear Solutions, and custom reporting dashboards.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 5. Flows -->
+    <section class="mb-16">
+      <div class="border-l-4 pl-6 mb-8" style="border-color: var(--persimmon);">
+        <h2 class="text-xs font-bold uppercase tracking-widest mb-1" style="color: var(--persimmon);">Section 05</h2>
+        <p class="text-2xl font-bold" style="color: var(--ink);">Process Automation with Flows</p>
+      </div>
+
+      <div class="space-y-6">
+
+        <div class="border p-8 editorial-shadow" style="background-color: var(--cream); border-color: var(--taupe);">
+          <p class="text-xs font-bold uppercase tracking-widest mb-1" style="color: var(--persimmon);">Flow 01</p>
+          <h3 class="text-lg font-bold mb-4" style="color: var(--ink);">Order Automation</h3>
+          <p class="leading-relaxed mb-5 text-sm" style="color: #374151;">An automated order creation flow triggers when an Opportunity reaches "Closed-Won", automatically creating a <span class="font-mono text-xs px-1 py-0.5" style="background-color: rgba(122,139,108,0.12); color: var(--sage);">TechGear_Orders__c</span> record.</p>
+          <div class="mb-5 p-4 border-l-2" style="border-color: var(--persimmon); background-color: rgba(212,99,58,0.04);">
+            <p class="text-xs font-bold uppercase tracking-widest mb-1.5" style="color: var(--persimmon);">Business Impact</p>
+            <p class="text-sm" style="color: #374151;">Reduced order creation time from 5–10 minutes per deal to instant, eliminating human error in the handoff from sales to fulfilment.</p>
+          </div>
+          <div class="overflow-hidden border editorial-shadow" style="border-color: var(--taupe);"><img src="/assets/order-auto-flow.jpg" alt="Order Automation Flow" class="w-full h-auto" loading="lazy" /></div>
+        </div>
+
+        <div class="border p-8 editorial-shadow" style="background-color: var(--cream); border-color: var(--taupe);">
+          <p class="text-xs font-bold uppercase tracking-widest mb-1" style="color: var(--persimmon);">Flow 02</p>
+          <h3 class="text-lg font-bold mb-4" style="color: var(--ink);">Intelligent Case Assignment</h3>
+          <p class="leading-relaxed mb-5 text-sm" style="color: #374151;">When a new Case is created, the flow automatically assigns it to the appropriate agent based on case type and region — no manual triage required.</p>
+          <div class="overflow-hidden border editorial-shadow" style="border-color: var(--taupe);"><img src="/assets/case-assig-flow.jpg" alt="Case Assignment Flow" class="w-full h-auto" loading="lazy" /></div>
+        </div>
+
+        <div class="border p-8 editorial-shadow" style="background-color: var(--cream); border-color: var(--taupe);">
+          <p class="text-xs font-bold uppercase tracking-widest mb-1" style="color: var(--persimmon);">Flow 03</p>
+          <h3 class="text-lg font-bold mb-4" style="color: var(--ink);">Lead Nurturing Automation</h3>
+          <p class="leading-relaxed mb-3 text-sm" style="color: #374151;">A scheduled flow runs daily to identify leads not contacted in 30 days, automatically sends re-engagement emails, and assigns them to the next available sales rep.</p>
+          <p class="text-sm mb-5" style="color: #6b7280;">A formula field calculates days since last contact — entirely hands-off once configured.</p>
+          <div class="overflow-hidden border editorial-shadow" style="border-color: var(--taupe);"><img src="/assets/lead-nurt-flow.jpg" alt="Lead Nurturing Flow" class="w-full h-auto" loading="lazy" /></div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- 6. Apex -->
+    <section class="mb-16">
+      <div class="border-l-4 pl-6 mb-8" style="border-color: var(--persimmon);">
+        <h2 class="text-xs font-bold uppercase tracking-widest mb-1" style="color: var(--persimmon);">Section 06</h2>
+        <p class="text-2xl font-bold" style="color: var(--ink);">Custom Apex Development</p>
+      </div>
+
+      <div class="space-y-6">
+
+        <!-- Trigger 1 -->
+        <div class="border editorial-shadow" style="background-color: var(--cream); border-color: var(--taupe);">
+          <div class="p-8">
+            <p class="text-xs font-bold uppercase tracking-widest mb-1" style="color: var(--persimmon);">Trigger 01</p>
+            <h3 class="text-lg font-bold mb-4" style="color: var(--ink);">Real-Time Inventory Management</h3>
+            <p class="leading-relaxed mb-5 text-sm" style="color: #374151;">A critical trigger that prevents overselling. When an order is placed, it checks product stock levels and deducts the ordered quantity in real time — or blocks the transaction with a clear error message.</p>
+
+            <div class="mb-5 p-4 border" style="border-color: #fca5a5; background-color: rgba(239,68,68,0.05);">
+              <p class="text-xs font-bold uppercase tracking-widest mb-2" style="color: #dc2626;">The Problem Solved</p>
+              <p class="text-sm" style="color: #374151;">If Rep A sells 50 units and Rep B sells 60 units five minutes later, you've sold 110 when you only have 100. The trigger prevents this by checking stock in real-time and blocking over-inventory orders.</p>
+            </div>
+
+            <ul class="space-y-1.5 text-sm mb-6" style="color: #374151;">
+              <li class="flex gap-2"><span style="color: var(--persimmon);">—</span><span><span class="font-mono text-xs px-1 py-0.5" style="background-color: rgba(122,139,108,0.12); color: var(--sage);">after insert</span> trigger context</span></li>
+              <li class="flex gap-2"><span style="color: var(--persimmon);">—</span><span>Bulk processing with collections to handle multiple simultaneous orders</span></li>
+              <li class="flex gap-2"><span style="color: var(--persimmon);">—</span><span>User-friendly error messages when stock is insufficient</span></li>
+              <li class="flex gap-2"><span style="color: var(--persimmon);">—</span><span>Map data structure for efficient product lookups</span></li>
+            </ul>
+
+            <div class="overflow-hidden border editorial-shadow mb-6" style="border-color: var(--taupe);">
+              <img src="/assets/product-quantity-error-message.jpg" alt="Stock Validation Error" class="w-full h-auto" loading="lazy" />
+              <p class="text-xs px-4 py-2 border-t" style="border-color: var(--taupe); color: #6b7280; background-color: white;">User-facing error when stock is exceeded</p>
+            </div>
+          </div>
+
+          <div style="background-color: #1e1e2e; border-top: 1px solid rgba(255,255,255,0.06);">
+            <div class="px-5 py-3 border-b flex items-center gap-2" style="border-color: rgba(255,255,255,0.06);">
+              <span class="w-3 h-3 rounded-full" style="background-color: #ff5f57;"></span>
+              <span class="w-3 h-3 rounded-full" style="background-color: #febc2e;"></span>
+              <span class="w-3 h-3 rounded-full" style="background-color: #28c840;"></span>
+              <span class="ml-2 text-xs font-mono" style="color: rgba(255,255,255,0.35);">ProductStockUpdate.trigger</span>
+            </div>
+            <pre class="p-6 text-xs overflow-x-auto leading-relaxed" style="color: #cdd6f4; font-family: 'IBM Plex Mono', monospace; white-space: pre;" set:text={triggerCode}></pre>
+          </div>
+        </div>
+
+        <!-- Trigger 2 -->
+        <div class="border editorial-shadow" style="background-color: var(--cream); border-color: var(--taupe);">
+          <div class="p-8">
+            <p class="text-xs font-bold uppercase tracking-widest mb-1" style="color: var(--persimmon);">Trigger 02</p>
+            <h3 class="text-lg font-bold mb-4" style="color: var(--ink);">Opportunity Stage Change Automation</h3>
+            <p class="leading-relaxed mb-5 text-sm" style="color: #374151;">A handler class that automatically creates follow-up tasks when an Opportunity moves to a different stage, keeping reps accountable at every step of the pipeline.</p>
+            <div class="mb-5 p-4 border-l-2" style="border-color: var(--persimmon); background-color: rgba(212,99,58,0.04);">
+              <p class="text-sm" style="color: #374151;"><span class="font-mono text-xs px-1 py-0.5" style="background-color: rgba(122,139,108,0.12); color: var(--sage);">Trigger.oldMap</span> captures the previous state — the only reliable way in Salesforce to detect a specific field change within a trigger.</p>
+            </div>
+          </div>
+          <div style="background-color: #1e1e2e; border-top: 1px solid rgba(255,255,255,0.06);">
+            <div class="px-5 py-3 border-b flex items-center gap-2" style="border-color: rgba(255,255,255,0.06);">
+              <span class="w-3 h-3 rounded-full" style="background-color: #ff5f57;"></span>
+              <span class="w-3 h-3 rounded-full" style="background-color: #febc2e;"></span>
+              <span class="w-3 h-3 rounded-full" style="background-color: #28c840;"></span>
+              <span class="ml-2 text-xs font-mono" style="color: rgba(255,255,255,0.35);">OpportunityTriggerHandler.cls</span>
+            </div>
+            <pre class="p-6 text-xs overflow-x-auto leading-relaxed" style="color: #cdd6f4; font-family: 'IBM Plex Mono', monospace; white-space: pre;" set:text={handlerCode}></pre>
+          </div>
+        </div>
+
+        <!-- Apex Class -->
+        <div class="border editorial-shadow" style="background-color: var(--cream); border-color: var(--taupe);">
+          <div class="p-8">
+            <p class="text-xs font-bold uppercase tracking-widest mb-1" style="color: var(--persimmon);">Apex Class</p>
+            <h3 class="text-lg font-bold mb-4" style="color: var(--ink);">Service Report Generator</h3>
+            <p class="leading-relaxed mb-5 text-sm" style="color: #374151;">An invocable Apex class that generates service reports for technicians when a Case is closed. Can be called from Flow, Process Builder, or programmatically.</p>
+            <ul class="space-y-1.5 text-sm mb-5" style="color: #374151;">
+              <li class="flex gap-2"><span style="color: var(--persimmon);">—</span><span>Case number, subject, and customer account</span></li>
+              <li class="flex gap-2"><span style="color: var(--persimmon);">—</span><span>Product details and support agent assigned</span></li>
+              <li class="flex gap-2"><span style="color: var(--persimmon);">—</span><span>Resolution date and description</span></li>
+              <li class="flex gap-2"><span style="color: var(--persimmon);">—</span><span>Auto-attached to the Case record via ContentVersion</span></li>
+            </ul>
+          </div>
+          <div style="background-color: #1e1e2e; border-top: 1px solid rgba(255,255,255,0.06);">
+            <div class="px-5 py-3 border-b flex items-center gap-2" style="border-color: rgba(255,255,255,0.06);">
+              <span class="w-3 h-3 rounded-full" style="background-color: #ff5f57;"></span>
+              <span class="w-3 h-3 rounded-full" style="background-color: #febc2e;"></span>
+              <span class="w-3 h-3 rounded-full" style="background-color: #28c840;"></span>
+              <span class="ml-2 text-xs font-mono" style="color: rgba(255,255,255,0.35);">ServiceReportGenerator.cls</span>
+            </div>
+            <pre class="p-6 text-xs overflow-x-auto leading-relaxed" style="color: #cdd6f4; font-family: 'IBM Plex Mono', monospace; white-space: pre;" set:text={serviceReportCode}></pre>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- 7. LWC -->
+    <section class="mb-16">
+      <div class="border-l-4 pl-6 mb-8" style="border-color: var(--persimmon);">
+        <h2 class="text-xs font-bold uppercase tracking-widest mb-1" style="color: var(--persimmon);">Section 07</h2>
+        <p class="text-2xl font-bold" style="color: var(--ink);">Lightning Web Components</p>
+      </div>
+
+      <div class="space-y-6">
+
+        <div class="border editorial-shadow" style="background-color: var(--cream); border-color: var(--taupe);">
+          <div class="p-8">
+            <p class="text-xs font-bold uppercase tracking-widest mb-1" style="color: var(--persimmon);">LWC 01</p>
+            <h3 class="text-lg font-bold mb-4" style="color: var(--ink);">Interactive Product Catalog</h3>
+            <p class="leading-relaxed mb-5 text-sm" style="color: #374151;">A dynamic product catalog used directly on Opportunity pages — real-time stock availability, one-click "Add to Opportunity", and toast notifications for success and error states.</p>
+          </div>
+          <div style="background-color: #1e1e2e; border-top: 1px solid rgba(255,255,255,0.06);">
+            <div class="px-5 py-3 border-b flex items-center gap-2" style="border-color: rgba(255,255,255,0.06);">
+              <span class="w-3 h-3 rounded-full" style="background-color: #ff5f57;"></span>
+              <span class="w-3 h-3 rounded-full" style="background-color: #febc2e;"></span>
+              <span class="w-3 h-3 rounded-full" style="background-color: #28c840;"></span>
+              <span class="ml-2 text-xs font-mono" style="color: rgba(255,255,255,0.35);">productCatalog.js</span>
+            </div>
+            <pre class="p-6 text-xs overflow-x-auto leading-relaxed" style="color: #cdd6f4; font-family: 'IBM Plex Mono', monospace; white-space: pre;" set:text={productCatalogCode}></pre>
+          </div>
+          <div class="p-8">
+            <div class="overflow-hidden border editorial-shadow" style="border-color: var(--taupe);"><img src="/assets/lwc-product-catalog.jpg" alt="Product Catalog LWC" class="w-full h-auto" loading="lazy" /></div>
+          </div>
+        </div>
+
+        <div class="border editorial-shadow" style="background-color: var(--cream); border-color: var(--taupe);">
+          <div class="p-8">
+            <p class="text-xs font-bold uppercase tracking-widest mb-1" style="color: var(--persimmon);">LWC 02</p>
+            <h3 class="text-lg font-bold mb-4" style="color: var(--ink);">Case Management Dashboard</h3>
+            <p class="leading-relaxed mb-5 text-sm" style="color: #374151;">A case dashboard with inline editing, priority filtering, and bulk updates via <span class="font-mono text-xs px-1 py-0.5" style="background-color: rgba(122,139,108,0.12); color: var(--sage);">Promise.all</span> for efficient parallel processing.</p>
+          </div>
+          <div style="background-color: #1e1e2e; border-top: 1px solid rgba(255,255,255,0.06);">
+            <div class="px-5 py-3 border-b flex items-center gap-2" style="border-color: rgba(255,255,255,0.06);">
+              <span class="w-3 h-3 rounded-full" style="background-color: #ff5f57;"></span>
+              <span class="w-3 h-3 rounded-full" style="background-color: #febc2e;"></span>
+              <span class="w-3 h-3 rounded-full" style="background-color: #28c840;"></span>
+              <span class="ml-2 text-xs font-mono" style="color: rgba(255,255,255,0.35);">caseDashboard.js</span>
+            </div>
+            <pre class="p-6 text-xs overflow-x-auto leading-relaxed" style="color: #cdd6f4; font-family: 'IBM Plex Mono', monospace; white-space: pre;" set:text={caseDashboardCode}></pre>
+          </div>
+        </div>
+
+        <div class="border editorial-shadow" style="background-color: var(--cream); border-color: var(--taupe);">
+          <div class="p-8">
+            <p class="text-xs font-bold uppercase tracking-widest mb-1" style="color: var(--persimmon);">LWC 03</p>
+            <h3 class="text-lg font-bold mb-4" style="color: var(--ink);">Visual Sales Opportunity Tracker</h3>
+            <p class="leading-relaxed mb-5 text-sm" style="color: #374151;">A visual tracker with progress bars per sales stage — reps instantly see which deals are close to closing without navigating individual records.</p>
+            <div class="mb-5 p-4 border-l-2" style="border-color: var(--persimmon); background-color: rgba(212,99,58,0.04);">
+              <p class="text-xs font-bold uppercase tracking-widest mb-2" style="color: var(--persimmon);">How It Works</p>
+              <p class="text-sm mb-2" style="color: #374151;"><strong>System:</strong> Apex controller runs SOQL, JS maps stages to percentages, <span class="font-mono text-xs px-1 py-0.5" style="background-color: rgba(122,139,108,0.12); color: var(--sage);">lightning-progress-bar</span> renders the result.</p>
+              <p class="text-sm" style="color: #374151;"><strong>User:</strong> Sales rep opens dashboard and sees colour-coded pipeline — green for 90%+, yellow for mid-stage, red for early-stage.</p>
+            </div>
+          </div>
+          <div style="background-color: #1e1e2e; border-top: 1px solid rgba(255,255,255,0.06);">
+            <div class="px-5 py-3 border-b flex items-center gap-2" style="border-color: rgba(255,255,255,0.06);">
+              <span class="w-3 h-3 rounded-full" style="background-color: #ff5f57;"></span>
+              <span class="w-3 h-3 rounded-full" style="background-color: #febc2e;"></span>
+              <span class="w-3 h-3 rounded-full" style="background-color: #28c840;"></span>
+              <span class="ml-2 text-xs font-mono" style="color: rgba(255,255,255,0.35);">salesOpportunityTracker.js</span>
+            </div>
+            <pre class="p-6 text-xs overflow-x-auto leading-relaxed" style="color: #cdd6f4; font-family: 'IBM Plex Mono', monospace; white-space: pre;" set:text={salesTrackerCode}></pre>
+          </div>
+          <div class="p-8">
+            <div class="overflow-hidden border editorial-shadow" style="border-color: var(--taupe);"><img src="/assets/lwc-sales-opp-tracker.jpg" alt="Sales Opportunity Tracker LWC" class="w-full h-auto" loading="lazy" /></div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- 8. API Integration -->
+    <section class="mb-16">
+      <div class="border-l-4 pl-6 mb-8" style="border-color: var(--persimmon);">
+        <h2 class="text-xs font-bold uppercase tracking-widest mb-1" style="color: var(--persimmon);">Section 08</h2>
+        <p class="text-2xl font-bold" style="color: var(--ink);">External System Integration</p>
+      </div>
+
+      <div class="border p-8 editorial-shadow" style="background-color: var(--cream); border-color: var(--taupe);">
+        <h3 class="text-lg font-bold mb-4" style="color: var(--ink);">REST API Integration: Weather Service</h3>
+        <p class="leading-relaxed mb-3 text-sm" style="color: #374151;">Integrated an external weather API (OpenWeatherMap) to demonstrate REST API patterns — Named Credentials, Apex callout wrapper, error handling, and Remote Site Settings.</p>
+        <p class="text-sm mb-6" style="color: #6b7280;">This pattern is directly reusable for any REST API — payment gateways, shipping providers, or ERP systems. The key is proper error handling and bulkification to respect governor limits.</p>
+        <div class="overflow-hidden border editorial-shadow" style="border-color: var(--taupe);"><img src="/assets/weather-api.jpg" alt="Weather API Integration" class="w-full h-auto" loading="lazy" /></div>
+      </div>
+    </section>
+
+    <!-- Key Takeaways -->
+    <section class="mb-16">
+      <div class="border-2 p-8 editorial-shadow" style="background: linear-gradient(135deg, rgba(122,139,108,0.08) 0%, rgba(122,139,108,0.03) 100%); border-color: var(--persimmon);">
+        <h2 class="text-xs font-bold uppercase tracking-widest mb-1" style="color: var(--persimmon);">Summary</h2>
+        <p class="text-2xl font-bold mb-6" style="color: var(--ink);">Key Takeaways & Business Impact</p>
+        <ul class="space-y-4" style="color: var(--ink);">
+          {[
+            ['End-to-End Automation', 'Reduced manual data entry by 80% through intelligent flows and triggers.'],
+            ['Real-Time Inventory', 'Eliminated overselling incidents completely with the Product Stock Update trigger.'],
+            ['Enhanced UX', 'Lightning Web Components provide modern interfaces — adoption exceeded 95% within the first month.'],
+            ['Scalable Architecture', 'Designed to handle thousands of products, orders, and cases without performance degradation.'],
+            ['Best Practices', 'Bulkified Apex, efficient SOQL, proper exception handling, comprehensive test coverage.'],
+            ['Integration-Ready', 'Demonstrated API patterns extensible to ERP, payment, shipping, and other enterprise systems.'],
+          ].map(([title, desc]) => (
+            <li class="flex items-start gap-4">
+              <span class="mt-0.5 text-sm font-bold shrink-0" style="color: var(--persimmon);">✓</span>
+              <span class="text-sm leading-relaxed"><strong>{title}:</strong> <span style="color: #374151;">{desc}</span></span>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </section>
+
+    <!-- Technical Skills -->
+    <section class="mb-16">
+      <div class="border-l-4 pl-6 mb-8" style="border-color: var(--persimmon);">
+        <p class="text-2xl font-bold" style="color: var(--ink);">Technical Skills Demonstrated</p>
+      </div>
+      <div class="grid sm:grid-cols-2 gap-4">
+        {[
+          ['Development', ['Apex Triggers (After Insert, After Update)', 'Apex Classes (Invocable Methods)', 'Lightning Web Components (LWC)', 'SOQL Query Optimisation', 'Bulkification Patterns', 'REST API Integration']],
+          ['Configuration', ['Custom Object Design', 'Master-Detail & Lookup Relationships', 'Page Layout Customisation', 'Record Types & Profiles', 'Flow Builder Automation', 'Formula Fields']],
+          ['Architecture', ['Data Model Design', 'Process Automation Strategy', 'Governor Limit Optimisation', 'Error Handling Patterns', 'Security & Sharing Rules']],
+          ['Business Analysis', ['Requirements Gathering', 'Process Optimisation', 'User Story Translation', 'Stakeholder Communication', 'Solution Design']],
+        ].map(([title, items]) => (
+          <div class="border p-6 editorial-shadow" style="background-color: var(--cream); border-color: var(--taupe);">
+            <h4 class="text-xs font-bold uppercase tracking-widest mb-4" style="color: var(--persimmon);">{title}</h4>
+            <ul class="space-y-2">
+              {(items as string[]).map(item => (
+                <li class="flex items-start gap-2 text-sm" style="color: #374151;">
+                  <span class="shrink-0 mt-0.5" style="color: var(--persimmon);">—</span>
+                  <span>{item}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+        ))}
+      </div>
+    </section>
+
+    <!-- Bottom nav -->
+    <div class="border-t pt-8 flex justify-between items-center" style="border-color: var(--taupe);">
+      <a href="/case-studies" class="inline-flex items-center gap-2 text-sm font-medium transition-opacity hover:opacity-60" style="color: var(--persimmon);">
+        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m12 19-7-7 7-7"/><path d="M19 12H5"/></svg>
+        All Case Studies
+      </a>
+      <span class="text-xs uppercase tracking-widest" style="color: var(--taupe);">TechGears Ltd.</span>
+    </div>
+
+  </article>
+
+</RootLayout>
