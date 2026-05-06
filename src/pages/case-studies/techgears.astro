@@ -279,7 +279,7 @@ const tags = [
     </div>
 
     <!-- Hero Header -->
-    <header class="py-12 border-b mb-12" style="border-color: var(--taupe);">
+    <header class="py-12 border-b mb-14" style="border-color: var(--taupe);">
       <div class="flex flex-wrap gap-2 mb-5">
         {tags.map(tag => (
           <span class="text-xs px-2.5 py-1 font-semibold uppercase tracking-widest" style="background-color: rgba(122,139,108,0.12); color: var(--sage);">{tag}</span>
@@ -299,34 +299,33 @@ const tags = [
         <h2 class="text-xs font-bold uppercase tracking-widest mb-1" style="color: var(--persimmon);">Overview</h2>
         <p class="text-2xl font-bold" style="color: var(--ink);">Project Background</p>
       </div>
-      <div class="grid md:grid-cols-3 gap-6 mb-8">
+      <div class="grid md:grid-cols-3 gap-10 mb-10">
         <div class="md:col-span-2 space-y-4 text-base leading-relaxed" style="color: #374151;">
           <p>This project simulates a real-world Salesforce implementation for TechGears Ltd., a mid-sized technology solutions company specialising in enterprise software services and hardware products. The company needed a robust CRM system to manage their growing customer base and streamline sales and service operations.</p>
           <p>The goal was an end-to-end solution that automates key business processes, enhances user experience for sales reps and support agents, improves service delivery, and optimises the entire workflow from lead to order fulfilment.</p>
         </div>
-        <div class="space-y-3">
-          <div class="border p-4 editorial-shadow" style="background-color: var(--cream); border-color: var(--taupe);">
+        <div class="space-y-4 text-sm" style="color: #374151;">
+          <div>
             <p class="text-xs font-bold uppercase tracking-widest mb-1" style="color: var(--persimmon);">Client</p>
-            <p class="text-sm font-semibold" style="color: var(--ink);">TechGears Ltd.</p>
-            <p class="text-xs mt-1" style="color: #6b7280;">Technology Solutions</p>
+            <p class="font-semibold" style="color: var(--ink);">TechGears Ltd.</p>
+            <p class="text-xs" style="color: #6b7280;">Technology Solutions</p>
           </div>
-          <div class="border p-4 editorial-shadow" style="background-color: var(--cream); border-color: var(--taupe);">
+          <div>
             <p class="text-xs font-bold uppercase tracking-widest mb-1" style="color: var(--persimmon);">Scope</p>
-            <p class="text-sm" style="color: var(--ink);">Sales Cloud + Service Cloud</p>
+            <p>Sales Cloud + Service Cloud</p>
           </div>
-          <div class="border p-4 editorial-shadow" style="background-color: var(--cream); border-color: var(--taupe);">
+          <div>
             <p class="text-xs font-bold uppercase tracking-widest mb-1" style="color: var(--persimmon);">Deliverables</p>
-            <p class="text-sm" style="color: var(--ink);">3 custom objects, 3 flows, 3 Apex components, 3 LWCs, API integration</p>
+            <p>3 custom objects, 3 flows, 3 Apex components, 3 LWCs, API integration</p>
           </div>
         </div>
       </div>
-      <div class="overflow-hidden border editorial-shadow" style="border-color: var(--taupe);">
+      <div class="overflow-hidden">
         <img src="/assets/company.jpg" alt="TechGears Company Setup in Salesforce" class="w-full h-auto" loading="lazy" />
-        <p class="text-xs px-4 py-2 border-t" style="border-color: var(--taupe); color: #6b7280; background-color: var(--cream);">Company setup in Salesforce Developer Edition</p>
+        <p class="text-xs pt-2" style="color: #6b7280;">Company setup in Salesforce Developer Edition</p>
       </div>
     </section>
 
-    <!-- Divider -->
     <hr class="mb-16" style="border-color: var(--taupe);" />
 
     <!-- 1. Project Setup -->
@@ -336,33 +335,33 @@ const tags = [
         <p class="text-2xl font-bold" style="color: var(--ink);">Project Setup & Configuration</p>
       </div>
 
-      <div class="border p-8 editorial-shadow" style="background-color: var(--cream); border-color: var(--taupe);">
-        <h3 class="text-lg font-bold mb-4 uppercase tracking-wider" style="color: var(--ink);">Initial Setup</h3>
-        <p class="leading-relaxed mb-6 text-base" style="color: #374151;">
-          Starting from a fresh Salesforce Developer Edition instance, I configured company information, fiscal year settings, and established the foundational user structure to match TechGears' organisation.
-        </p>
+      <h3 class="text-base font-bold mb-4 uppercase tracking-wider" style="color: var(--ink);">Initial Setup</h3>
+      <p class="leading-relaxed mb-8 text-base" style="color: #374151;">
+        Starting from a fresh Salesforce Developer Edition instance, I configured company information, fiscal year settings, and established the foundational user structure to match TechGears' organisation.
+      </p>
 
-        <div class="grid sm:grid-cols-2 gap-6">
-          <div>
-            <h4 class="text-xs font-bold uppercase tracking-widest mb-3" style="color: var(--persimmon);">Company Information</h4>
-            <ul class="space-y-2 text-sm" style="color: #374151;">
-              <li class="flex gap-2"><span style="color: var(--persimmon);">—</span><span><strong>Name:</strong> TechGears Ltd.</span></li>
-              <li class="flex gap-2"><span style="color: var(--persimmon);">—</span><span><strong>Industry:</strong> Technology Solutions</span></li>
-              <li class="flex gap-2"><span style="color: var(--persimmon);">—</span><span><strong>Services:</strong> Enterprise Software, IT Solutions, Product Management</span></li>
-            </ul>
-          </div>
-          <div>
-            <h4 class="text-xs font-bold uppercase tracking-widest mb-3" style="color: var(--persimmon);">User Profiles Created</h4>
-            <ul class="space-y-2 text-sm" style="color: #374151;">
-              <li class="flex gap-2"><span style="color: var(--persimmon);">—</span><span>Sales Representatives</span></li>
-              <li class="flex gap-2"><span style="color: var(--persimmon);">—</span><span>Support Agents</span></li>
-              <li class="flex gap-2"><span style="color: var(--persimmon);">—</span><span>System Administrators</span></li>
-            </ul>
-          </div>
+      <div class="grid sm:grid-cols-2 gap-10 mb-4">
+        <div>
+          <h4 class="text-xs font-bold uppercase tracking-widest mb-3" style="color: var(--persimmon);">Company Information</h4>
+          <ul class="space-y-2 text-sm" style="color: #374151;">
+            <li class="flex gap-2"><span style="color: var(--persimmon);">—</span><span><strong>Name:</strong> TechGears Ltd.</span></li>
+            <li class="flex gap-2"><span style="color: var(--persimmon);">—</span><span><strong>Industry:</strong> Technology Solutions</span></li>
+            <li class="flex gap-2"><span style="color: var(--persimmon);">—</span><span><strong>Services:</strong> Enterprise Software, IT Solutions, Product Management</span></li>
+          </ul>
         </div>
-        <p class="mt-4 text-sm" style="color: #6b7280;">Permission sets were configured per profile to ensure data security and appropriate access levels.</p>
+        <div>
+          <h4 class="text-xs font-bold uppercase tracking-widest mb-3" style="color: var(--persimmon);">User Profiles Created</h4>
+          <ul class="space-y-2 text-sm" style="color: #374151;">
+            <li class="flex gap-2"><span style="color: var(--persimmon);">—</span><span>Sales Representatives</span></li>
+            <li class="flex gap-2"><span style="color: var(--persimmon);">—</span><span>Support Agents</span></li>
+            <li class="flex gap-2"><span style="color: var(--persimmon);">—</span><span>System Administrators</span></li>
+          </ul>
+        </div>
       </div>
+      <p class="text-sm" style="color: #6b7280;">Permission sets were configured per profile to ensure data security and appropriate access levels.</p>
     </section>
+
+    <hr class="mb-16" style="border-color: var(--taupe);" />
 
     <!-- 2. Custom Data Model -->
     <section class="mb-16">
@@ -371,77 +370,73 @@ const tags = [
         <p class="text-2xl font-bold" style="color: var(--ink);">Custom Data Model Design</p>
       </div>
 
-      <!-- Custom Objects -->
-      <div class="border p-8 editorial-shadow mb-6" style="background-color: var(--cream); border-color: var(--taupe);">
-        <h3 class="text-lg font-bold mb-6 uppercase tracking-wider" style="color: var(--ink);">Custom Objects</h3>
-        <div class="space-y-5 mb-6">
-          {[
-            ['TechGear_Products__c', 'Stores the complete product catalog including names, categories, pricing, and stock quantities. Fields for stock management prevent overselling.'],
-            ['TechGear_Solutions__c', 'Tracks custom solutions and offerings for clients. Links directly to Account records to maintain customer-specific solution history.'],
-            ['TechGear_Orders__c', 'Order management object tracking customer orders with fields for quantity, order date, delivery status, and product relationships.'],
-          ].map(([name, desc]) => (
-            <div class="border-l-2 pl-5 py-1" style="border-color: var(--persimmon);">
-              <p class="font-mono text-sm font-semibold mb-1" style="color: var(--persimmon);">{name}</p>
-              <p class="text-sm leading-relaxed" style="color: #374151;">{desc}</p>
-            </div>
-          ))}
-        </div>
-        <div class="overflow-hidden border editorial-shadow" style="border-color: var(--taupe);">
-          <img src="/assets/custom-objects.jpg" alt="Custom Objects Configuration" class="w-full h-auto" loading="lazy" />
-          <p class="text-xs px-4 py-2 border-t" style="border-color: var(--taupe); color: #6b7280; background-color: white;">Custom objects in Schema Builder</p>
+      <h3 class="text-base font-bold mb-6 uppercase tracking-wider" style="color: var(--ink);">Custom Objects</h3>
+      <div class="space-y-5 mb-10">
+        {[
+          ['TechGear_Products__c', 'Stores the complete product catalog including names, categories, pricing, and stock quantities. Fields for stock management prevent overselling.'],
+          ['TechGear_Solutions__c', 'Tracks custom solutions and offerings for clients. Links directly to Account records to maintain customer-specific solution history.'],
+          ['TechGear_Orders__c', 'Order management object tracking customer orders with fields for quantity, order date, delivery status, and product relationships.'],
+        ].map(([name, desc]) => (
+          <div class="border-l-2 pl-5 py-1" style="border-color: var(--persimmon);">
+            <p class="font-mono text-sm font-semibold mb-1" style="color: var(--persimmon);">{name}</p>
+            <p class="text-sm leading-relaxed" style="color: #374151;">{desc}</p>
+          </div>
+        ))}
+      </div>
+      <div class="overflow-hidden mb-14">
+        <img src="/assets/custom-objects.jpg" alt="Custom Objects Configuration" class="w-full h-auto" loading="lazy" />
+        <p class="text-xs pt-2" style="color: #6b7280;">Custom objects in Schema Builder</p>
+      </div>
+
+      <h3 class="text-base font-bold mb-6 uppercase tracking-wider" style="color: var(--ink);">Standard Object Customisations</h3>
+
+      <div class="mb-10">
+        <h4 class="text-xs font-bold uppercase tracking-widest mb-3" style="color: var(--persimmon);">Account Object</h4>
+        <ul class="space-y-1.5 text-sm mb-6" style="color: #374151;">
+          <li class="flex gap-2"><span style="color: var(--persimmon);">—</span><span><strong>Industry</strong> — categorise customer business types</span></li>
+          <li class="flex gap-2"><span style="color: var(--persimmon);">—</span><span><strong>Account Tier/Level</strong> — identify high-value VIP customers</span></li>
+          <li class="flex gap-2"><span style="color: var(--persimmon);">—</span><span><strong>Customer Since</strong> — track relationship duration</span></li>
+          <li class="flex gap-2"><span style="color: var(--persimmon);">—</span><span><strong>Billing & Shipping Addresses</strong> — separate address management</span></li>
+        </ul>
+        <div class="overflow-hidden">
+          <img src="/assets/account-fields.jpg" alt="Account Custom Fields" class="w-full h-auto" loading="lazy" />
         </div>
       </div>
 
-      <!-- Standard Object Customisations -->
-      <div class="border p-8 editorial-shadow" style="background-color: var(--cream); border-color: var(--taupe);">
-        <h3 class="text-lg font-bold mb-6 uppercase tracking-wider" style="color: var(--ink);">Standard Object Customisations</h3>
-
-        <div class="mb-8">
-          <h4 class="text-xs font-bold uppercase tracking-widest mb-3" style="color: var(--persimmon);">Account Object</h4>
-          <ul class="space-y-1.5 text-sm mb-5" style="color: #374151;">
-            <li class="flex gap-2"><span style="color: var(--persimmon);">—</span><span><strong>Industry</strong> — categorise customer business types</span></li>
-            <li class="flex gap-2"><span style="color: var(--persimmon);">—</span><span><strong>Account Tier/Level</strong> — identify high-value VIP customers</span></li>
-            <li class="flex gap-2"><span style="color: var(--persimmon);">—</span><span><strong>Customer Since</strong> — track relationship duration</span></li>
-            <li class="flex gap-2"><span style="color: var(--persimmon);">—</span><span><strong>Billing & Shipping Addresses</strong> — separate address management</span></li>
-          </ul>
-          <div class="overflow-hidden border editorial-shadow" style="border-color: var(--taupe);">
-            <img src="/assets/account-fields.jpg" alt="Account Custom Fields" class="w-full h-auto" loading="lazy" />
-          </div>
+      <div class="mb-10">
+        <h4 class="text-xs font-bold uppercase tracking-widest mb-3" style="color: var(--persimmon);">Opportunity Object</h4>
+        <ul class="space-y-1.5 text-sm mb-6" style="color: #374151;">
+          <li class="flex gap-2"><span style="color: var(--persimmon);">—</span><span><strong>Product Type</strong> — categorise by product/solution type</span></li>
+          <li class="flex gap-2"><span style="color: var(--persimmon);">—</span><span><strong>Lead Source</strong> — track opportunity origin</span></li>
+          <li class="flex gap-2"><span style="color: var(--persimmon);">—</span><span><strong>Discount Percentage</strong> — manage customer-specific pricing</span></li>
+          <li class="flex gap-2"><span style="color: var(--persimmon);">—</span><span><strong>Payment Terms</strong> — Net 30, Net 60, etc.</span></li>
+        </ul>
+        <div class="space-y-3">
+          <div class="overflow-hidden"><img src="/assets/opportunity-fields-1.jpg" alt="Opportunity Custom Fields" class="w-full h-auto" loading="lazy" /></div>
+          <div class="overflow-hidden"><img src="/assets/opportunity-fields-2.jpg" alt="Opportunity Custom Fields (continued)" class="w-full h-auto" loading="lazy" /></div>
         </div>
+      </div>
 
-        <div class="mb-8">
-          <h4 class="text-xs font-bold uppercase tracking-widest mb-3" style="color: var(--persimmon);">Opportunity Object</h4>
-          <ul class="space-y-1.5 text-sm mb-5" style="color: #374151;">
-            <li class="flex gap-2"><span style="color: var(--persimmon);">—</span><span><strong>Product Type</strong> — categorise by product/solution type</span></li>
-            <li class="flex gap-2"><span style="color: var(--persimmon);">—</span><span><strong>Lead Source</strong> — track opportunity origin</span></li>
-            <li class="flex gap-2"><span style="color: var(--persimmon);">—</span><span><strong>Discount Percentage</strong> — manage customer-specific pricing</span></li>
-            <li class="flex gap-2"><span style="color: var(--persimmon);">—</span><span><strong>Payment Terms</strong> — Net 30, Net 60, etc.</span></li>
-          </ul>
-          <div class="space-y-3">
-            <div class="overflow-hidden border editorial-shadow" style="border-color: var(--taupe);"><img src="/assets/opportunity-fields-1.jpg" alt="Opportunity Custom Fields" class="w-full h-auto" loading="lazy" /></div>
-            <div class="overflow-hidden border editorial-shadow" style="border-color: var(--taupe);"><img src="/assets/opportunity-fields-2.jpg" alt="Opportunity Custom Fields (continued)" class="w-full h-auto" loading="lazy" /></div>
-          </div>
-        </div>
-
-        <div>
-          <h4 class="text-xs font-bold uppercase tracking-widest mb-3" style="color: var(--persimmon);">Case Object</h4>
-          <ul class="space-y-1.5 text-sm mb-5" style="color: #374151;">
-            <li class="flex gap-2"><span style="color: var(--persimmon);">—</span><span><strong>Product</strong> — link cases to specific TechGear products</span></li>
-            <li class="flex gap-2"><span style="color: var(--persimmon);">—</span><span><strong>Case Type</strong> — Technical Issue, Warranty Request, Customer Complaint, etc.</span></li>
-            <li class="flex gap-2"><span style="color: var(--persimmon);">—</span><span><strong>Resolution Date</strong> — track when issues were resolved</span></li>
-            <li class="flex gap-2"><span style="color: var(--persimmon);">—</span><span><strong>Support Agent</strong> — assign specific team members</span></li>
-            <li class="flex gap-2"><span style="color: var(--persimmon);">—</span><span><strong>Customer Satisfaction Rating</strong> — collect feedback after closure</span></li>
-          </ul>
-          <div class="space-y-3">
-            <div class="overflow-hidden border editorial-shadow" style="border-color: var(--taupe);"><img src="/assets/case-fields-1.jpg" alt="Case Fields" class="w-full h-auto" loading="lazy" /></div>
-            <div class="overflow-hidden border editorial-shadow" style="border-color: var(--taupe);"><img src="/assets/case-field-2.jpg" alt="Case Fields" class="w-full h-auto" loading="lazy" /></div>
-            <div class="overflow-hidden border editorial-shadow" style="border-color: var(--taupe);"><img src="/assets/case-field-3.jpg" alt="Case Fields" class="w-full h-auto" loading="lazy" /></div>
-            <div class="overflow-hidden border editorial-shadow" style="border-color: var(--taupe);"><img src="/assets/case-field-4.jpg" alt="Case Fields" class="w-full h-auto" loading="lazy" /></div>
-            <div class="overflow-hidden border editorial-shadow" style="border-color: var(--taupe);"><img src="/assets/case-field-5.jpg" alt="Case Fields" class="w-full h-auto" loading="lazy" /></div>
-          </div>
+      <div>
+        <h4 class="text-xs font-bold uppercase tracking-widest mb-3" style="color: var(--persimmon);">Case Object</h4>
+        <ul class="space-y-1.5 text-sm mb-6" style="color: #374151;">
+          <li class="flex gap-2"><span style="color: var(--persimmon);">—</span><span><strong>Product</strong> — link cases to specific TechGear products</span></li>
+          <li class="flex gap-2"><span style="color: var(--persimmon);">—</span><span><strong>Case Type</strong> — Technical Issue, Warranty Request, Customer Complaint, etc.</span></li>
+          <li class="flex gap-2"><span style="color: var(--persimmon);">—</span><span><strong>Resolution Date</strong> — track when issues were resolved</span></li>
+          <li class="flex gap-2"><span style="color: var(--persimmon);">—</span><span><strong>Support Agent</strong> — assign specific team members</span></li>
+          <li class="flex gap-2"><span style="color: var(--persimmon);">—</span><span><strong>Customer Satisfaction Rating</strong> — collect feedback after closure</span></li>
+        </ul>
+        <div class="space-y-3">
+          <div class="overflow-hidden"><img src="/assets/case-fields-1.jpg" alt="Case Fields" class="w-full h-auto" loading="lazy" /></div>
+          <div class="overflow-hidden"><img src="/assets/case-field-2.jpg" alt="Case Fields" class="w-full h-auto" loading="lazy" /></div>
+          <div class="overflow-hidden"><img src="/assets/case-field-3.jpg" alt="Case Fields" class="w-full h-auto" loading="lazy" /></div>
+          <div class="overflow-hidden"><img src="/assets/case-field-4.jpg" alt="Case Fields" class="w-full h-auto" loading="lazy" /></div>
+          <div class="overflow-hidden"><img src="/assets/case-field-5.jpg" alt="Case Fields" class="w-full h-auto" loading="lazy" /></div>
         </div>
       </div>
     </section>
+
+    <hr class="mb-16" style="border-color: var(--taupe);" />
 
     <!-- 3. Object Relationships -->
     <section class="mb-16">
@@ -450,30 +445,32 @@ const tags = [
         <p class="text-2xl font-bold" style="color: var(--ink);">Object Relationships</p>
       </div>
 
-      <div class="border p-8 editorial-shadow" style="background-color: var(--cream); border-color: var(--taupe);">
-        <p class="leading-relaxed mb-8 text-base" style="color: #374151;">
-          Critical relationships were established between objects to ensure data integrity and enable proper reporting across the platform.
-        </p>
-        <div class="space-y-8">
-          <div>
-            <div class="flex items-center gap-3 mb-3">
-              <span class="text-xs font-bold uppercase tracking-widest px-2 py-1" style="background-color: rgba(122,139,108,0.12); color: var(--sage);">Lookup</span>
-              <p class="font-mono text-sm font-semibold" style="color: var(--ink);">TechGear_Solutions__c → Account</p>
-            </div>
-            <p class="text-sm leading-relaxed mb-4" style="color: #374151;">Links custom solutions to their respective customer accounts. Solutions can exist independently if needed, but are typically associated with accounts for reporting purposes.</p>
-            <div class="overflow-hidden border editorial-shadow" style="border-color: var(--taupe);"><img src="/assets/tech-solutions-account.jpg" alt="Solutions to Account Relationship" class="w-full h-auto" loading="lazy" /></div>
+      <p class="leading-relaxed mb-10 text-base" style="color: #374151;">
+        Critical relationships were established between objects to ensure data integrity and enable proper reporting across the platform.
+      </p>
+
+      <div class="space-y-10">
+        <div>
+          <div class="flex items-center gap-3 mb-3">
+            <span class="text-xs font-bold uppercase tracking-widest px-2 py-1" style="background-color: rgba(122,139,108,0.12); color: var(--sage);">Lookup</span>
+            <p class="font-mono text-sm font-semibold" style="color: var(--ink);">TechGear_Solutions__c → Account</p>
           </div>
-          <div class="border-t pt-8" style="border-color: var(--taupe);">
-            <div class="flex items-center gap-3 mb-3">
-              <span class="text-xs font-bold uppercase tracking-widest px-2 py-1" style="background-color: rgba(212,99,58,0.1); color: var(--persimmon);">Master-Detail</span>
-              <p class="font-mono text-sm font-semibold" style="color: var(--ink);">TechGear_Orders__c → TechGear_Products__c</p>
-            </div>
-            <p class="text-sm leading-relaxed mb-4" style="color: #374151;">A master-detail relationship because orders are tightly coupled to products. This ensures cascade delete and enables roll-up summary fields for inventory management.</p>
-            <div class="overflow-hidden border editorial-shadow" style="border-color: var(--taupe);"><img src="/assets/tech-product-order-master.jpg" alt="Products to Orders Master-Detail" class="w-full h-auto" loading="lazy" /></div>
+          <p class="text-sm leading-relaxed mb-5" style="color: #374151;">Links custom solutions to their respective customer accounts. Solutions can exist independently if needed, but are typically associated with accounts for reporting purposes.</p>
+          <div class="overflow-hidden"><img src="/assets/tech-solutions-account.jpg" alt="Solutions to Account Relationship" class="w-full h-auto" loading="lazy" /></div>
+        </div>
+
+        <div class="border-t pt-10" style="border-color: var(--taupe);">
+          <div class="flex items-center gap-3 mb-3">
+            <span class="text-xs font-bold uppercase tracking-widest px-2 py-1" style="background-color: rgba(212,99,58,0.1); color: var(--persimmon);">Master-Detail</span>
+            <p class="font-mono text-sm font-semibold" style="color: var(--ink);">TechGear_Orders__c → TechGear_Products__c</p>
           </div>
+          <p class="text-sm leading-relaxed mb-5" style="color: #374151;">A master-detail relationship because orders are tightly coupled to products. This ensures cascade delete and enables roll-up summary fields for inventory management.</p>
+          <div class="overflow-hidden"><img src="/assets/tech-product-order-master.jpg" alt="Products to Orders Master-Detail" class="w-full h-auto" loading="lazy" /></div>
         </div>
       </div>
     </section>
+
+    <hr class="mb-16" style="border-color: var(--taupe);" />
 
     <!-- 4. Page Layouts -->
     <section class="mb-16">
@@ -482,27 +479,29 @@ const tags = [
         <p class="text-2xl font-bold" style="color: var(--ink);">Page Layouts & Record Types</p>
       </div>
 
-      <div class="space-y-6">
-        <div class="border p-8 editorial-shadow" style="background-color: var(--cream); border-color: var(--taupe);">
-          <h3 class="text-xs font-bold uppercase tracking-widest mb-1" style="color: var(--persimmon);">Sales Representative Layout</h3>
-          <p class="text-base font-semibold mb-3" style="color: var(--ink);">Opportunity Page</p>
-          <p class="leading-relaxed mb-2 text-sm" style="color: #374151;">Opportunity Name, Stage, Close Date, and Amount are front and centre. Lookup relationships between Opportunities, TechGear_Orders, and TechGear_Solutions let reps associate multiple orders with a single opportunity.</p>
-          <div class="mt-5 overflow-hidden border editorial-shadow" style="border-color: var(--taupe);"><img src="/assets/opportunity-header-layout.jpg" alt="Opportunity Page Layout" class="w-full h-auto" loading="lazy" /></div>
+      <div class="space-y-10">
+        <div>
+          <p class="text-xs font-bold uppercase tracking-widest mb-1" style="color: var(--persimmon);">Sales Representative Layout</p>
+          <h3 class="text-lg font-bold mb-3" style="color: var(--ink);">Opportunity Page</h3>
+          <p class="leading-relaxed mb-6 text-sm" style="color: #374151;">Opportunity Name, Stage, Close Date, and Amount are front and centre. Lookup relationships between Opportunities, TechGear_Orders, and TechGear_Solutions let reps associate multiple orders with a single opportunity.</p>
+          <div class="overflow-hidden"><img src="/assets/opportunity-header-layout.jpg" alt="Opportunity Page Layout" class="w-full h-auto" loading="lazy" /></div>
         </div>
 
-        <div class="border p-8 editorial-shadow" style="background-color: var(--cream); border-color: var(--taupe);">
-          <h3 class="text-xs font-bold uppercase tracking-widest mb-1" style="color: var(--persimmon);">Support Agent Layout</h3>
-          <p class="text-base font-semibold mb-3" style="color: var(--ink);">Case Page</p>
-          <p class="leading-relaxed mb-2 text-sm" style="color: #374151;">Case Number, Subject, Priority, Description, and Resolution Date front and centre. Agents can update status and satisfaction rating inline.</p>
-          <div class="mt-5 overflow-hidden border editorial-shadow" style="border-color: var(--taupe);"><img src="/assets/case-page-layout.jpg" alt="Case Page Layout" class="w-full h-auto" loading="lazy" /></div>
+        <div class="border-t pt-10" style="border-color: var(--taupe);">
+          <p class="text-xs font-bold uppercase tracking-widest mb-1" style="color: var(--persimmon);">Support Agent Layout</p>
+          <h3 class="text-lg font-bold mb-3" style="color: var(--ink);">Case Page</h3>
+          <p class="leading-relaxed mb-6 text-sm" style="color: #374151;">Case Number, Subject, Priority, Description, and Resolution Date front and centre. Agents can update status and satisfaction rating inline.</p>
+          <div class="overflow-hidden"><img src="/assets/case-page-layout.jpg" alt="Case Page Layout" class="w-full h-auto" loading="lazy" /></div>
         </div>
 
-        <div class="border p-6 editorial-shadow" style="background-color: rgba(122,139,108,0.06); border-color: var(--sage);">
-          <h3 class="text-xs font-bold uppercase tracking-widest mb-2" style="color: var(--sage);">Administrator Layout</h3>
-          <p class="text-sm" style="color: #374151;">Full visibility across all objects — Accounts, Opportunities, Cases, TechGear Products, TechGear Solutions, and custom reporting dashboards.</p>
+        <div class="border-t pt-10" style="border-color: var(--taupe);">
+          <p class="text-xs font-bold uppercase tracking-widest mb-1" style="color: var(--sage);">Administrator Layout</p>
+          <p class="text-sm mt-2" style="color: #374151;">Full visibility across all objects — Accounts, Opportunities, Cases, TechGear Products, TechGear Solutions, and custom reporting dashboards.</p>
         </div>
       </div>
     </section>
+
+    <hr class="mb-16" style="border-color: var(--taupe);" />
 
     <!-- 5. Flows -->
     <section class="mb-16">
@@ -511,36 +510,38 @@ const tags = [
         <p class="text-2xl font-bold" style="color: var(--ink);">Process Automation with Flows</p>
       </div>
 
-      <div class="space-y-6">
+      <div class="space-y-12">
 
-        <div class="border p-8 editorial-shadow" style="background-color: var(--cream); border-color: var(--taupe);">
+        <div>
           <p class="text-xs font-bold uppercase tracking-widest mb-1" style="color: var(--persimmon);">Flow 01</p>
           <h3 class="text-lg font-bold mb-4" style="color: var(--ink);">Order Automation</h3>
           <p class="leading-relaxed mb-5 text-sm" style="color: #374151;">An automated order creation flow triggers when an Opportunity reaches "Closed-Won", automatically creating a <span class="font-mono text-xs px-1 py-0.5" style="background-color: rgba(122,139,108,0.12); color: var(--sage);">TechGear_Orders__c</span> record.</p>
-          <div class="mb-5 p-4 border-l-2" style="border-color: var(--persimmon); background-color: rgba(212,99,58,0.04);">
+          <div class="mb-6 pl-4 border-l-2" style="border-color: var(--persimmon);">
             <p class="text-xs font-bold uppercase tracking-widest mb-1.5" style="color: var(--persimmon);">Business Impact</p>
             <p class="text-sm" style="color: #374151;">Reduced order creation time from 5–10 minutes per deal to instant, eliminating human error in the handoff from sales to fulfilment.</p>
           </div>
-          <div class="overflow-hidden border editorial-shadow" style="border-color: var(--taupe);"><img src="/assets/order-auto-flow.jpg" alt="Order Automation Flow" class="w-full h-auto" loading="lazy" /></div>
+          <div class="overflow-hidden"><img src="/assets/order-auto-flow.jpg" alt="Order Automation Flow" class="w-full h-auto" loading="lazy" /></div>
         </div>
 
-        <div class="border p-8 editorial-shadow" style="background-color: var(--cream); border-color: var(--taupe);">
+        <div class="border-t pt-12" style="border-color: var(--taupe);">
           <p class="text-xs font-bold uppercase tracking-widest mb-1" style="color: var(--persimmon);">Flow 02</p>
           <h3 class="text-lg font-bold mb-4" style="color: var(--ink);">Intelligent Case Assignment</h3>
-          <p class="leading-relaxed mb-5 text-sm" style="color: #374151;">When a new Case is created, the flow automatically assigns it to the appropriate agent based on case type and region — no manual triage required.</p>
-          <div class="overflow-hidden border editorial-shadow" style="border-color: var(--taupe);"><img src="/assets/case-assig-flow.jpg" alt="Case Assignment Flow" class="w-full h-auto" loading="lazy" /></div>
+          <p class="leading-relaxed mb-6 text-sm" style="color: #374151;">When a new Case is created, the flow automatically assigns it to the appropriate agent based on case type and region — no manual triage required.</p>
+          <div class="overflow-hidden"><img src="/assets/case-assig-flow.jpg" alt="Case Assignment Flow" class="w-full h-auto" loading="lazy" /></div>
         </div>
 
-        <div class="border p-8 editorial-shadow" style="background-color: var(--cream); border-color: var(--taupe);">
+        <div class="border-t pt-12" style="border-color: var(--taupe);">
           <p class="text-xs font-bold uppercase tracking-widest mb-1" style="color: var(--persimmon);">Flow 03</p>
           <h3 class="text-lg font-bold mb-4" style="color: var(--ink);">Lead Nurturing Automation</h3>
           <p class="leading-relaxed mb-3 text-sm" style="color: #374151;">A scheduled flow runs daily to identify leads not contacted in 30 days, automatically sends re-engagement emails, and assigns them to the next available sales rep.</p>
-          <p class="text-sm mb-5" style="color: #6b7280;">A formula field calculates days since last contact — entirely hands-off once configured.</p>
-          <div class="overflow-hidden border editorial-shadow" style="border-color: var(--taupe);"><img src="/assets/lead-nurt-flow.jpg" alt="Lead Nurturing Flow" class="w-full h-auto" loading="lazy" /></div>
+          <p class="text-sm mb-6" style="color: #6b7280;">A formula field calculates days since last contact — entirely hands-off once configured.</p>
+          <div class="overflow-hidden"><img src="/assets/lead-nurt-flow.jpg" alt="Lead Nurturing Flow" class="w-full h-auto" loading="lazy" /></div>
         </div>
 
       </div>
     </section>
+
+    <hr class="mb-16" style="border-color: var(--taupe);" />
 
     <!-- 6. Apex -->
     <section class="mb-16">
@@ -549,34 +550,32 @@ const tags = [
         <p class="text-2xl font-bold" style="color: var(--ink);">Custom Apex Development</p>
       </div>
 
-      <div class="space-y-6">
+      <div class="space-y-16">
 
         <!-- Trigger 1 -->
-        <div class="border editorial-shadow" style="background-color: var(--cream); border-color: var(--taupe);">
-          <div class="p-8">
-            <p class="text-xs font-bold uppercase tracking-widest mb-1" style="color: var(--persimmon);">Trigger 01</p>
-            <h3 class="text-lg font-bold mb-4" style="color: var(--ink);">Real-Time Inventory Management</h3>
-            <p class="leading-relaxed mb-5 text-sm" style="color: #374151;">A critical trigger that prevents overselling. When an order is placed, it checks product stock levels and deducts the ordered quantity in real time — or blocks the transaction with a clear error message.</p>
+        <div>
+          <p class="text-xs font-bold uppercase tracking-widest mb-1" style="color: var(--persimmon);">Trigger 01</p>
+          <h3 class="text-lg font-bold mb-4" style="color: var(--ink);">Real-Time Inventory Management</h3>
+          <p class="leading-relaxed mb-5 text-sm" style="color: #374151;">A critical trigger that prevents overselling. When an order is placed, it checks product stock levels and deducts the ordered quantity in real time — or blocks the transaction with a clear error message.</p>
 
-            <div class="mb-5 p-4 border" style="border-color: #fca5a5; background-color: rgba(239,68,68,0.05);">
-              <p class="text-xs font-bold uppercase tracking-widest mb-2" style="color: #dc2626;">The Problem Solved</p>
-              <p class="text-sm" style="color: #374151;">If Rep A sells 50 units and Rep B sells 60 units five minutes later, you've sold 110 when you only have 100. The trigger prevents this by checking stock in real-time and blocking over-inventory orders.</p>
-            </div>
-
-            <ul class="space-y-1.5 text-sm mb-6" style="color: #374151;">
-              <li class="flex gap-2"><span style="color: var(--persimmon);">—</span><span><span class="font-mono text-xs px-1 py-0.5" style="background-color: rgba(122,139,108,0.12); color: var(--sage);">after insert</span> trigger context</span></li>
-              <li class="flex gap-2"><span style="color: var(--persimmon);">—</span><span>Bulk processing with collections to handle multiple simultaneous orders</span></li>
-              <li class="flex gap-2"><span style="color: var(--persimmon);">—</span><span>User-friendly error messages when stock is insufficient</span></li>
-              <li class="flex gap-2"><span style="color: var(--persimmon);">—</span><span>Map data structure for efficient product lookups</span></li>
-            </ul>
-
-            <div class="overflow-hidden border editorial-shadow mb-6" style="border-color: var(--taupe);">
-              <img src="/assets/product-quantity-error-message.jpg" alt="Stock Validation Error" class="w-full h-auto" loading="lazy" />
-              <p class="text-xs px-4 py-2 border-t" style="border-color: var(--taupe); color: #6b7280; background-color: white;">User-facing error when stock is exceeded</p>
-            </div>
+          <div class="mb-5 pl-4 border-l-2" style="border-color: #dc2626;">
+            <p class="text-xs font-bold uppercase tracking-widest mb-1.5" style="color: #dc2626;">The Problem Solved</p>
+            <p class="text-sm" style="color: #374151;">If Rep A sells 50 units and Rep B sells 60 units five minutes later, you've sold 110 when you only have 100. The trigger prevents this by checking stock in real-time and blocking over-inventory orders.</p>
           </div>
 
-          <div style="background-color: #1e1e2e; border-top: 1px solid rgba(255,255,255,0.06);">
+          <ul class="space-y-1.5 text-sm mb-6" style="color: #374151;">
+            <li class="flex gap-2"><span style="color: var(--persimmon);">—</span><span><span class="font-mono text-xs px-1 py-0.5" style="background-color: rgba(122,139,108,0.12); color: var(--sage);">after insert</span> trigger context</span></li>
+            <li class="flex gap-2"><span style="color: var(--persimmon);">—</span><span>Bulk processing with collections to handle multiple simultaneous orders</span></li>
+            <li class="flex gap-2"><span style="color: var(--persimmon);">—</span><span>User-friendly error messages when stock is insufficient</span></li>
+            <li class="flex gap-2"><span style="color: var(--persimmon);">—</span><span>Map data structure for efficient product lookups</span></li>
+          </ul>
+
+          <div class="overflow-hidden mb-6">
+            <img src="/assets/product-quantity-error-message.jpg" alt="Stock Validation Error" class="w-full h-auto" loading="lazy" />
+            <p class="text-xs pt-2" style="color: #6b7280;">User-facing error when stock is exceeded</p>
+          </div>
+
+          <div style="background-color: #1e1e2e; border-radius: 2px;">
             <div class="px-5 py-3 border-b flex items-center gap-2" style="border-color: rgba(255,255,255,0.06);">
               <span class="w-3 h-3 rounded-full" style="background-color: #ff5f57;"></span>
               <span class="w-3 h-3 rounded-full" style="background-color: #febc2e;"></span>
@@ -588,16 +587,14 @@ const tags = [
         </div>
 
         <!-- Trigger 2 -->
-        <div class="border editorial-shadow" style="background-color: var(--cream); border-color: var(--taupe);">
-          <div class="p-8">
-            <p class="text-xs font-bold uppercase tracking-widest mb-1" style="color: var(--persimmon);">Trigger 02</p>
-            <h3 class="text-lg font-bold mb-4" style="color: var(--ink);">Opportunity Stage Change Automation</h3>
-            <p class="leading-relaxed mb-5 text-sm" style="color: #374151;">A handler class that automatically creates follow-up tasks when an Opportunity moves to a different stage, keeping reps accountable at every step of the pipeline.</p>
-            <div class="mb-5 p-4 border-l-2" style="border-color: var(--persimmon); background-color: rgba(212,99,58,0.04);">
-              <p class="text-sm" style="color: #374151;"><span class="font-mono text-xs px-1 py-0.5" style="background-color: rgba(122,139,108,0.12); color: var(--sage);">Trigger.oldMap</span> captures the previous state — the only reliable way in Salesforce to detect a specific field change within a trigger.</p>
-            </div>
+        <div class="border-t pt-16" style="border-color: var(--taupe);">
+          <p class="text-xs font-bold uppercase tracking-widest mb-1" style="color: var(--persimmon);">Trigger 02</p>
+          <h3 class="text-lg font-bold mb-4" style="color: var(--ink);">Opportunity Stage Change Automation</h3>
+          <p class="leading-relaxed mb-5 text-sm" style="color: #374151;">A handler class that automatically creates follow-up tasks when an Opportunity moves to a different stage, keeping reps accountable at every step of the pipeline.</p>
+          <div class="mb-6 pl-4 border-l-2" style="border-color: var(--persimmon);">
+            <p class="text-sm" style="color: #374151;"><span class="font-mono text-xs px-1 py-0.5" style="background-color: rgba(122,139,108,0.12); color: var(--sage);">Trigger.oldMap</span> captures the previous state — the only reliable way in Salesforce to detect a specific field change within a trigger.</p>
           </div>
-          <div style="background-color: #1e1e2e; border-top: 1px solid rgba(255,255,255,0.06);">
+          <div style="background-color: #1e1e2e; border-radius: 2px;">
             <div class="px-5 py-3 border-b flex items-center gap-2" style="border-color: rgba(255,255,255,0.06);">
               <span class="w-3 h-3 rounded-full" style="background-color: #ff5f57;"></span>
               <span class="w-3 h-3 rounded-full" style="background-color: #febc2e;"></span>
@@ -609,19 +606,17 @@ const tags = [
         </div>
 
         <!-- Apex Class -->
-        <div class="border editorial-shadow" style="background-color: var(--cream); border-color: var(--taupe);">
-          <div class="p-8">
-            <p class="text-xs font-bold uppercase tracking-widest mb-1" style="color: var(--persimmon);">Apex Class</p>
-            <h3 class="text-lg font-bold mb-4" style="color: var(--ink);">Service Report Generator</h3>
-            <p class="leading-relaxed mb-5 text-sm" style="color: #374151;">An invocable Apex class that generates service reports for technicians when a Case is closed. Can be called from Flow, Process Builder, or programmatically.</p>
-            <ul class="space-y-1.5 text-sm mb-5" style="color: #374151;">
-              <li class="flex gap-2"><span style="color: var(--persimmon);">—</span><span>Case number, subject, and customer account</span></li>
-              <li class="flex gap-2"><span style="color: var(--persimmon);">—</span><span>Product details and support agent assigned</span></li>
-              <li class="flex gap-2"><span style="color: var(--persimmon);">—</span><span>Resolution date and description</span></li>
-              <li class="flex gap-2"><span style="color: var(--persimmon);">—</span><span>Auto-attached to the Case record via ContentVersion</span></li>
-            </ul>
-          </div>
-          <div style="background-color: #1e1e2e; border-top: 1px solid rgba(255,255,255,0.06);">
+        <div class="border-t pt-16" style="border-color: var(--taupe);">
+          <p class="text-xs font-bold uppercase tracking-widest mb-1" style="color: var(--persimmon);">Apex Class</p>
+          <h3 class="text-lg font-bold mb-4" style="color: var(--ink);">Service Report Generator</h3>
+          <p class="leading-relaxed mb-5 text-sm" style="color: #374151;">An invocable Apex class that generates service reports for technicians when a Case is closed. Can be called from Flow, Process Builder, or programmatically.</p>
+          <ul class="space-y-1.5 text-sm mb-6" style="color: #374151;">
+            <li class="flex gap-2"><span style="color: var(--persimmon);">—</span><span>Case number, subject, and customer account</span></li>
+            <li class="flex gap-2"><span style="color: var(--persimmon);">—</span><span>Product details and support agent assigned</span></li>
+            <li class="flex gap-2"><span style="color: var(--persimmon);">—</span><span>Resolution date and description</span></li>
+            <li class="flex gap-2"><span style="color: var(--persimmon);">—</span><span>Auto-attached to the Case record via ContentVersion</span></li>
+          </ul>
+          <div style="background-color: #1e1e2e; border-radius: 2px;">
             <div class="px-5 py-3 border-b flex items-center gap-2" style="border-color: rgba(255,255,255,0.06);">
               <span class="w-3 h-3 rounded-full" style="background-color: #ff5f57;"></span>
               <span class="w-3 h-3 rounded-full" style="background-color: #febc2e;"></span>
@@ -635,6 +630,8 @@ const tags = [
       </div>
     </section>
 
+    <hr class="mb-16" style="border-color: var(--taupe);" />
+
     <!-- 7. LWC -->
     <section class="mb-16">
       <div class="border-l-4 pl-6 mb-8" style="border-color: var(--persimmon);">
@@ -642,15 +639,13 @@ const tags = [
         <p class="text-2xl font-bold" style="color: var(--ink);">Lightning Web Components</p>
       </div>
 
-      <div class="space-y-6">
+      <div class="space-y-16">
 
-        <div class="border editorial-shadow" style="background-color: var(--cream); border-color: var(--taupe);">
-          <div class="p-8">
-            <p class="text-xs font-bold uppercase tracking-widest mb-1" style="color: var(--persimmon);">LWC 01</p>
-            <h3 class="text-lg font-bold mb-4" style="color: var(--ink);">Interactive Product Catalog</h3>
-            <p class="leading-relaxed mb-5 text-sm" style="color: #374151;">A dynamic product catalog used directly on Opportunity pages — real-time stock availability, one-click "Add to Opportunity", and toast notifications for success and error states.</p>
-          </div>
-          <div style="background-color: #1e1e2e; border-top: 1px solid rgba(255,255,255,0.06);">
+        <div>
+          <p class="text-xs font-bold uppercase tracking-widest mb-1" style="color: var(--persimmon);">LWC 01</p>
+          <h3 class="text-lg font-bold mb-4" style="color: var(--ink);">Interactive Product Catalog</h3>
+          <p class="leading-relaxed mb-6 text-sm" style="color: #374151;">A dynamic product catalog used directly on Opportunity pages — real-time stock availability, one-click "Add to Opportunity", and toast notifications for success and error states.</p>
+          <div style="background-color: #1e1e2e; border-radius: 2px;" class="mb-6">
             <div class="px-5 py-3 border-b flex items-center gap-2" style="border-color: rgba(255,255,255,0.06);">
               <span class="w-3 h-3 rounded-full" style="background-color: #ff5f57;"></span>
               <span class="w-3 h-3 rounded-full" style="background-color: #febc2e;"></span>
@@ -659,18 +654,14 @@ const tags = [
             </div>
             <pre class="p-6 text-xs overflow-x-auto leading-relaxed" style="color: #cdd6f4; font-family: 'IBM Plex Mono', monospace; white-space: pre;" set:text={productCatalogCode}></pre>
           </div>
-          <div class="p-8">
-            <div class="overflow-hidden border editorial-shadow" style="border-color: var(--taupe);"><img src="/assets/lwc-product-catalog.jpg" alt="Product Catalog LWC" class="w-full h-auto" loading="lazy" /></div>
-          </div>
+          <div class="overflow-hidden"><img src="/assets/lwc-product-catalog.jpg" alt="Product Catalog LWC" class="w-full h-auto" loading="lazy" /></div>
         </div>
 
-        <div class="border editorial-shadow" style="background-color: var(--cream); border-color: var(--taupe);">
-          <div class="p-8">
-            <p class="text-xs font-bold uppercase tracking-widest mb-1" style="color: var(--persimmon);">LWC 02</p>
-            <h3 class="text-lg font-bold mb-4" style="color: var(--ink);">Case Management Dashboard</h3>
-            <p class="leading-relaxed mb-5 text-sm" style="color: #374151;">A case dashboard with inline editing, priority filtering, and bulk updates via <span class="font-mono text-xs px-1 py-0.5" style="background-color: rgba(122,139,108,0.12); color: var(--sage);">Promise.all</span> for efficient parallel processing.</p>
-          </div>
-          <div style="background-color: #1e1e2e; border-top: 1px solid rgba(255,255,255,0.06);">
+        <div class="border-t pt-16" style="border-color: var(--taupe);">
+          <p class="text-xs font-bold uppercase tracking-widest mb-1" style="color: var(--persimmon);">LWC 02</p>
+          <h3 class="text-lg font-bold mb-4" style="color: var(--ink);">Case Management Dashboard</h3>
+          <p class="leading-relaxed mb-6 text-sm" style="color: #374151;">A case dashboard with inline editing, priority filtering, and bulk updates via <span class="font-mono text-xs px-1 py-0.5" style="background-color: rgba(122,139,108,0.12); color: var(--sage);">Promise.all</span> for efficient parallel processing.</p>
+          <div style="background-color: #1e1e2e; border-radius: 2px;">
             <div class="px-5 py-3 border-b flex items-center gap-2" style="border-color: rgba(255,255,255,0.06);">
               <span class="w-3 h-3 rounded-full" style="background-color: #ff5f57;"></span>
               <span class="w-3 h-3 rounded-full" style="background-color: #febc2e;"></span>
@@ -681,18 +672,16 @@ const tags = [
           </div>
         </div>
 
-        <div class="border editorial-shadow" style="background-color: var(--cream); border-color: var(--taupe);">
-          <div class="p-8">
-            <p class="text-xs font-bold uppercase tracking-widest mb-1" style="color: var(--persimmon);">LWC 03</p>
-            <h3 class="text-lg font-bold mb-4" style="color: var(--ink);">Visual Sales Opportunity Tracker</h3>
-            <p class="leading-relaxed mb-5 text-sm" style="color: #374151;">A visual tracker with progress bars per sales stage — reps instantly see which deals are close to closing without navigating individual records.</p>
-            <div class="mb-5 p-4 border-l-2" style="border-color: var(--persimmon); background-color: rgba(212,99,58,0.04);">
-              <p class="text-xs font-bold uppercase tracking-widest mb-2" style="color: var(--persimmon);">How It Works</p>
-              <p class="text-sm mb-2" style="color: #374151;"><strong>System:</strong> Apex controller runs SOQL, JS maps stages to percentages, <span class="font-mono text-xs px-1 py-0.5" style="background-color: rgba(122,139,108,0.12); color: var(--sage);">lightning-progress-bar</span> renders the result.</p>
-              <p class="text-sm" style="color: #374151;"><strong>User:</strong> Sales rep opens dashboard and sees colour-coded pipeline — green for 90%+, yellow for mid-stage, red for early-stage.</p>
-            </div>
+        <div class="border-t pt-16" style="border-color: var(--taupe);">
+          <p class="text-xs font-bold uppercase tracking-widest mb-1" style="color: var(--persimmon);">LWC 03</p>
+          <h3 class="text-lg font-bold mb-4" style="color: var(--ink);">Visual Sales Opportunity Tracker</h3>
+          <p class="leading-relaxed mb-5 text-sm" style="color: #374151;">A visual tracker with progress bars per sales stage — reps instantly see which deals are close to closing without navigating individual records.</p>
+          <div class="mb-6 pl-4 border-l-2" style="border-color: var(--persimmon);">
+            <p class="text-xs font-bold uppercase tracking-widest mb-2" style="color: var(--persimmon);">How It Works</p>
+            <p class="text-sm mb-2" style="color: #374151;"><strong>System:</strong> Apex controller runs SOQL, JS maps stages to percentages, <span class="font-mono text-xs px-1 py-0.5" style="background-color: rgba(122,139,108,0.12); color: var(--sage);">lightning-progress-bar</span> renders the result.</p>
+            <p class="text-sm" style="color: #374151;"><strong>User:</strong> Sales rep opens dashboard and sees colour-coded pipeline — green for 90%+, yellow for mid-stage, red for early-stage.</p>
           </div>
-          <div style="background-color: #1e1e2e; border-top: 1px solid rgba(255,255,255,0.06);">
+          <div style="background-color: #1e1e2e; border-radius: 2px;" class="mb-6">
             <div class="px-5 py-3 border-b flex items-center gap-2" style="border-color: rgba(255,255,255,0.06);">
               <span class="w-3 h-3 rounded-full" style="background-color: #ff5f57;"></span>
               <span class="w-3 h-3 rounded-full" style="background-color: #febc2e;"></span>
@@ -701,13 +690,13 @@ const tags = [
             </div>
             <pre class="p-6 text-xs overflow-x-auto leading-relaxed" style="color: #cdd6f4; font-family: 'IBM Plex Mono', monospace; white-space: pre;" set:text={salesTrackerCode}></pre>
           </div>
-          <div class="p-8">
-            <div class="overflow-hidden border editorial-shadow" style="border-color: var(--taupe);"><img src="/assets/lwc-sales-opp-tracker.jpg" alt="Sales Opportunity Tracker LWC" class="w-full h-auto" loading="lazy" /></div>
-          </div>
+          <div class="overflow-hidden"><img src="/assets/lwc-sales-opp-tracker.jpg" alt="Sales Opportunity Tracker LWC" class="w-full h-auto" loading="lazy" /></div>
         </div>
 
       </div>
     </section>
+
+    <hr class="mb-16" style="border-color: var(--taupe);" />
 
     <!-- 8. API Integration -->
     <section class="mb-16">
@@ -716,50 +705,52 @@ const tags = [
         <p class="text-2xl font-bold" style="color: var(--ink);">External System Integration</p>
       </div>
 
-      <div class="border p-8 editorial-shadow" style="background-color: var(--cream); border-color: var(--taupe);">
-        <h3 class="text-lg font-bold mb-4" style="color: var(--ink);">REST API Integration: Weather Service</h3>
-        <p class="leading-relaxed mb-3 text-sm" style="color: #374151;">Integrated an external weather API (OpenWeatherMap) to demonstrate REST API patterns — Named Credentials, Apex callout wrapper, error handling, and Remote Site Settings.</p>
-        <p class="text-sm mb-6" style="color: #6b7280;">This pattern is directly reusable for any REST API — payment gateways, shipping providers, or ERP systems. The key is proper error handling and bulkification to respect governor limits.</p>
-        <div class="overflow-hidden border editorial-shadow" style="border-color: var(--taupe);"><img src="/assets/weather-api.jpg" alt="Weather API Integration" class="w-full h-auto" loading="lazy" /></div>
-      </div>
+      <h3 class="text-lg font-bold mb-4" style="color: var(--ink);">REST API Integration: Weather Service</h3>
+      <p class="leading-relaxed mb-3 text-sm" style="color: #374151;">Integrated an external weather API (OpenWeatherMap) to demonstrate REST API patterns — Named Credentials, Apex callout wrapper, error handling, and Remote Site Settings.</p>
+      <p class="text-sm mb-6" style="color: #6b7280;">This pattern is directly reusable for any REST API — payment gateways, shipping providers, or ERP systems. The key is proper error handling and bulkification to respect governor limits.</p>
+      <div class="overflow-hidden"><img src="/assets/weather-api.jpg" alt="Weather API Integration" class="w-full h-auto" loading="lazy" /></div>
     </section>
+
+    <hr class="mb-16" style="border-color: var(--taupe);" />
 
     <!-- Key Takeaways -->
     <section class="mb-16">
-      <div class="border-2 p-8 editorial-shadow" style="background: linear-gradient(135deg, rgba(122,139,108,0.08) 0%, rgba(122,139,108,0.03) 100%); border-color: var(--persimmon);">
+      <div class="border-l-4 pl-6 mb-8" style="border-color: var(--persimmon);">
         <h2 class="text-xs font-bold uppercase tracking-widest mb-1" style="color: var(--persimmon);">Summary</h2>
-        <p class="text-2xl font-bold mb-6" style="color: var(--ink);">Key Takeaways & Business Impact</p>
-        <ul class="space-y-4" style="color: var(--ink);">
-          {[
-            ['End-to-End Automation', 'Reduced manual data entry by 80% through intelligent flows and triggers.'],
-            ['Real-Time Inventory', 'Eliminated overselling incidents completely with the Product Stock Update trigger.'],
-            ['Enhanced UX', 'Lightning Web Components provide modern interfaces — adoption exceeded 95% within the first month.'],
-            ['Scalable Architecture', 'Designed to handle thousands of products, orders, and cases without performance degradation.'],
-            ['Best Practices', 'Bulkified Apex, efficient SOQL, proper exception handling, comprehensive test coverage.'],
-            ['Integration-Ready', 'Demonstrated API patterns extensible to ERP, payment, shipping, and other enterprise systems.'],
-          ].map(([title, desc]) => (
-            <li class="flex items-start gap-4">
-              <span class="mt-0.5 text-sm font-bold shrink-0" style="color: var(--persimmon);">✓</span>
-              <span class="text-sm leading-relaxed"><strong>{title}:</strong> <span style="color: #374151;">{desc}</span></span>
-            </li>
-          ))}
-        </ul>
+        <p class="text-2xl font-bold" style="color: var(--ink);">Key Takeaways & Business Impact</p>
       </div>
+      <ul class="space-y-5">
+        {[
+          ['End-to-End Automation', 'Reduced manual data entry by 80% through intelligent flows and triggers.'],
+          ['Real-Time Inventory', 'Eliminated overselling incidents completely with the Product Stock Update trigger.'],
+          ['Enhanced UX', 'Lightning Web Components provide modern interfaces — adoption exceeded 95% within the first month.'],
+          ['Scalable Architecture', 'Designed to handle thousands of products, orders, and cases without performance degradation.'],
+          ['Best Practices', 'Bulkified Apex, efficient SOQL, proper exception handling, comprehensive test coverage.'],
+          ['Integration-Ready', 'Demonstrated API patterns extensible to ERP, payment, shipping, and other enterprise systems.'],
+        ].map(([title, desc]) => (
+          <li class="flex items-start gap-4">
+            <span class="mt-0.5 text-sm font-bold shrink-0" style="color: var(--persimmon);">✓</span>
+            <span class="text-sm leading-relaxed"><strong>{title}:</strong> <span style="color: #374151;">{desc}</span></span>
+          </li>
+        ))}
+      </ul>
     </section>
+
+    <hr class="mb-16" style="border-color: var(--taupe);" />
 
     <!-- Technical Skills -->
     <section class="mb-16">
       <div class="border-l-4 pl-6 mb-8" style="border-color: var(--persimmon);">
         <p class="text-2xl font-bold" style="color: var(--ink);">Technical Skills Demonstrated</p>
       </div>
-      <div class="grid sm:grid-cols-2 gap-4">
+      <div class="grid sm:grid-cols-2 gap-x-12 gap-y-8">
         {[
           ['Development', ['Apex Triggers (After Insert, After Update)', 'Apex Classes (Invocable Methods)', 'Lightning Web Components (LWC)', 'SOQL Query Optimisation', 'Bulkification Patterns', 'REST API Integration']],
           ['Configuration', ['Custom Object Design', 'Master-Detail & Lookup Relationships', 'Page Layout Customisation', 'Record Types & Profiles', 'Flow Builder Automation', 'Formula Fields']],
           ['Architecture', ['Data Model Design', 'Process Automation Strategy', 'Governor Limit Optimisation', 'Error Handling Patterns', 'Security & Sharing Rules']],
           ['Business Analysis', ['Requirements Gathering', 'Process Optimisation', 'User Story Translation', 'Stakeholder Communication', 'Solution Design']],
         ].map(([title, items]) => (
-          <div class="border p-6 editorial-shadow" style="background-color: var(--cream); border-color: var(--taupe);">
+          <div>
             <h4 class="text-xs font-bold uppercase tracking-widest mb-4" style="color: var(--persimmon);">{title}</h4>
             <ul class="space-y-2">
               {(items as string[]).map(item => (
