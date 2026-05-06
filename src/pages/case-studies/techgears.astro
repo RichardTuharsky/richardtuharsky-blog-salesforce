@@ -1,5 +1,6 @@
 ---
 import RootLayout from "@/layouts/RootLayout.astro";
+import { codeToHtml } from 'shiki';
 
 const triggerCode = `trigger ProductStockUpdate on TechGear_Orders__c (after insert) {
 
@@ -261,6 +262,15 @@ const tags = [
   'Sales Cloud', 'Service Cloud', 'Custom Objects',
   'Apex Triggers', 'Lightning Web Components', 'Flow Automation', 'API Integration'
 ];
+
+const [triggerHtml, handlerHtml, serviceReportHtml, productCatalogHtml, caseDashboardHtml, salesTrackerHtml] = await Promise.all([
+  codeToHtml(triggerCode, { lang: 'apex', theme: 'catppuccin-mocha' }),
+  codeToHtml(handlerCode, { lang: 'apex', theme: 'catppuccin-mocha' }),
+  codeToHtml(serviceReportCode, { lang: 'apex', theme: 'catppuccin-mocha' }),
+  codeToHtml(productCatalogCode, { lang: 'javascript', theme: 'catppuccin-mocha' }),
+  codeToHtml(caseDashboardCode, { lang: 'javascript', theme: 'catppuccin-mocha' }),
+  codeToHtml(salesTrackerCode, { lang: 'javascript', theme: 'catppuccin-mocha' }),
+]);
 ---
 
 <RootLayout
@@ -520,14 +530,14 @@ const tags = [
             <p class="text-xs font-bold uppercase tracking-widest mb-1.5" style="color: var(--blue);">Business Impact</p>
             <p class="text-sm" style="color: #374151;">Reduced order creation time from 5–10 minutes per deal to instant, eliminating human error in the handoff from sales to fulfilment.</p>
           </div>
-          <div class="overflow-hidden"><img src="/assets/order-auto-flow.jpg" alt="Order Automation Flow" class="w-full h-auto" loading="lazy" /></div>
+          <div class="overflow-hidden"><img src="/assets/order-auto-flow.jpg" alt="Order Automation Flow" class="h-auto max-w-lg" loading="lazy" /></div>
         </div>
 
         <div class="border-t pt-12" style="border-color: var(--taupe);">
           <p class="text-xs font-bold uppercase tracking-widest mb-1" style="color: var(--blue);">Flow 02</p>
           <h3 class="text-lg font-bold mb-4" style="color: var(--ink);">Intelligent Case Assignment</h3>
           <p class="leading-relaxed mb-6 text-sm" style="color: #374151;">When a new Case is created, the flow automatically assigns it to the appropriate agent based on case type and region — no manual triage required.</p>
-          <div class="overflow-hidden"><img src="/assets/case-assig-flow.jpg" alt="Case Assignment Flow" class="w-full h-auto" loading="lazy" /></div>
+          <div class="overflow-hidden"><img src="/assets/case-assig-flow.jpg" alt="Case Assignment Flow" class="h-auto max-w-lg" loading="lazy" /></div>
         </div>
 
         <div class="border-t pt-12" style="border-color: var(--taupe);">
@@ -535,7 +545,7 @@ const tags = [
           <h3 class="text-lg font-bold mb-4" style="color: var(--ink);">Lead Nurturing Automation</h3>
           <p class="leading-relaxed mb-3 text-sm" style="color: #374151;">A scheduled flow runs daily to identify leads not contacted in 30 days, automatically sends re-engagement emails, and assigns them to the next available sales rep.</p>
           <p class="text-sm mb-6" style="color: #6b7280;">A formula field calculates days since last contact — entirely hands-off once configured.</p>
-          <div class="overflow-hidden"><img src="/assets/lead-nurt-flow.jpg" alt="Lead Nurturing Flow" class="w-full h-auto" loading="lazy" /></div>
+          <div class="overflow-hidden"><img src="/assets/lead-nurt-flow.jpg" alt="Lead Nurturing Flow" class="h-auto max-w-lg" loading="lazy" /></div>
         </div>
 
       </div>
@@ -582,7 +592,7 @@ const tags = [
               <span class="w-3 h-3 rounded-full" style="background-color: #28c840;"></span>
               <span class="ml-2 text-xs font-mono" style="color: rgba(255,255,255,0.35);">ProductStockUpdate.trigger</span>
             </div>
-            <pre class="p-6 text-xs overflow-x-auto leading-relaxed" style="color: #cdd6f4; font-family: 'IBM Plex Mono', monospace; white-space: pre;" set:text={triggerCode}></pre>
+            <div class="shiki-wrapper" set:html={triggerHtml}></div>
           </div>
         </div>
 
@@ -601,7 +611,7 @@ const tags = [
               <span class="w-3 h-3 rounded-full" style="background-color: #28c840;"></span>
               <span class="ml-2 text-xs font-mono" style="color: rgba(255,255,255,0.35);">OpportunityTriggerHandler.cls</span>
             </div>
-            <pre class="p-6 text-xs overflow-x-auto leading-relaxed" style="color: #cdd6f4; font-family: 'IBM Plex Mono', monospace; white-space: pre;" set:text={handlerCode}></pre>
+            <div class="shiki-wrapper" set:html={handlerHtml}></div>
           </div>
         </div>
 
@@ -623,7 +633,7 @@ const tags = [
               <span class="w-3 h-3 rounded-full" style="background-color: #28c840;"></span>
               <span class="ml-2 text-xs font-mono" style="color: rgba(255,255,255,0.35);">ServiceReportGenerator.cls</span>
             </div>
-            <pre class="p-6 text-xs overflow-x-auto leading-relaxed" style="color: #cdd6f4; font-family: 'IBM Plex Mono', monospace; white-space: pre;" set:text={serviceReportCode}></pre>
+            <div class="shiki-wrapper" set:html={serviceReportHtml}></div>
           </div>
         </div>
 
@@ -652,7 +662,7 @@ const tags = [
               <span class="w-3 h-3 rounded-full" style="background-color: #28c840;"></span>
               <span class="ml-2 text-xs font-mono" style="color: rgba(255,255,255,0.35);">productCatalog.js</span>
             </div>
-            <pre class="p-6 text-xs overflow-x-auto leading-relaxed" style="color: #cdd6f4; font-family: 'IBM Plex Mono', monospace; white-space: pre;" set:text={productCatalogCode}></pre>
+            <div class="shiki-wrapper" set:html={productCatalogHtml}></div>
           </div>
           <div class="overflow-hidden"><img src="/assets/lwc-product-catalog.jpg" alt="Product Catalog LWC" class="w-full h-auto" loading="lazy" /></div>
         </div>
@@ -668,7 +678,7 @@ const tags = [
               <span class="w-3 h-3 rounded-full" style="background-color: #28c840;"></span>
               <span class="ml-2 text-xs font-mono" style="color: rgba(255,255,255,0.35);">caseDashboard.js</span>
             </div>
-            <pre class="p-6 text-xs overflow-x-auto leading-relaxed" style="color: #cdd6f4; font-family: 'IBM Plex Mono', monospace; white-space: pre;" set:text={caseDashboardCode}></pre>
+            <div class="shiki-wrapper" set:html={caseDashboardHtml}></div>
           </div>
         </div>
 
@@ -688,7 +698,7 @@ const tags = [
               <span class="w-3 h-3 rounded-full" style="background-color: #28c840;"></span>
               <span class="ml-2 text-xs font-mono" style="color: rgba(255,255,255,0.35);">salesOpportunityTracker.js</span>
             </div>
-            <pre class="p-6 text-xs overflow-x-auto leading-relaxed" style="color: #cdd6f4; font-family: 'IBM Plex Mono', monospace; white-space: pre;" set:text={salesTrackerCode}></pre>
+            <div class="shiki-wrapper" set:html={salesTrackerHtml}></div>
           </div>
           <div class="overflow-hidden"><img src="/assets/lwc-sales-opp-tracker.jpg" alt="Sales Opportunity Tracker LWC" class="w-full h-auto" loading="lazy" /></div>
         </div>
