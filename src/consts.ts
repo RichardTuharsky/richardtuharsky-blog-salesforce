@@ -93,5 +93,5 @@ export const POST_METADATA = {
   showRelatedPosts: true, // Show related posts in blog post, TODO: Add support for hiding related posts
   showTableOfContents: true, // Show table of contents in blog post
   showShareButtons: 'both', // Show share buttons in blog post, options: top, bottom, both, none
-  showComments: true, // Show comments section in blog post
+  showComments: false, // Show comments section in blog post
 };
