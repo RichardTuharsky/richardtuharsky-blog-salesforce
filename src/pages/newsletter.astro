@@ -6,19 +6,21 @@ import RootLayout from "@/layouts/RootLayout.astro";
   title="Newsletter"
   description="Subscribe to get the latest insights on technology and business delivered to your inbox."
 >
-  <div class="divide-y divide-gray-200 dark:divide-gray-700">
-    <div class="space-y-2 pb-8 pt-6 md:space-y-5">
-      <h1
-        class="text-3xl font-extrabold leading-9 tracking-tight text-gray-900 dark:text-gray-100 sm:text-4xl sm:leading-10 md:text-6xl md:leading-14"
-      >
-        Newsletter
+  <div class="py-10">
+    <div class="mb-14" data-animate>
+      <div class="inline-flex items-center gap-3 rounded-full border border-accent/30 bg-accent/5 px-5 py-2 mb-6">
+        <span class="h-2 w-2 rounded-full bg-accent animate-pulse-soft"></span>
+        <span class="font-mono text-xs uppercase tracking-[0.15em] text-accent">Newsletter</span>
+      </div>
+      <h1 class="font-display text-[2.5rem] sm:text-5xl leading-[1.08] tracking-[-0.02em] text-foreground mb-4">
+        Stay in the Loop
       </h1>
-      <p class="text-lg leading-7 text-gray-500 dark:text-gray-400">
-        Subscribe to get the latest insights on technology and business delivered to your inbox.
+      <p class="text-lg text-muted-foreground max-w-xl leading-relaxed">
+        Subscribe to get the latest insights on Salesforce delivered to your inbox.
       </p>
     </div>
-    <div class="py-12">
-      <p class="text-gray-500 dark:text-gray-400">Newsletter signup coming soon.</p>
+    <div class="py-12 border-t border-border" data-animate>
+      <p class="text-muted-foreground">Newsletter signup coming soon.</p>
     </div>
   </div>
 </RootLayout>

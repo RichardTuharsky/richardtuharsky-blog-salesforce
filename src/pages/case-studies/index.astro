@@ -6,31 +6,41 @@ import RootLayout from "@/layouts/RootLayout.astro";
   title="Case Studies"
   description="Real-world examples of technology and business transformation."
 >
-  <div class="divide-y divide-gray-200">
-    <div class="space-y-2 pb-8 pt-6 md:space-y-5">
-      <h1 class="text-3xl font-extrabold leading-9 tracking-tight text-gray-900 sm:text-4xl sm:leading-10 md:text-6xl md:leading-14">
+  <div class="py-10">
+    <!-- Page header -->
+    <div class="mb-14" data-animate>
+      <div class="inline-flex items-center gap-3 rounded-full border border-accent/30 bg-accent/5 px-5 py-2 mb-6">
+        <span class="h-2 w-2 rounded-full bg-accent animate-pulse-soft"></span>
+        <span class="font-mono text-xs uppercase tracking-[0.15em] text-accent">Portfolio</span>
+      </div>
+      <h1 class="font-display text-[2.5rem] sm:text-5xl leading-[1.08] tracking-[-0.02em] text-foreground mb-4">
         Case Studies
       </h1>
-      <p class="text-lg leading-7 text-gray-500">
+      <p class="text-lg text-muted-foreground max-w-xl leading-relaxed">
         Real-world examples of technology and business transformation.
       </p>
     </div>
-    <div class="py-12 space-y-6">
+
+    <!-- Case study list -->
+    <div class="space-y-5" data-animate>
       <a href="/case-studies/techgears" class="block group">
-        <div class="border border-slate-200 p-6 editorial-shadow hover:border-slate-400 transition-colors">
-          <div class="flex flex-wrap gap-2 mb-3">
-            <span class="text-xs px-2 py-1 font-medium uppercase tracking-wider" style="background-color: rgba(122,139,108,0.12); color: var(--sage);">Sales Cloud</span>
-            <span class="text-xs px-2 py-1 font-medium uppercase tracking-wider" style="background-color: rgba(122,139,108,0.12); color: var(--sage);">Service Cloud</span>
-            <span class="text-xs px-2 py-1 font-medium uppercase tracking-wider" style="background-color: rgba(122,139,108,0.12); color: var(--sage);">LWC</span>
-            <span class="text-xs px-2 py-1 font-medium uppercase tracking-wider" style="background-color: rgba(122,139,108,0.12); color: var(--sage);">Apex</span>
+        <div class="rounded-xl border border-border bg-card p-7 hover:border-accent/40 hover:shadow-lg transition-all duration-300 hover:-translate-y-0.5">
+          <div class="flex flex-wrap gap-2 mb-4">
+            {["Sales Cloud", "Service Cloud", "LWC", "Apex"].map((tag) => (
+              <span class="inline-flex items-center rounded-full border border-accent/20 bg-accent/5 px-3 py-0.5 font-mono text-[0.65rem] uppercase tracking-[0.1em] text-accent">
+                {tag}
+              </span>
+            ))}
           </div>
-          <h2 class="text-xl font-bold text-gray-900 mb-2 group-hover:text-blue-600 transition-colors">
+          <h2 class="text-xl font-semibold text-foreground mb-2 group-hover:text-accent transition-colors duration-200">
             TechGears Ltd. — Complete Salesforce Implementation
           </h2>
-          <p class="text-gray-500 text-sm leading-relaxed">
+          <p class="text-muted-foreground text-sm leading-relaxed mb-5">
             Full-scale Salesforce implementation featuring custom objects, automation flows, Apex triggers, Lightning Web Components, and API integration for a mid-sized technology solutions company.
           </p>
-          <div class="mt-4 text-sm font-medium" style="color: var(--blue);">Read case study →</div>
+          <span class="inline-flex items-center gap-1 text-sm font-medium text-accent group-hover:gap-2 transition-all duration-200">
+            Read case study →
+          </span>
         </div>
       </a>
     </div>

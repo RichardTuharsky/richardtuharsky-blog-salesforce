@@ -295,10 +295,10 @@ const [triggerHtml, handlerHtml, serviceReportHtml, productCatalogHtml, caseDash
           <span class="text-xs px-2.5 py-1 font-semibold uppercase tracking-widest" style="background-color: rgba(122,139,108,0.12); color: var(--sage);">{tag}</span>
         ))}
       </div>
-      <h1 class="text-4xl sm:text-5xl font-black mb-5 uppercase" style="color: var(--ink); line-height: 1.05; letter-spacing: -0.01em;">
+      <h1 class="font-display text-4xl sm:text-5xl font-black mb-5 uppercase" style="color: var(--ink); line-height: 1.05; letter-spacing: -0.01em;">
         TechGears Ltd.<br/>End-to-End Salesforce CRM Implementation
       </h1>
-      <p class="text-lg leading-relaxed max-w-2xl" style="color: #4a5568;">
+      <p class="text-lg leading-relaxed max-w-2xl" style="color: var(--color-muted-foreground);">
         A complete Salesforce CRM deployment covering Sales Cloud and Service Cloud configuration, custom Apex trigger development, Lightning Web Component builds, Salesforce Flow automation, and REST API integration.
       </p>
     </header>
@@ -307,18 +307,18 @@ const [triggerHtml, handlerHtml, serviceReportHtml, productCatalogHtml, caseDash
     <section class="mb-16">
       <div class="border-l-4 pl-6 mb-8" style="border-color: var(--blue);">
         <h2 class="text-xs font-bold uppercase tracking-widest mb-1" style="color: var(--blue);">Overview</h2>
-        <p class="text-2xl font-bold" style="color: var(--ink);">Project Background</p>
+        <p class="font-display text-2xl font-bold" style="color: var(--ink);">Project Background</p>
       </div>
       <div class="grid md:grid-cols-3 gap-10 mb-10">
-        <div class="md:col-span-2 space-y-4 text-base leading-relaxed" style="color: #374151;">
+        <div class="md:col-span-2 space-y-4 text-base leading-relaxed" style="color: var(--color-foreground);">
           <p>This Salesforce implementation project delivers a full CRM solution for TechGears Ltd., a mid-sized technology solutions company providing enterprise software and hardware products. The business required a scalable Salesforce platform to centralise customer data, accelerate the sales cycle, and resolve service cases faster.</p>
           <p>The engagement covered end-to-end CRM deployment: custom Salesforce data modelling, Sales Cloud opportunity management, Service Cloud case handling, Flow automation, Apex trigger development, Lightning Web Component builds, and REST API integration with an external service.</p>
         </div>
-        <div class="space-y-4 text-sm" style="color: #374151;">
+        <div class="space-y-4 text-sm" style="color: var(--color-foreground);">
           <div>
             <p class="text-xs font-bold uppercase tracking-widest mb-1" style="color: var(--blue);">Client</p>
             <p class="font-semibold" style="color: var(--ink);">TechGears Ltd.</p>
-            <p class="text-xs" style="color: #6b7280;">Technology Solutions</p>
+            <p class="text-xs" style="color: var(--color-muted-foreground);">Technology Solutions</p>
           </div>
           <div>
             <p class="text-xs font-bold uppercase tracking-widest mb-1" style="color: var(--blue);">Scope</p>
@@ -332,7 +332,7 @@ const [triggerHtml, handlerHtml, serviceReportHtml, productCatalogHtml, caseDash
       </div>
       <div class="overflow-hidden">
         <img src="/assets/company.jpg" alt="TechGears Salesforce org configuration" class="w-full h-auto" loading="lazy" />
-        <p class="text-xs pt-2" style="color: #6b7280;">Salesforce Developer Edition org configuration for TechGears Ltd.</p>
+        <p class="text-xs pt-2" style="color: var(--color-muted-foreground);">Salesforce Developer Edition org configuration for TechGears Ltd.</p>
       </div>
     </section>
 
@@ -342,18 +342,18 @@ const [triggerHtml, handlerHtml, serviceReportHtml, productCatalogHtml, caseDash
     <section class="mb-16">
       <div class="border-l-4 pl-6 mb-8" style="border-color: var(--blue);">
         <h2 class="text-xs font-bold uppercase tracking-widest mb-1" style="color: var(--blue);">Section 01</h2>
-        <p class="text-2xl font-bold" style="color: var(--ink);">Project Setup & Configuration</p>
+        <p class="font-display text-2xl font-bold" style="color: var(--ink);">Project Setup & Configuration</p>
       </div>
 
       <h3 class="text-base font-bold mb-4 uppercase tracking-wider" style="color: var(--ink);">Org Configuration</h3>
-      <p class="leading-relaxed mb-8 text-base" style="color: #374151;">
+      <p class="leading-relaxed mb-8 text-base" style="color: var(--color-foreground);">
         The Salesforce implementation began with configuring a Developer Edition org: company details, fiscal year, currency settings, and a role hierarchy aligned to TechGears' sales and support structure.
       </p>
 
       <div class="grid sm:grid-cols-2 gap-10 mb-4">
         <div>
           <h4 class="text-xs font-bold uppercase tracking-widest mb-3" style="color: var(--blue);">Company Information</h4>
-          <ul class="space-y-2 text-sm list-none" style="color: #374151;">
+          <ul class="space-y-2 text-sm list-none" style="color: var(--color-foreground);">
             <li><strong>Name:</strong> TechGears Ltd.</li>
             <li><strong>Industry:</strong> Technology Solutions</li>
             <li><strong>Services:</strong> Enterprise Software, IT Solutions, Product Management</li>
@@ -361,14 +361,14 @@ const [triggerHtml, handlerHtml, serviceReportHtml, productCatalogHtml, caseDash
         </div>
         <div>
           <h4 class="text-xs font-bold uppercase tracking-widest mb-3" style="color: var(--blue);">Salesforce User Profiles</h4>
-          <ul class="space-y-2 text-sm list-none" style="color: #374151;">
+          <ul class="space-y-2 text-sm list-none" style="color: var(--color-foreground);">
             <li>Sales Representatives: Opportunity and Account management</li>
             <li>Support Agents: Case handling and service request resolution</li>
             <li>System Administrators: Full platform configuration access</li>
           </ul>
         </div>
       </div>
-      <p class="text-sm" style="color: #6b7280;">Profile-level permission sets enforce field-level security and object access across each user group.</p>
+      <p class="text-sm" style="color: var(--color-muted-foreground);">Profile-level permission sets enforce field-level security and object access across each user group.</p>
     </section>
 
     <hr class="mb-16" style="border-color: var(--taupe);" />
@@ -377,7 +377,7 @@ const [triggerHtml, handlerHtml, serviceReportHtml, productCatalogHtml, caseDash
     <section class="mb-16">
       <div class="border-l-4 pl-6 mb-8" style="border-color: var(--blue);">
         <h2 class="text-xs font-bold uppercase tracking-widest mb-1" style="color: var(--blue);">Section 02</h2>
-        <p class="text-2xl font-bold" style="color: var(--ink);">Salesforce Data Model Design</p>
+        <p class="font-display text-2xl font-bold" style="color: var(--ink);">Salesforce Data Model Design</p>
       </div>
 
       <h3 class="text-base font-bold mb-6 uppercase tracking-wider" style="color: var(--ink);">Custom Salesforce Objects</h3>
@@ -389,20 +389,20 @@ const [triggerHtml, handlerHtml, serviceReportHtml, productCatalogHtml, caseDash
         ].map(([name, desc]) => (
           <div class="border-l-2 pl-5 py-1" style="border-color: var(--blue);">
             <p class="font-mono text-sm font-semibold mb-1" style="color: var(--blue);">{name}</p>
-            <p class="text-sm leading-relaxed" style="color: #374151;">{desc}</p>
+            <p class="text-sm leading-relaxed" style="color: var(--color-foreground);">{desc}</p>
           </div>
         ))}
       </div>
       <div class="overflow-hidden mb-14">
         <img src="/assets/custom-objects.jpg" alt="Salesforce custom objects in Schema Builder" class="w-full h-auto" loading="lazy" />
-        <p class="text-xs pt-2" style="color: #6b7280;">Custom object configuration in Salesforce Schema Builder</p>
+        <p class="text-xs pt-2" style="color: var(--color-muted-foreground);">Custom object configuration in Salesforce Schema Builder</p>
       </div>
 
       <h3 class="text-base font-bold mb-6 uppercase tracking-wider" style="color: var(--ink);">Standard Object Customisation</h3>
 
       <div class="mb-10">
         <h4 class="text-xs font-bold uppercase tracking-widest mb-3" style="color: var(--blue);">Account Object</h4>
-        <ul class="space-y-1.5 text-sm mb-6 list-none" style="color: #374151;">
+        <ul class="space-y-1.5 text-sm mb-6 list-none" style="color: var(--color-foreground);">
           <li><strong>Industry</strong>: segment accounts by business type for targeted pipeline management</li>
           <li><strong>Account Tier</strong>: classify VIP and high-value customers for prioritised service</li>
           <li><strong>Customer Since</strong>: track relationship longevity to support renewal and upsell workflows</li>
@@ -415,7 +415,7 @@ const [triggerHtml, handlerHtml, serviceReportHtml, productCatalogHtml, caseDash
 
       <div class="mb-10">
         <h4 class="text-xs font-bold uppercase tracking-widest mb-3" style="color: var(--blue);">Opportunity Object</h4>
-        <ul class="space-y-1.5 text-sm mb-6 list-none" style="color: #374151;">
+        <ul class="space-y-1.5 text-sm mb-6 list-none" style="color: var(--color-foreground);">
           <li><strong>Product Type</strong>: categorise deals by solution type to support sales pipeline segmentation</li>
           <li><strong>Lead Source</strong>: track deal origin for marketing attribution and ROI reporting</li>
           <li><strong>Discount Percentage</strong>: enable customer-specific pricing within Salesforce CPQ workflows</li>
@@ -429,7 +429,7 @@ const [triggerHtml, handlerHtml, serviceReportHtml, productCatalogHtml, caseDash
 
       <div>
         <h4 class="text-xs font-bold uppercase tracking-widest mb-3" style="color: var(--blue);">Case Object</h4>
-        <ul class="space-y-1.5 text-sm mb-6 list-none" style="color: #374151;">
+        <ul class="space-y-1.5 text-sm mb-6 list-none" style="color: var(--color-foreground);">
           <li><strong>TechGear Product</strong>: lookup field linking each Case to the relevant product for product-specific routing</li>
           <li><strong>Case Type</strong>: picklist covering Technical Issue, Warranty Request, Customer Complaint, and General Enquiry</li>
           <li><strong>Resolution Date</strong>: custom date field for SLA tracking and service reporting</li>
@@ -452,10 +452,10 @@ const [triggerHtml, handlerHtml, serviceReportHtml, productCatalogHtml, caseDash
     <section class="mb-16">
       <div class="border-l-4 pl-6 mb-8" style="border-color: var(--blue);">
         <h2 class="text-xs font-bold uppercase tracking-widest mb-1" style="color: var(--blue);">Section 03</h2>
-        <p class="text-2xl font-bold" style="color: var(--ink);">Salesforce Object Relationships</p>
+        <p class="font-display text-2xl font-bold" style="color: var(--ink);">Salesforce Object Relationships</p>
       </div>
 
-      <p class="leading-relaxed mb-10 text-base" style="color: #374151;">
+      <p class="leading-relaxed mb-10 text-base" style="color: var(--color-foreground);">
         Object relationships were designed to enforce Salesforce data integrity, enable cross-object reporting, and support roll-up summary calculations across the custom data model.
       </p>
 
@@ -465,7 +465,7 @@ const [triggerHtml, handlerHtml, serviceReportHtml, productCatalogHtml, caseDash
             <span class="text-xs font-bold uppercase tracking-widest px-2 py-1" style="background-color: rgba(122,139,108,0.12); color: var(--sage);">Lookup</span>
             <p class="font-mono text-sm font-semibold" style="color: var(--ink);">TechGear_Solutions__c → Account</p>
           </div>
-          <p class="text-sm leading-relaxed mb-5" style="color: #374151;">A Lookup relationship connects custom solution records to their parent Account, enabling full customer solution history without enforcing a mandatory Account association.</p>
+          <p class="text-sm leading-relaxed mb-5" style="color: var(--color-foreground);">A Lookup relationship connects custom solution records to their parent Account, enabling full customer solution history without enforcing a mandatory Account association.</p>
           <div class="overflow-hidden"><img src="/assets/tech-solutions-account.jpg" alt="Salesforce Lookup relationship: Solutions to Account" class="w-full h-auto" loading="lazy" /></div>
         </div>
 
@@ -474,7 +474,7 @@ const [triggerHtml, handlerHtml, serviceReportHtml, productCatalogHtml, caseDash
             <span class="text-xs font-bold uppercase tracking-widest px-2 py-1" style="background-color: rgba(37,99,235,0.1); color: var(--blue);">Master-Detail</span>
             <p class="font-mono text-sm font-semibold" style="color: var(--ink);">TechGear_Orders__c → TechGear_Products__c</p>
           </div>
-          <p class="text-sm leading-relaxed mb-5" style="color: #374151;">A Master-Detail relationship tightly couples each order to a parent product record. This enforces cascade delete, unlocks roll-up summary fields, and powers the real-time inventory deduction in the Apex trigger.</p>
+          <p class="text-sm leading-relaxed mb-5" style="color: var(--color-foreground);">A Master-Detail relationship tightly couples each order to a parent product record. This enforces cascade delete, unlocks roll-up summary fields, and powers the real-time inventory deduction in the Apex trigger.</p>
           <div class="overflow-hidden"><img src="/assets/tech-product-order-master.jpg" alt="Salesforce Master-Detail relationship: Orders to Products" class="w-full h-auto" loading="lazy" /></div>
         </div>
       </div>
@@ -486,27 +486,27 @@ const [triggerHtml, handlerHtml, serviceReportHtml, productCatalogHtml, caseDash
     <section class="mb-16">
       <div class="border-l-4 pl-6 mb-8" style="border-color: var(--blue);">
         <h2 class="text-xs font-bold uppercase tracking-widest mb-1" style="color: var(--blue);">Section 04</h2>
-        <p class="text-2xl font-bold" style="color: var(--ink);">Page Layouts and Record Types</p>
+        <p class="font-display text-2xl font-bold" style="color: var(--ink);">Page Layouts and Record Types</p>
       </div>
 
       <div class="space-y-10">
         <div>
           <p class="text-xs font-bold uppercase tracking-widest mb-1" style="color: var(--blue);">Sales Representative Layout</p>
           <h3 class="text-lg font-bold mb-3" style="color: var(--ink);">Opportunity Record Page</h3>
-          <p class="leading-relaxed mb-6 text-sm" style="color: #374151;">The Sales Cloud Opportunity layout surfaces Name, Stage, Close Date, and Amount at the top of the record. Related lists for TechGear Orders and TechGear Solutions allow reps to associate multiple orders and custom solution records to a single deal.</p>
+          <p class="leading-relaxed mb-6 text-sm" style="color: var(--color-foreground);">The Sales Cloud Opportunity layout surfaces Name, Stage, Close Date, and Amount at the top of the record. Related lists for TechGear Orders and TechGear Solutions allow reps to associate multiple orders and custom solution records to a single deal.</p>
           <div class="overflow-hidden"><img src="/assets/opportunity-header-layout.jpg" alt="Salesforce Opportunity page layout for Sales Representatives" class="w-full h-auto" loading="lazy" /></div>
         </div>
 
         <div class="border-t pt-10" style="border-color: var(--taupe);">
           <p class="text-xs font-bold uppercase tracking-widest mb-1" style="color: var(--blue);">Support Agent Layout</p>
           <h3 class="text-lg font-bold mb-3" style="color: var(--ink);">Service Cloud Case Record Page</h3>
-          <p class="leading-relaxed mb-6 text-sm" style="color: #374151;">The Service Cloud Case layout prioritises Case Number, Subject, Priority, and Resolution Date for fast agent triage. Inline editing allows support agents to update Status and CSAT Rating without leaving the record view.</p>
+          <p class="leading-relaxed mb-6 text-sm" style="color: var(--color-foreground);">The Service Cloud Case layout prioritises Case Number, Subject, Priority, and Resolution Date for fast agent triage. Inline editing allows support agents to update Status and CSAT Rating without leaving the record view.</p>
           <div class="overflow-hidden"><img src="/assets/case-page-layout.jpg" alt="Salesforce Case page layout for Support Agents" class="w-full h-auto" loading="lazy" /></div>
         </div>
 
         <div class="border-t pt-10" style="border-color: var(--taupe);">
           <p class="text-xs font-bold uppercase tracking-widest mb-1" style="color: var(--sage);">Administrator Layout</p>
-          <p class="text-sm mt-2" style="color: #374151;">System Administrators have full visibility across all Salesforce objects: Accounts, Opportunities, Cases, TechGear Products, TechGear Solutions, and all custom reporting dashboards.</p>
+          <p class="text-sm mt-2" style="color: var(--color-foreground);">System Administrators have full visibility across all Salesforce objects: Accounts, Opportunities, Cases, TechGear Products, TechGear Solutions, and all custom reporting dashboards.</p>
         </div>
       </div>
     </section>
@@ -517,7 +517,7 @@ const [triggerHtml, handlerHtml, serviceReportHtml, productCatalogHtml, caseDash
     <section class="mb-16">
       <div class="border-l-4 pl-6 mb-8" style="border-color: var(--blue);">
         <h2 class="text-xs font-bold uppercase tracking-widest mb-1" style="color: var(--blue);">Section 05</h2>
-        <p class="text-2xl font-bold" style="color: var(--ink);">Salesforce Flow Automation</p>
+        <p class="font-display text-2xl font-bold" style="color: var(--ink);">Salesforce Flow Automation</p>
       </div>
 
       <div class="space-y-12">
@@ -525,10 +525,10 @@ const [triggerHtml, handlerHtml, serviceReportHtml, productCatalogHtml, caseDash
         <div>
           <p class="text-xs font-bold uppercase tracking-widest mb-1" style="color: var(--blue);">Flow 01</p>
           <h3 class="text-lg font-bold mb-4" style="color: var(--ink);">Automated Order Creation on Closed Won</h3>
-          <p class="leading-relaxed mb-5 text-sm" style="color: #374151;">A Salesforce Record-Triggered Flow fires when an Opportunity stage changes to Closed Won, automatically generating a linked <span class="font-mono text-xs px-1 py-0.5" style="background-color: rgba(122,139,108,0.12); color: var(--sage);">TechGear_Orders__c</span> record with no manual input required from the sales team.</p>
+          <p class="leading-relaxed mb-5 text-sm" style="color: var(--color-foreground);">A Salesforce Record-Triggered Flow fires when an Opportunity stage changes to Closed Won, automatically generating a linked <span class="font-mono text-xs px-1 py-0.5" style="background-color: rgba(122,139,108,0.12); color: var(--sage);">TechGear_Orders__c</span> record with no manual input required from the sales team.</p>
           <div class="mb-6 pl-4 border-l-2" style="border-color: var(--blue);">
             <p class="text-xs font-bold uppercase tracking-widest mb-1.5" style="color: var(--blue);">Business Impact</p>
-            <p class="text-sm" style="color: #374151;">Eliminated 5 to 10 minutes of manual order entry per closed deal and removed data entry errors in the sales-to-fulfilment handoff.</p>
+            <p class="text-sm" style="color: var(--color-foreground);">Eliminated 5 to 10 minutes of manual order entry per closed deal and removed data entry errors in the sales-to-fulfilment handoff.</p>
           </div>
           <div class="overflow-hidden"><img src="/assets/order-auto-flow.jpg" alt="Salesforce Flow: automated order creation on Closed Won" class="h-auto max-w-lg" loading="lazy" /></div>
         </div>
@@ -536,15 +536,15 @@ const [triggerHtml, handlerHtml, serviceReportHtml, productCatalogHtml, caseDash
         <div class="border-t pt-12" style="border-color: var(--taupe);">
           <p class="text-xs font-bold uppercase tracking-widest mb-1" style="color: var(--blue);">Flow 02</p>
           <h3 class="text-lg font-bold mb-4" style="color: var(--ink);">Intelligent Case Routing and Assignment</h3>
-          <p class="leading-relaxed mb-6 text-sm" style="color: #374151;">A Salesforce Flow routes each new Case to the correct support agent based on Case Type and customer region, removing manual queue management and reducing first-response time.</p>
+          <p class="leading-relaxed mb-6 text-sm" style="color: var(--color-foreground);">A Salesforce Flow routes each new Case to the correct support agent based on Case Type and customer region, removing manual queue management and reducing first-response time.</p>
           <div class="overflow-hidden"><img src="/assets/case-assig-flow.jpg" alt="Salesforce Flow: intelligent case assignment and routing" class="h-auto max-w-lg" loading="lazy" /></div>
         </div>
 
         <div class="border-t pt-12" style="border-color: var(--taupe);">
           <p class="text-xs font-bold uppercase tracking-widest mb-1" style="color: var(--blue);">Flow 03</p>
           <h3 class="text-lg font-bold mb-4" style="color: var(--ink);">Scheduled Lead Re-Engagement Flow</h3>
-          <p class="leading-relaxed mb-3 text-sm" style="color: #374151;">A Scheduled Salesforce Flow runs daily to identify Leads with no contact activity in 30 or more days, triggers automated re-engagement emails, and reassigns each Lead to the next available sales representative.</p>
-          <p class="text-sm mb-6" style="color: #6b7280;">A custom formula field calculates days since last contact, making the entire re-engagement workflow self-managing after initial setup.</p>
+          <p class="leading-relaxed mb-3 text-sm" style="color: var(--color-foreground);">A Scheduled Salesforce Flow runs daily to identify Leads with no contact activity in 30 or more days, triggers automated re-engagement emails, and reassigns each Lead to the next available sales representative.</p>
+          <p class="text-sm mb-6" style="color: var(--color-muted-foreground);">A custom formula field calculates days since last contact, making the entire re-engagement workflow self-managing after initial setup.</p>
           <div class="overflow-hidden"><img src="/assets/lead-nurt-flow.jpg" alt="Salesforce Scheduled Flow: lead nurturing and re-engagement" class="h-auto max-w-lg" loading="lazy" /></div>
         </div>
 
@@ -557,7 +557,7 @@ const [triggerHtml, handlerHtml, serviceReportHtml, productCatalogHtml, caseDash
     <section class="mb-16">
       <div class="border-l-4 pl-6 mb-8" style="border-color: var(--blue);">
         <h2 class="text-xs font-bold uppercase tracking-widest mb-1" style="color: var(--blue);">Section 06</h2>
-        <p class="text-2xl font-bold" style="color: var(--ink);">Custom Apex Development</p>
+        <p class="font-display text-2xl font-bold" style="color: var(--ink);">Custom Apex Development</p>
       </div>
 
       <div class="space-y-16">
@@ -566,14 +566,14 @@ const [triggerHtml, handlerHtml, serviceReportHtml, productCatalogHtml, caseDash
         <div>
           <p class="text-xs font-bold uppercase tracking-widest mb-1" style="color: var(--blue);">Apex Trigger 01</p>
           <h3 class="text-lg font-bold mb-4" style="color: var(--ink);">Real-Time Inventory Validation</h3>
-          <p class="leading-relaxed mb-5 text-sm" style="color: #374151;">An Apex trigger on <span class="font-mono text-xs px-1 py-0.5" style="background-color: rgba(122,139,108,0.12); color: var(--sage);">TechGear_Orders__c</span> prevents inventory overselling by validating product stock levels on every insert. If insufficient stock is detected, the DML transaction is blocked and a descriptive validation error is returned directly to the user.</p>
+          <p class="leading-relaxed mb-5 text-sm" style="color: var(--color-foreground);">An Apex trigger on <span class="font-mono text-xs px-1 py-0.5" style="background-color: rgba(122,139,108,0.12); color: var(--sage);">TechGear_Orders__c</span> prevents inventory overselling by validating product stock levels on every insert. If insufficient stock is detected, the DML transaction is blocked and a descriptive validation error is returned directly to the user.</p>
 
           <div class="mb-5 pl-4 border-l-2" style="border-color: #dc2626;">
             <p class="text-xs font-bold uppercase tracking-widest mb-1.5" style="color: #dc2626;">The Business Problem Solved</p>
-            <p class="text-sm" style="color: #374151;">Without this trigger, two reps could simultaneously commit to a combined 110 units against a stock of 100. The Apex trigger prevents this race condition by performing a real-time stock check and rejecting any order that would result in negative inventory.</p>
+            <p class="text-sm" style="color: var(--color-foreground);">Without this trigger, two reps could simultaneously commit to a combined 110 units against a stock of 100. The Apex trigger prevents this race condition by performing a real-time stock check and rejecting any order that would result in negative inventory.</p>
           </div>
 
-          <ul class="space-y-1.5 text-sm mb-6 list-none" style="color: #374151;">
+          <ul class="space-y-1.5 text-sm mb-6 list-none" style="color: var(--color-foreground);">
             <li><span class="font-mono text-xs px-1 py-0.5" style="background-color: rgba(122,139,108,0.12); color: var(--sage);">after insert</span> context for post-commit stock validation</li>
             <li>Bulkified using <span class="font-mono text-xs px-1 py-0.5" style="background-color: rgba(122,139,108,0.12); color: var(--sage);">Set</span> and <span class="font-mono text-xs px-1 py-0.5" style="background-color: rgba(122,139,108,0.12); color: var(--sage);">Map</span> collections to support high-volume order processing</li>
             <li>Descriptive <span class="font-mono text-xs px-1 py-0.5" style="background-color: rgba(122,139,108,0.12); color: var(--sage);">addError()</span> messages displayed on the record for immediate user clarity</li>
@@ -582,7 +582,7 @@ const [triggerHtml, handlerHtml, serviceReportHtml, productCatalogHtml, caseDash
 
           <div class="overflow-hidden mb-6">
             <img src="/assets/product-quantity-error-message.jpg" alt="Salesforce Apex trigger validation error: insufficient stock" class="w-full h-auto" loading="lazy" />
-            <p class="text-xs pt-2" style="color: #6b7280;">Apex validation error displayed on the order record when stock is exceeded</p>
+            <p class="text-xs pt-2" style="color: var(--color-muted-foreground);">Apex validation error displayed on the order record when stock is exceeded</p>
           </div>
 
           <div style="background-color: #1e1e2e; border-radius: 2px;">
@@ -600,9 +600,9 @@ const [triggerHtml, handlerHtml, serviceReportHtml, productCatalogHtml, caseDash
         <div class="border-t pt-16" style="border-color: var(--taupe);">
           <p class="text-xs font-bold uppercase tracking-widest mb-1" style="color: var(--blue);">Apex Trigger 02</p>
           <h3 class="text-lg font-bold mb-4" style="color: var(--ink);">Opportunity Stage Change Task Automation</h3>
-          <p class="leading-relaxed mb-5 text-sm" style="color: #374151;">An Apex trigger handler class creates a follow-up Task automatically whenever an Opportunity Stage changes, ensuring sales representatives take timely action at every stage of the Salesforce pipeline without relying on manual reminders.</p>
+          <p class="leading-relaxed mb-5 text-sm" style="color: var(--color-foreground);">An Apex trigger handler class creates a follow-up Task automatically whenever an Opportunity Stage changes, ensuring sales representatives take timely action at every stage of the Salesforce pipeline without relying on manual reminders.</p>
           <div class="mb-6 pl-4 border-l-2" style="border-color: var(--blue);">
-            <p class="text-sm" style="color: #374151;"><span class="font-mono text-xs px-1 py-0.5" style="background-color: rgba(122,139,108,0.12); color: var(--sage);">Trigger.oldMap</span> captures the pre-update record state, which is the correct Salesforce pattern for detecting specific field changes in an after-update Apex trigger context.</p>
+            <p class="text-sm" style="color: var(--color-foreground);"><span class="font-mono text-xs px-1 py-0.5" style="background-color: rgba(122,139,108,0.12); color: var(--sage);">Trigger.oldMap</span> captures the pre-update record state, which is the correct Salesforce pattern for detecting specific field changes in an after-update Apex trigger context.</p>
           </div>
           <div style="background-color: #1e1e2e; border-radius: 2px;">
             <div class="px-5 py-3 border-b flex items-center gap-2" style="border-color: rgba(255,255,255,0.06);">
@@ -619,8 +619,8 @@ const [triggerHtml, handlerHtml, serviceReportHtml, productCatalogHtml, caseDash
         <div class="border-t pt-16" style="border-color: var(--taupe);">
           <p class="text-xs font-bold uppercase tracking-widest mb-1" style="color: var(--blue);">Invocable Apex Class</p>
           <h3 class="text-lg font-bold mb-4" style="color: var(--ink);">Automated Service Report Generator</h3>
-          <p class="leading-relaxed mb-5 text-sm" style="color: #374151;">An <span class="font-mono text-xs px-1 py-0.5" style="background-color: rgba(122,139,108,0.12); color: var(--sage);">@InvocableMethod</span> Apex class that automatically generates a service report document when a Salesforce Case is closed. Callable from Flow, Process Builder, or any programmatic Apex context.</p>
-          <ul class="space-y-1.5 text-sm mb-6 list-none" style="color: #374151;">
+          <p class="leading-relaxed mb-5 text-sm" style="color: var(--color-foreground);">An <span class="font-mono text-xs px-1 py-0.5" style="background-color: rgba(122,139,108,0.12); color: var(--sage);">@InvocableMethod</span> Apex class that automatically generates a service report document when a Salesforce Case is closed. Callable from Flow, Process Builder, or any programmatic Apex context.</p>
+          <ul class="space-y-1.5 text-sm mb-6 list-none" style="color: var(--color-foreground);">
             <li>Case Number, Subject, and parent Account name</li>
             <li>Linked TechGear Product and assigned Support Agent</li>
             <li>Resolution Date and full issue description</li>
@@ -646,7 +646,7 @@ const [triggerHtml, handlerHtml, serviceReportHtml, productCatalogHtml, caseDash
     <section class="mb-16">
       <div class="border-l-4 pl-6 mb-8" style="border-color: var(--blue);">
         <h2 class="text-xs font-bold uppercase tracking-widest mb-1" style="color: var(--blue);">Section 07</h2>
-        <p class="text-2xl font-bold" style="color: var(--ink);">Lightning Web Component Development</p>
+        <p class="font-display text-2xl font-bold" style="color: var(--ink);">Lightning Web Component Development</p>
       </div>
 
       <div class="space-y-16">
@@ -654,7 +654,7 @@ const [triggerHtml, handlerHtml, serviceReportHtml, productCatalogHtml, caseDash
         <div>
           <p class="text-xs font-bold uppercase tracking-widest mb-1" style="color: var(--blue);">LWC 01</p>
           <h3 class="text-lg font-bold mb-4" style="color: var(--ink);">Real-Time Product Catalog Component</h3>
-          <p class="leading-relaxed mb-6 text-sm" style="color: #374151;">A custom Lightning Web Component embedded directly on Opportunity records. Sales reps see live product availability from Salesforce and can add products to an Opportunity with a single click, with immediate toast feedback for success and error states.</p>
+          <p class="leading-relaxed mb-6 text-sm" style="color: var(--color-foreground);">A custom Lightning Web Component embedded directly on Opportunity records. Sales reps see live product availability from Salesforce and can add products to an Opportunity with a single click, with immediate toast feedback for success and error states.</p>
           <div style="background-color: #1e1e2e; border-radius: 2px;" class="mb-6">
             <div class="px-5 py-3 border-b flex items-center gap-2" style="border-color: rgba(255,255,255,0.06);">
               <span class="w-3 h-3 rounded-full" style="background-color: #ff5f57;"></span>
@@ -670,7 +670,7 @@ const [triggerHtml, handlerHtml, serviceReportHtml, productCatalogHtml, caseDash
         <div class="border-t pt-16" style="border-color: var(--taupe);">
           <p class="text-xs font-bold uppercase tracking-widest mb-1" style="color: var(--blue);">LWC 02</p>
           <h3 class="text-lg font-bold mb-4" style="color: var(--ink);">Service Cloud Case Management Dashboard</h3>
-          <p class="leading-relaxed mb-6 text-sm" style="color: #374151;">A custom Lightning Web Component for support agents featuring priority-based Case filtering, inline field editing, and bulk record saves via <span class="font-mono text-xs px-1 py-0.5" style="background-color: rgba(122,139,108,0.12); color: var(--sage);">Promise.all</span> for efficient parallel Salesforce record updates.</p>
+          <p class="leading-relaxed mb-6 text-sm" style="color: var(--color-foreground);">A custom Lightning Web Component for support agents featuring priority-based Case filtering, inline field editing, and bulk record saves via <span class="font-mono text-xs px-1 py-0.5" style="background-color: rgba(122,139,108,0.12); color: var(--sage);">Promise.all</span> for efficient parallel Salesforce record updates.</p>
           <div style="background-color: #1e1e2e; border-radius: 2px;">
             <div class="px-5 py-3 border-b flex items-center gap-2" style="border-color: rgba(255,255,255,0.06);">
               <span class="w-3 h-3 rounded-full" style="background-color: #ff5f57;"></span>
@@ -685,11 +685,11 @@ const [triggerHtml, handlerHtml, serviceReportHtml, productCatalogHtml, caseDash
         <div class="border-t pt-16" style="border-color: var(--taupe);">
           <p class="text-xs font-bold uppercase tracking-widest mb-1" style="color: var(--blue);">LWC 03</p>
           <h3 class="text-lg font-bold mb-4" style="color: var(--ink);">Visual Sales Pipeline Opportunity Tracker</h3>
-          <p class="leading-relaxed mb-5 text-sm" style="color: #374151;">A Lightning Web Component that visualises the full sales pipeline as progress bars mapped to each Salesforce Opportunity stage. Sales managers get an instant view of deal velocity across the team without opening individual records.</p>
+          <p class="leading-relaxed mb-5 text-sm" style="color: var(--color-foreground);">A Lightning Web Component that visualises the full sales pipeline as progress bars mapped to each Salesforce Opportunity stage. Sales managers get an instant view of deal velocity across the team without opening individual records.</p>
           <div class="mb-6 pl-4 border-l-2" style="border-color: var(--blue);">
             <p class="text-xs font-bold uppercase tracking-widest mb-2" style="color: var(--blue);">How It Works</p>
-            <p class="text-sm mb-2" style="color: #374151;"><strong>System:</strong> An Apex controller queries recent Opportunities via SOQL. The LWC JavaScript maps each StageName to a numeric progress value, and the <span class="font-mono text-xs px-1 py-0.5" style="background-color: rgba(122,139,108,0.12); color: var(--sage);">lightning-progress-bar</span> base component renders the result.</p>
-            <p class="text-sm" style="color: #374151;"><strong>User:</strong> Sales reps and managers open the dashboard to see the full pipeline at a glance. Deals at 90% or above appear green, mid-stage deals yellow, and early-stage deals red.</p>
+            <p class="text-sm mb-2" style="color: var(--color-foreground);"><strong>System:</strong> An Apex controller queries recent Opportunities via SOQL. The LWC JavaScript maps each StageName to a numeric progress value, and the <span class="font-mono text-xs px-1 py-0.5" style="background-color: rgba(122,139,108,0.12); color: var(--sage);">lightning-progress-bar</span> base component renders the result.</p>
+            <p class="text-sm" style="color: var(--color-foreground);"><strong>User:</strong> Sales reps and managers open the dashboard to see the full pipeline at a glance. Deals at 90% or above appear green, mid-stage deals yellow, and early-stage deals red.</p>
           </div>
           <div style="background-color: #1e1e2e; border-radius: 2px;" class="mb-6">
             <div class="px-5 py-3 border-b flex items-center gap-2" style="border-color: rgba(255,255,255,0.06);">
@@ -712,12 +712,12 @@ const [triggerHtml, handlerHtml, serviceReportHtml, productCatalogHtml, caseDash
     <section class="mb-16">
       <div class="border-l-4 pl-6 mb-8" style="border-color: var(--blue);">
         <h2 class="text-xs font-bold uppercase tracking-widest mb-1" style="color: var(--blue);">Section 08</h2>
-        <p class="text-2xl font-bold" style="color: var(--ink);">Salesforce REST API Integration</p>
+        <p class="font-display text-2xl font-bold" style="color: var(--ink);">Salesforce REST API Integration</p>
       </div>
 
       <h3 class="text-lg font-bold mb-4" style="color: var(--ink);">External REST API Callout: OpenWeatherMap</h3>
-      <p class="leading-relaxed mb-3 text-sm" style="color: #374151;">A Salesforce REST API callout to OpenWeatherMap was built to demonstrate enterprise integration best practices: Named Credentials for secure endpoint management, a dedicated Apex HttpCallout wrapper class, structured error handling with try-catch, and Remote Site Settings configuration.</p>
-      <p class="text-sm mb-6" style="color: #6b7280;">This Salesforce integration pattern is production-ready and directly reusable for payment processors, logistics providers, ERP systems such as SAP or NetSuite, and any HTTP-based third-party service.</p>
+      <p class="leading-relaxed mb-3 text-sm" style="color: var(--color-foreground);">A Salesforce REST API callout to OpenWeatherMap was built to demonstrate enterprise integration best practices: Named Credentials for secure endpoint management, a dedicated Apex HttpCallout wrapper class, structured error handling with try-catch, and Remote Site Settings configuration.</p>
+      <p class="text-sm mb-6" style="color: var(--color-muted-foreground);">This Salesforce integration pattern is production-ready and directly reusable for payment processors, logistics providers, ERP systems such as SAP or NetSuite, and any HTTP-based third-party service.</p>
       <div class="overflow-hidden"><img src="/assets/weather-api.jpg" alt="Salesforce REST API integration: external callout with Named Credentials" class="w-full h-auto" loading="lazy" /></div>
     </section>
 
@@ -727,7 +727,7 @@ const [triggerHtml, handlerHtml, serviceReportHtml, productCatalogHtml, caseDash
     <section class="mb-16">
       <div class="border-l-4 pl-6 mb-8" style="border-color: var(--blue);">
         <h2 class="text-xs font-bold uppercase tracking-widest mb-1" style="color: var(--blue);">Summary</h2>
-        <p class="text-2xl font-bold" style="color: var(--ink);">Key Outcomes and Business Impact</p>
+        <p class="font-display text-2xl font-bold" style="color: var(--ink);">Key Outcomes and Business Impact</p>
       </div>
       <ul class="space-y-5">
         {[
@@ -740,7 +740,7 @@ const [triggerHtml, handlerHtml, serviceReportHtml, productCatalogHtml, caseDash
         ].map(([title, desc]) => (
           <li class="flex items-start gap-4">
             <span class="mt-0.5 text-sm font-bold shrink-0" style="color: var(--blue);">✓</span>
-            <span class="text-sm leading-relaxed"><strong>{title}:</strong> <span style="color: #374151;">{desc}</span></span>
+            <span class="text-sm leading-relaxed"><strong>{title}:</strong> <span style="color: var(--color-foreground);">{desc}</span></span>
           </li>
         ))}
       </ul>
@@ -751,7 +751,7 @@ const [triggerHtml, handlerHtml, serviceReportHtml, productCatalogHtml, caseDash
     <!-- Technical Skills -->
     <section class="mb-16">
       <div class="border-l-4 pl-6 mb-8" style="border-color: var(--blue);">
-        <p class="text-2xl font-bold" style="color: var(--ink);">Salesforce Skills Demonstrated</p>
+        <p class="font-display text-2xl font-bold" style="color: var(--ink);">Salesforce Skills Demonstrated</p>
       </div>
       <div class="grid sm:grid-cols-2 gap-x-12 gap-y-8">
         {[
@@ -764,7 +764,7 @@ const [triggerHtml, handlerHtml, serviceReportHtml, productCatalogHtml, caseDash
             <h4 class="text-xs font-bold uppercase tracking-widest mb-4" style="color: var(--blue);">{title}</h4>
             <ul class="space-y-2 list-none">
               {(items as string[]).map(item => (
-                <li class="text-sm" style="color: #374151;">{item}</li>
+                <li class="text-sm" style="color: var(--color-foreground);">{item}</li>
               ))}
             </ul>
           </div>

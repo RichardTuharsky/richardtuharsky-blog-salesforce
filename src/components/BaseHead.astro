@@ -116,7 +116,6 @@ const isProduction = import.meta.env.PROD;
   />
   {isProduction && <Analytics />}
   <ClientRouter />
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Cossette+Texte:wght@400;700&family=Dancing+Script:wght@600&family=IBM+Plex+Mono:wght@400;500&family=Oswald:wght@200..700&display=swap" rel="stylesheet" />
+  <meta name="theme-color" content="#fafafa" media="(prefers-color-scheme: light)" />
+  <meta name="theme-color" content="#0a0a0a" media="(prefers-color-scheme: dark)" />
 </head>

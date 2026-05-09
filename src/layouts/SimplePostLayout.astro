@@ -5,6 +5,7 @@ import Link from "../components/Link.astro";
 import RootLayout from "./RootLayout.astro";
 import { type CollectionEntry, getEntries, render } from "astro:content";
 import FormattedDate from "../components/FormattedDate.astro";
+import Tag from "../components/Tag.astro";
 import ScrollTopAndComments from "@/components/solidjs/ScrollTopAndComments.tsx";
 import PostCover from "../components/PostCover.astro";
 import DetailsSummary from "../components/DetailsSummary.astro";
@@ -22,11 +23,8 @@ interface Props {
 }
 
 const { post, next, prev } = Astro.props as Props;
-const authors: CollectionEntry<"authors">[] = await getEntries(
-  post.data.authors
-);
+const authors: CollectionEntry<"authors">[] = await getEntries(post.data.authors);
 const tags: CollectionEntry<"tags">[] = await getEntries(post.data.tags);
-// const related: CollectionEntry<'blog'>[] = await getEntries(post.data.related);
 
 const articleOgDetails = {
   publishedTime: post.data.date,
@@ -47,146 +45,108 @@ const { Content, headings } = await render(post);
 >
   <SectionContainer>
     <ScrollTopAndComments client:only="solid-js" />
-    <article>
-      <header>
-        <div class="space-y-1 pb-10 text-center dark:border-gray-700">
-          <dl>
-            <dt class="sr-only">{t("layouts.postLayout.publishedAt")}</dt>
-            <dd
-              class="text-base font-medium leading-6 text-gray-500 dark:text-gray-400"
-            >
-              <FormattedDate date={post.data.date} />
-            </dd>
-          </dl>
-          <PageTitle>{post.data.title}</PageTitle>
-        </div>
-        {
-          post.data.cover && POST_METADATA.showCover && (
-            <div class="space-y-1 pb-10 text-center dark:border-gray-700">
-              <PostCover {post} />
-            </div>
-          )
-        }
-        {
-          POST_METADATA.showSummary && (
-            <div class="pb-10 text-center border-b border-gray-200">
-              <p>{post.data.summary}</p>
-            </div>
-          )
-        }
+    <article class="py-10 max-w-3xl mx-auto">
+      <!-- Header -->
+      <header class="mb-10 text-center" data-animate>
+        <time class="font-mono text-xs text-muted-foreground tracking-wide block mb-6">
+          <FormattedDate date={post.data.date} />
+        </time>
+        <PageTitle>{post.data.title}</PageTitle>
+        {POST_METADATA.showSummary && post.data.summary && (
+          <p class="mt-4 text-lg text-muted-foreground leading-relaxed">
+            {post.data.summary}
+          </p>
+        )}
+        {tags.length > 0 && POST_METADATA.showTags && (
+          <div class="flex flex-wrap justify-center gap-2 mt-6">
+            {tags.map((tag) => <Tag tag={tag} />)}
+          </div>
+        )}
       </header>
-      <div
-        class="grid-rows-[auto_1fr] divide-y divide-gray-200 pb-8 dark:divide-gray-700 xl:divide-y-0"
-      >
-        {
-          post.data.draft && (
-            <div class="bg-yellow-50 border-l-4 border-yellow-400 p-4 dark:bg-yellow-500 dark:border-yellow-300 mt-10">
-              <p class="leading-5 text-yellow-700 dark:text-yellow-300">
-                {t("layouts.postLayout.draftMessage")}
-              </p>
-            </div>
-          )
-        }
-        {
-          ["top", "both"].includes(POST_METADATA.showShareButtons) ? (
-            <SocialShareButtons
-              title={post.data.title}
-              description={post.data.summary}
-              class="mt-4"
-            />
-          ) : null
-        }
-        {
-          headings.length > 0 && POST_METADATA.showTableOfContents && (
-            <DetailsSummary
-              class="border border-gray-100 dark:border-gray-600 rounded mt-4 max-w-none"
-              title={t("layouts.postLayout.tableOfContents")}
-            >
-              <ul class="space-y-2 list-none mt-0 ps-0">
-                {headings.map(({ slug, text, depth }) => (
-                  <li
-                    class:list={{
-                      "ml-0": depth === 2,
-                      "ml-4": depth === 3,
-                      "ml-8": depth === 4,
-                      "ml-12": depth === 5,
-                      "ml-16": depth === 6,
-                    }}
-                  >
-                    <Link href={`#${slug}`} class="no-underline">
-                      {text}
-                    </Link>
-                  </li>
-                ))}
-              </ul>
-            </DetailsSummary>
-          )
-        }
-        <div
-          class="divide-y divide-gray-200 dark:divide-gray-700 xl:col-span-3 xl:row-span-2 xl:pb-0"
-        >
-          <div class="prose max-w-none pb-8 pt-10 dark:prose-invert">
-            <slot />
-            <Content />
-          </div>
+
+      {post.data.cover && POST_METADATA.showCover && (
+        <div class="mb-12 rounded-xl overflow-hidden" data-animate>
+          <PostCover {post} />
         </div>
-        {
-          ["bottom", "both"].includes(POST_METADATA.showShareButtons) ? (
-            <SocialShareButtons
-              title={post.data.title}
-              description={post.data.summary}
-            />
-          ) : null
-        }
-        {
-          SITE_METADATA.comments?.provider === 'giscus' && POST_METADATA.showComments && (
-            <div id="comments">
-              <Comments />
-            </div>
-          )
-        }
-        <!--{siteMetadata.comments && (-->
-        <!--        <div class="pb-6 pt-6 text-center text-gray-700 dark:text-gray-300" id="comment">-->
-        <!--            <Comments slug={slug} />-->
-        <!--        </div>-->
-        <!--)}-->
-        <footer>
-          <div
-            class="flex flex-col text-sm font-medium sm:flex-row sm:justify-between sm:text-base"
+      )}
+
+      {post.data.draft && (
+        <div class="mb-6 rounded-lg border border-yellow-300 bg-yellow-50 p-4 dark:bg-yellow-950/30 dark:border-yellow-800">
+          <p class="text-sm leading-relaxed text-yellow-700 dark:text-yellow-400">
+            {t("layouts.postLayout.draftMessage")}
+          </p>
+        </div>
+      )}
+
+      {["top", "both"].includes(POST_METADATA.showShareButtons) && (
+        <SocialShareButtons title={post.data.title} description={post.data.summary} class="mb-6" />
+      )}
+
+      {headings.length > 0 && POST_METADATA.showTableOfContents && (
+        <div class="mb-8">
+          <DetailsSummary
+            class="border border-border rounded-xl"
+            title={t("layouts.postLayout.tableOfContents")}
           >
-            {
-              prev && (
-                <div class="pt-4 xl:pt-8">
-                  <Link
-                    href={`/blog/${prev.id}`}
-                    class="text-primary-500 hover:text-primary-600 dark:hover:text-primary-400"
-                    aria-label={t("layouts.postLayout.previousPost", {
-                      title: prev.data.title,
-                    })}
-                  >
-                    &larr; {prev.data.title}
+            <ul class="space-y-2 list-none mt-0 ps-0">
+              {headings.map(({ slug, text, depth }) => (
+                <li
+                  class:list={{
+                    "ml-0": depth === 2,
+                    "ml-4": depth === 3,
+                    "ml-8": depth === 4,
+                    "ml-12": depth === 5,
+                    "ml-16": depth === 6,
+                  }}
+                >
+                  <Link href={`#${slug}`} class="text-sm text-muted-foreground hover:text-accent transition-colors duration-200">
+                    {text}
                   </Link>
-                </div>
-              )
-            }
-            {
-              next && (
-                <div class="pt-4 xl:pt-8">
-                  <Link
-                    href={`/blog/${next.id}`}
-                    class="text-primary-500 hover:text-primary-600 dark:hover:text-primary-400"
-                    aria-label={t("layouts.postLayout.nextPost", {
-                      title: next.data.title,
-                    })}
-                  >
-                    {next.data.title} &rarr;
-                  </Link>
-                </div>
-              )
-            }
-          </div>
-        </footer>
+                </li>
+              ))}
+            </ul>
+          </DetailsSummary>
+        </div>
+      )}
+
+      <div class="prose prose-lg max-w-none dark:prose-invert prose-headings:font-display prose-headings:tracking-tight prose-a:text-accent prose-a:no-underline hover:prose-a:underline prose-code:font-mono prose-code:text-sm pb-10 pt-2">
+        <slot />
+        <Content />
       </div>
+
+      {["bottom", "both"].includes(POST_METADATA.showShareButtons) && (
+        <SocialShareButtons title={post.data.title} description={post.data.summary} />
+      )}
+
+      {SITE_METADATA.comments?.provider === "giscus" && POST_METADATA.showComments && (
+        <div id="comments" class="mt-10">
+          <Comments />
+        </div>
+      )}
+
+      <!-- Prev/Next -->
+      <footer class="mt-10 pt-8 border-t border-border">
+        <div class="flex flex-col sm:flex-row sm:justify-between gap-4 text-sm">
+          {prev && (
+            <Link
+              href={`/blog/${prev.id}`}
+              class="text-muted-foreground hover:text-accent transition-colors duration-200"
+              aria-label={t("layouts.simplePostLayout.previousPost", { title: prev.data.title })}
+            >
+              ← {prev.data.title}
+            </Link>
+          )}
+          {next && (
+            <Link
+              href={`/blog/${next.id}`}
+              class="text-muted-foreground hover:text-accent transition-colors duration-200 sm:ml-auto"
+              aria-label={t("layouts.simplePostLayout.nextPost", { title: next.data.title })}
+            >
+              {next.data.title} →
+            </Link>
+          )}
+        </div>
+      </footer>
     </article>
   </SectionContainer>
 </RootLayout>

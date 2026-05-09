@@ -23,6 +23,15 @@ importers:
       '@astrojs/solid-js':
         specifier: ^5.1.3
         version: 5.1.3(jiti@2.6.1)(lightningcss@1.30.2)(solid-js@1.9.11)(yaml@2.8.2)
+      '@fontsource/calistoga':
+        specifier: ^5.2.7
+        version: 5.2.7
+      '@fontsource/inter':
+        specifier: ^5.2.8
+        version: 5.2.8
+      '@fontsource/jetbrains-mono':
+        specifier: ^5.2.8
+        version: 5.2.8
       '@fontsource/onest':
         specifier: ^5.2.11
         version: 5.2.11
@@ -387,6 +396,15 @@ packages:
     engines: {node: '>=18'}
     cpu: [x64]
     os: [win32]
+
+  '@fontsource/calistoga@5.2.7':
+    resolution: {integrity: sha512-D7cSaK1b5pWbPw7Z95QWcHCouTwOAysHCGSIHSLq6fuQOJR4m/zHILOyBuAQNjQo1u0cTrWiGdll1gE08eG4jA==}
+
+  '@fontsource/inter@5.2.8':
+    resolution: {integrity: sha512-P6r5WnJoKiNVV+zvW2xM13gNdFhAEpQ9dQJHt3naLvfg+LkF2ldgSLiF4T41lf1SQCM9QmkqPTn4TH568IRagg==}
+
+  '@fontsource/jetbrains-mono@5.2.8':
+    resolution: {integrity: sha512-6w8/SG4kqvIMu7xd7wt6x3idn1Qux3p9N62s6G3rfldOUYHpWcc2FKrqf+Vo44jRvqWj2oAtTHrZXEP23oSKwQ==}
 
   '@fontsource/onest@5.2.11':
     resolution: {integrity: sha512-YDOHuJ+HFf4rl6+vBzEoAGul+GyEOIlziepq+7UDT4839LyiFU1clVZqNmqmCRjwWidPTMUJIv1k9e+5UtuQOw==}
@@ -2816,6 +2834,12 @@ snapshots:
 
   '@esbuild/win32-x64@0.25.12':
     optional: true
+
+  '@fontsource/calistoga@5.2.7': {}
+
+  '@fontsource/inter@5.2.8': {}
+
+  '@fontsource/jetbrains-mono@5.2.8': {}
 
   '@fontsource/onest@5.2.11': {}
 

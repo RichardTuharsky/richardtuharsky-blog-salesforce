@@ -4,7 +4,6 @@ import BaseHead from "../components/BaseHead.astro";
 import Header from "../components/Header.astro";
 import Footer from "../components/Footer.astro";
 import SectionContainer from "../components/SectionContainer.astro";
-
 import { useTranslations } from "@/i18n";
 
 const t = useTranslations();
@@ -27,9 +26,9 @@ type Props = {
 
 <html lang={t("siteMetadata.language")} class="scroll-smooth">
   <BaseHead {...Astro.props} />
-  <body class="bg-[#f7f8fa] text-slate-900 antialiased">
+  <body class="bg-background text-foreground antialiased font-sans">
     <SectionContainer>
-      <div class="flex min-h-screen flex-col justify-between font-sans">
+      <div class="flex min-h-screen flex-col justify-between">
         <Header />
         <main class="mb-auto">
           <slot />
@@ -37,5 +36,22 @@ type Props = {
         <Footer />
       </div>
     </SectionContainer>
+
+    <script>
+      // Entrance animation IntersectionObserver
+      const items = document.querySelectorAll<HTMLElement>("[data-animate]");
+      const io = new IntersectionObserver(
+        (entries) => {
+          for (const e of entries) {
+            if (e.isIntersecting) {
+              (e.target as HTMLElement).dataset.animateIn = "true";
+              io.unobserve(e.target);
+            }
+          }
+        },
+        { threshold: 0.1, rootMargin: "-40px" }
+      );
+      items.forEach((el) => io.observe(el));
+    </script>
   </body>
 </html>

@@ -1,93 +1,175 @@
+@import "@fontsource/inter/400.css";
+@import "@fontsource/inter/500.css";
+@import "@fontsource/inter/600.css";
+@import "@fontsource/inter/700.css";
+@import "@fontsource/calistoga/400.css";
+@import "@fontsource/jetbrains-mono/400.css";
+@import "@fontsource/jetbrains-mono/500.css";
 @import "tailwindcss";
 @plugin "@tailwindcss/typography";
 @plugin "@tailwindcss/forms";
 
-@custom-variant dark (&&:where(.dark, .dark *));
-
-:root {
-    --cream: #fafaf8;
-    --ink: #1c1c2e;
-    --persimmon: #d4633a;
-    --blue: #2563eb;
-    --sage: #7a8b6c;
-    --taupe: #b8b0a4;
-}
-
-.editorial-shadow {
-    box-shadow: 3px 3px 0 rgba(0, 0, 0, 0.07);
-}
+@custom-variant dark (&:where(.dark, .dark *));
 
 @theme {
-    --font-sans: "Cossette Texte", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
-        sans-serif;
+  /* Typography */
+  --font-display: "Calistoga", Georgia, serif;
+  --font-sans: "Inter", system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, "Courier New", monospace;
 
-    /* Additional line-heights that existed in the Tailwind v3 config */
-    --line-height-11: 2.75rem;
-    --line-height-12: 3rem;
-    --line-height-13: 3.25rem;
-    --line-height-14: 3.5rem;
+  /* Color tokens — light mode defaults */
+  --color-background: #fafafa;
+  --color-foreground: #0f172a;
+  --color-muted: #f1f5f9;
+  --color-muted-foreground: #64748b;
+  --color-accent: #0052ff;
+  --color-accent-secondary: #4d7cff;
+  --color-accent-foreground: #ffffff;
+  --color-border: #e2e8f0;
+  --color-card: #ffffff;
+  --color-ring: #0052ff;
 
-    /* Map custom primary color scale to indigo for tech/business branding */
-    --color-primary-50: var(--color-blue-50);
-    --color-primary-100: var(--color-blue-100);
-    --color-primary-200: var(--color-blue-200);
-    --color-primary-300: var(--color-blue-300);
-    --color-primary-400: var(--color-blue-400);
-    --color-primary-500: var(--color-blue-500);
-    --color-primary-600: var(--color-blue-600);
-    --color-primary-700: var(--color-blue-700);
-    --color-primary-800: var(--color-blue-800);
-    --color-primary-900: var(--color-blue-900);
-    --color-primary-950: var(--color-blue-950);
+  /* Brand color (Salesforce tag contexts) */
+  --color-sage: #7a8b6c;
+
+  /* Primary scale → accent for legacy primary-* utilities */
+  --color-primary-50: #eff4ff;
+  --color-primary-100: #dbe8ff;
+  --color-primary-200: #bfd4ff;
+  --color-primary-300: #93b5ff;
+  --color-primary-400: #6090ff;
+  --color-primary-500: #0052ff;
+  --color-primary-600: #0042d6;
+  --color-primary-700: #0035b0;
+  --color-primary-800: #002d8f;
+  --color-primary-900: #002777;
+  --color-primary-950: #001552;
+
+  /* Accent-tinted shadows */
+  --shadow-accent: 0 4px 14px rgb(0 82 255 / 0.25);
+  --shadow-accent-lg: 0 8px 24px rgb(0 82 255 / 0.35);
+
+  /* Animations */
+  --animate-float: float 5s ease-in-out infinite;
+  --animate-float-slow: float 4s ease-in-out infinite;
+  --animate-pulse-soft: pulse-soft 2s ease-in-out infinite;
+  --animate-spin-slow: spin 60s linear infinite;
+  --animate-fade-up: fade-up 0.7s cubic-bezier(0.16, 1, 0.3, 1) both;
+
+  /* Extended line-heights */
+  --line-height-11: 2.75rem;
+  --line-height-12: 3rem;
+  --line-height-13: 3.25rem;
+  --line-height-14: 3.5rem;
 }
 
-html {
-    font-size: 112%;
+/* Dark theme overrides */
+@layer base {
+  :root {
+    color-scheme: light;
+    /* CSS custom properties for inline-style contexts (techgears, etc.) */
+    --blue: #0052ff;
+    --ink: #0f172a;
+    --sage: #7a8b6c;
+    --taupe: #b8b0a4;
+    --cream: #fafafa;
+  }
+
+  .dark {
+    color-scheme: dark;
+    --color-background: #0a0a0a;
+    --color-foreground: #fafafa;
+    --color-muted: #171717;
+    --color-muted-foreground: #a1a1aa;
+    --color-accent: #4d7cff;
+    --color-accent-secondary: #7b9cff;
+    --color-border: #262626;
+    --color-card: #111111;
+    --color-ring: #4d7cff;
+
+    /* Update raw CSS vars for inline-style contexts */
+    --blue: #4d7cff;
+    --ink: #fafafa;
+    --cream: #0a0a0a;
+  }
 }
 
-body {
-    font-weight: 400;
-    background-color: #f7f8fa;
+/* Keyframes */
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50%       { transform: translateY(-10px); }
+}
+@keyframes pulse-soft {
+  0%, 100% { transform: scale(1);   opacity: 1;   }
+  50%       { transform: scale(1.3); opacity: 0.7; }
+}
+@keyframes fade-up {
+  from { opacity: 0; transform: translateY(28px); }
+  to   { opacity: 1; transform: translateY(0); }
 }
 
-h1, h2, h3, h4, h5, h6 {
-    font-weight: 700;
+/* Entrance animation system */
+[data-animate] {
+  opacity: 0;
+  transform: translateY(28px);
+  transition:
+    opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1),
+    transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+}
+[data-animate][data-animate-in="true"] {
+  opacity: 1;
+  transform: translateY(0);
+}
+[data-animate-stagger] > * {
+  transition-delay: calc(var(--i, 0) * 80ms);
+}
+@media (prefers-reduced-motion: reduce) {
+  [data-animate] { opacity: 1; transform: none; transition: none; }
+  .animate-spin-slow, .animate-float, .animate-float-slow, .animate-pulse-soft {
+    animation: none !important;
+  }
 }
 
-.task-list-item::before {
-    @apply hidden;
+/* Gradient text utility */
+.gradient-text {
+  background: linear-gradient(to right, var(--color-accent), var(--color-accent-secondary));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
 }
 
-.task-list-item {
-    @apply list-none;
+/* Gradient border wrapper utility */
+.gradient-border {
+  background: linear-gradient(to bottom right, var(--color-accent), var(--color-accent-secondary), var(--color-accent));
+  padding: 2px;
+  border-radius: 0.75rem;
 }
 
-.footnotes {
-    @apply mt-12 border-t border-gray-200 pt-8 dark:border-gray-700;
+/* Editorial drop shadow */
+.editorial-shadow {
+  box-shadow: 3px 3px 0 rgb(0 0 0 / 0.07);
 }
 
-.data-footnote-backref {
-    @apply no-underline;
-}
-
-.csl-entry {
-    @apply my-5;
-}
-
-/* https://stackoverflow.com/questions/61083813/how-to-avoid-internal-autofill-selected-style-to-be-applied */
+/* Shiki code blocks (techgears case study) */
 .shiki-wrapper > pre {
-    padding: 1.5rem;
-    font-size: 0.75rem;
-    line-height: 1.6;
-    overflow-x: auto;
-    margin: 0;
-    border-radius: 0;
-    font-family: 'IBM Plex Mono', monospace;
+  padding: 1.5rem;
+  font-size: 0.75rem;
+  line-height: 1.6;
+  overflow-x: auto;
+  margin: 0;
+  border-radius: 0;
+  font-family: var(--font-mono);
 }
 
+/* MDX / prose helpers */
+.task-list-item::before { display: none; }
+.task-list-item { list-style: none; }
+.footnotes { margin-top: 3rem; border-top: 1px solid var(--color-border); padding-top: 2rem; }
+.data-footnote-backref { text-decoration: none; }
+.csl-entry { margin-top: 1.25rem; margin-bottom: 1.25rem; }
+
+/* Autofill flash prevention */
 input:-webkit-autofill,
 input:-webkit-autofill:focus {
-    transition:
-        background-color 600000s 0s,
-        color 600000s 0s;
+  transition: background-color 600000s 0s, color 600000s 0s;
 }

@@ -1,16 +1,14 @@
 ---
 import { getCollection } from "astro:content";
-
 import { ITEMS_PER_PAGE } from "@/consts";
 import RootLayout from "@/layouts/RootLayout.astro";
 import Link from "@/components/Link.astro";
-import ListPostCover from "@/components/ListPostCover.astro";
 import Tag from "@/components/Tag.astro";
+import FormattedDate from "@/components/FormattedDate.astro";
 import { excludeDrafts, sortBlogPosts } from "@/functions";
 import { useTranslations } from "@/i18n";
 
 const t = useTranslations();
-
 const posts = await getCollection("blog", excludeDrafts).then(sortBlogPosts);
 ---
 
@@ -18,83 +16,104 @@ const posts = await getCollection("blog", excludeDrafts).then(sortBlogPosts);
   title={t("siteMetadata.title")}
   description={t("siteMetadata.description")}
 >
-  <div class="divide-y divide-gray-200 dark:divide-gray-700">
-    <div class="space-y-2 pb-8 pt-6 md:space-y-5">
-      <h1
-        class="text-3xl font-extrabold leading-9 tracking-tight text-gray-900 dark:text-gray-100 sm:text-4xl sm:leading-10 md:text-6xl md:leading-14"
-      >
-        {t("pages.home.latestPosts")}
+  <!-- Hero -->
+  <section class="py-20 md:py-36">
+    <div data-animate>
+      <!-- Section label -->
+      <div class="inline-flex items-center gap-3 rounded-full border border-accent/30 bg-accent/5 px-5 py-2 mb-10">
+        <span class="h-2 w-2 rounded-full bg-accent animate-pulse-soft"></span>
+        <span class="font-mono text-xs uppercase tracking-[0.15em] text-accent">Salesforce Consulting</span>
+      </div>
+
+      <!-- Headline -->
+      <h1 class="font-display text-[2.75rem] sm:text-6xl lg:text-[5rem] leading-[1.05] tracking-[-0.02em] mb-6 text-foreground">
+        Practical<br />
+        <span class="gradient-text">Salesforce</span><br />
+        Solutions
       </h1>
-      <p class="text-lg leading-7 text-gray-500 dark:text-gray-400">
+
+      <!-- Description -->
+      <p class="text-lg md:text-xl text-muted-foreground max-w-xl leading-relaxed mb-10">
         {t("siteMetadata.description")}
       </p>
+
+      <!-- CTAs -->
+      <div class="flex flex-col sm:flex-row gap-4">
+        <a
+          href="/case-studies"
+          class="group inline-flex items-center justify-center gap-2 h-12 bg-gradient-to-r from-accent to-accent-secondary text-accent-foreground font-medium px-7 rounded-xl shadow-sm hover:-translate-y-0.5 active:scale-[0.98] transition-all duration-200"
+          style="box-shadow: var(--shadow-accent);"
+          onmouseover="this.style.boxShadow='var(--shadow-accent-lg)'"
+          onmouseout="this.style.boxShadow='var(--shadow-accent)'"
+        >
+          View Case Studies
+          <span class="group-hover:translate-x-1 transition-transform duration-200">→</span>
+        </a>
+        <a
+          href="/blog"
+          class="inline-flex items-center justify-center gap-2 h-12 border border-border hover:border-accent/30 hover:bg-muted text-foreground font-medium px-7 rounded-xl transition-all duration-200"
+        >
+          Read the Blog
+        </a>
+      </div>
     </div>
-    <ul class="divide-y divide-gray-200 dark:divide-gray-700">
-      {!posts.length && t("pages.home.noPosts")}
-      {
-        posts.slice(0, ITEMS_PER_PAGE).map((post) => {
-          const { title, summary, tags } = post.data;
+  </section>
+
+  <!-- Latest posts (only when published posts exist) -->
+  {posts.length > 0 && (
+    <section class="pb-24 border-t border-border pt-16">
+      <div class="flex items-center justify-between mb-12" data-animate>
+        <div class="inline-flex items-center gap-3 rounded-full border border-accent/30 bg-accent/5 px-5 py-2">
+          <span class="h-2 w-2 rounded-full bg-accent animate-pulse-soft"></span>
+          <span class="font-mono text-xs uppercase tracking-[0.15em] text-accent">
+            {t("pages.home.latestPosts")}
+          </span>
+        </div>
+        {posts.length > ITEMS_PER_PAGE && (
+          <Link
+            href="/blog"
+            class="text-sm text-muted-foreground hover:text-accent transition-colors duration-200 flex items-center gap-1"
+            aria-label={t("pages.home.viewAllPosts")}
+          >
+            {t("pages.home.viewAllPosts")} →
+          </Link>
+        )}
+      </div>
+
+      <ul class="divide-y divide-border" data-animate-stagger>
+        {posts.slice(0, ITEMS_PER_PAGE).map((post, i) => {
+          const { title, summary, tags, date } = post.data;
           return (
-            <li class="py-12">
-              <article>
-                <div class="space-y-2 xl:grid xl:grid-cols-4 space-x-4 xl:space-y-0 xl:items-stretch">
-                  <ListPostCover {post} class="space-y-5 xl:col-span-1" />
-                  <div class="space-y-5 xl:col-span-3">
-                    <div class="space-y-6">
-                      <div>
-                        <h2 class="text-2xl font-bold leading-8 tracking-tight">
-                          <Link
-                            href={`/blog/${post.id}`}
-                            class="text-gray-900 dark:text-gray-100"
-                          >
-                            {title}
-                          </Link>
-                        </h2>
-                        <div class="flex flex-wrap">
-                          {tags.map((ref) => (
-                            <Tag slug={ref.id} />
-                          ))}
-                        </div>
-                      </div>
-                      <div class="prose max-w-none text-gray-500 dark:text-gray-400">
-                        {summary}
-                      </div>
-                    </div>
-                    <div class="text-base font-medium leading-6">
-                      <Link
-                        href={`/blog/${post.id}`}
-                        class="text-primary-500 hover:text-primary-600 dark:hover:text-primary-400"
-                        aria-label={t('pages.home.readMoreAbout', {title})}
-                      >
-                        {t('pages.home.readMore')} &rarr;
-                      </Link>
-                    </div>
+            <li class="py-8" style={`--i: ${i}`} data-animate>
+              <article class="group flex flex-col sm:flex-row sm:items-start gap-4 sm:gap-8">
+                <div class="shrink-0 w-32">
+                  <time class="font-mono text-xs text-muted-foreground tracking-wide">
+                    <FormattedDate date={date} />
+                  </time>
+                </div>
+                <div class="flex-1 space-y-3 min-w-0">
+                  <h2 class="text-xl font-semibold tracking-[-0.01em] text-foreground group-hover:text-accent transition-colors duration-200">
+                    <Link href={`/blog/${post.id}`}>{title}</Link>
+                  </h2>
+                  <div class="flex flex-wrap gap-2">
+                    {tags.map((ref) => <Tag slug={ref.id} />)}
                   </div>
+                  {summary && (
+                    <p class="text-sm text-muted-foreground leading-relaxed">{summary}</p>
+                  )}
+                  <Link
+                    href={`/blog/${post.id}`}
+                    class="inline-flex items-center gap-1 text-sm font-medium text-accent hover:gap-2 transition-all duration-200"
+                    aria-label={t("pages.home.readMoreAbout", { title })}
+                  >
+                    {t("pages.home.readMore")} →
+                  </Link>
                 </div>
               </article>
             </li>
           );
-        })
-      }
-    </ul>
-  </div>
-  {
-    posts.length > ITEMS_PER_PAGE && (
-      <div class="flex justify-end text-base font-medium leading-6">
-        <Link
-          href="/blog"
-          class="text-primary-500 hover:text-primary-600 dark:hover:text-primary-400"
-          aria-label={t('pages.home.viewAllPosts')}
-        >
-        {t('pages.home.viewAllPosts')} &rarr;
-        </Link>
-      </div>
-    )
-  }
-  <!--TODO: Add newsletter form-->
-  <!--{siteMetadata.newsletter?.provider && (-->
-  <!--        <div class="flex items-center justify-center pt-4">-->
-  <!--            <NewsletterForm />-->
-  <!--        </div>-->
-  <!--)}-->
+        })}
+      </ul>
+    </section>
+  )}
 </RootLayout>

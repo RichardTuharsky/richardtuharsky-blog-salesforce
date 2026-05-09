@@ -3,7 +3,9 @@
     "allow": [
       "PowerShell(tree \"C:\\\\richardtuharsky-blog-salesforce\\\\src\" -L 3)",
       "Bash(del *)",
-      "Bash(npm run:*)"
+      "Bash(npm run:*)",
+      "Bash(pnpm add:*)",
+      "Bash(pnpm run:*)"
     ]
   }
 }

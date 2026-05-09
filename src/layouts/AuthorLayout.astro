@@ -1,7 +1,6 @@
 ---
 import { Image } from "astro:assets";
 import { type CollectionEntry, getCollection } from "astro:content";
-
 import SocialIcon from "@/components/social-icons/index.astro";
 import MailIcon from "@/components/social-icons/icons/Mail.astro";
 import CVIcon from "@/components/social-icons/icons/CV.astro";
@@ -30,7 +29,6 @@ const {
   shortBio,
 } = Astro.props.content;
 
-// Get the author's posts
 const authorPosts = await getCollection(
   "blog",
   ({ data: { authors, draft } }) => {
@@ -38,86 +36,98 @@ const authorPosts = await getCollection(
   }
 )
   .then(sortBlogPosts)
-  .then((posts) => {
-    return posts.slice(0, ITEMS_PER_PAGE).map((post) => {
-      return { title: post.data.title, id: post.id };
-    });
-  });
+  .then((posts) =>
+    posts.slice(0, ITEMS_PER_PAGE).map((post) => ({ title: post.data.title, id: post.id }))
+  );
 ---
 
 <RootLayout title={name} description={shortBio}>
-  <div class="divide-y divide-gray-200 dark:divide-gray-700">
-    <div class="space-y-2 pb-8 pt-6 md:space-y-5">
-      <h1
-        class="text-3xl font-extrabold leading-9 tracking-tight text-gray-900 dark:text-gray-100 sm:text-4xl sm:leading-10 md:text-6xl md:leading-14"
-      >
+  <div class="py-10">
+    <!-- Page header -->
+    <div class="mb-14" data-animate>
+      <div class="inline-flex items-center gap-3 rounded-full border border-accent/30 bg-accent/5 px-5 py-2 mb-6">
+        <span class="h-2 w-2 rounded-full bg-accent animate-pulse-soft"></span>
+        <span class="font-mono text-xs uppercase tracking-[0.15em] text-accent">About</span>
+      </div>
+      <h1 class="font-display text-[2.5rem] sm:text-5xl leading-[1.08] tracking-[-0.02em] text-foreground">
         {t("layouts.authorLayout.aboutAuthor", { name })}
       </h1>
     </div>
-    <div
-      class="items-start space-y-2 xl:grid xl:grid-cols-3 xl:gap-x-8 xl:space-y-0"
-    >
-      <div class="flex flex-col items-center space-x-2 pt-8">
-        {
-          avatar && (
+
+    <!-- Author block -->
+    <div class="grid gap-10 md:grid-cols-[1fr_2fr] items-start">
+      <!-- Avatar + social -->
+      <div class="flex flex-col items-center md:items-start gap-5" data-animate>
+        {avatar && (
+          <div class="gradient-border">
             <Image
               src={avatar}
-              alt="avatar"
+              alt={`${name} avatar`}
               width={192}
               height={192}
-              class="h-48 w-48 rounded-2xl drop-shadow-md"
+              class="h-44 w-44 rounded-[calc(0.75rem-2px)] object-cover"
             />
-          )
-        }
-        <h2 class="pb-2 pt-4 text-2xl font-bold leading-8 tracking-tight">
-          {name}
-        </h2>
-        <div class="text-gray-500 dark:text-gray-400">{occupation}</div>
-        <div class="text-gray-500 dark:text-gray-400">{company}</div>
-        <div class="flex items-center space-x-3 pt-6">
+          </div>
+        )}
+        <div class="text-center md:text-left">
+          <h2 class="text-xl font-semibold text-foreground">{name}</h2>
+          {occupation && <p class="text-sm text-muted-foreground mt-0.5">{occupation}</p>}
+          {company && <p class="text-sm text-muted-foreground">{company}</p>}
+        </div>
+        <div class="flex items-center gap-3">
           {email && (
             <button
               id="copy-email-btn"
               data-email={email}
-              class="cursor-pointer text-gray-700 hover:text-primary-500 transition-colors"
+              class="p-2 rounded-lg text-muted-foreground hover:text-accent hover:bg-accent/8 transition-all duration-200 cursor-pointer"
               aria-label="Copy email address"
             >
-              <MailIcon class="fill-current h-6 w-6" />
+              <MailIcon class="fill-current h-5 w-5" />
             </button>
           )}
-          {linkedin && <SocialIcon kind="linkedin" href={linkedin} size={6} />}
-          {twitter && <SocialIcon kind="twitter" href={twitter} size={6} />}
-          {trailblazer && <SocialIcon kind="trailblazer" href={trailblazer} size={6} />}
+          {linkedin && <SocialIcon kind="linkedin" href={linkedin} size={5} />}
+          {twitter && <SocialIcon kind="twitter" href={twitter} size={5} />}
+          {trailblazer && <SocialIcon kind="trailblazer" href={trailblazer} size={5} />}
           <a
             href="/cv.pdf"
             download
-            class="text-gray-700 hover:text-primary-500 transition-colors"
+            class="p-2 rounded-lg text-muted-foreground hover:text-accent hover:bg-accent/8 transition-all duration-200"
             aria-label="Download CV"
           >
-            <CVIcon class="fill-current h-6 w-6" />
+            <CVIcon class="fill-current h-5 w-5" />
           </a>
         </div>
       </div>
-      <div class="xl:col-span-2 max-w-none d-flex">
-        <div class="prose pb-8 pt-8 dark:prose-invert">
+
+      <!-- Bio + posts -->
+      <div class="space-y-10" data-animate>
+        <div class="prose prose-lg max-w-none dark:prose-invert prose-headings:font-display prose-a:text-accent prose-code:font-mono">
           <slot />
         </div>
-        {
-          authorPosts.length > 0 && (
-            <div class="pt-8">
-              <h2 class="text-2xl font-bold leading-8 tracking-tight">
+
+        {authorPosts.length > 0 && (
+          <div class="pt-8 border-t border-border">
+            <div class="inline-flex items-center gap-3 rounded-full border border-accent/30 bg-accent/5 px-5 py-2 mb-6">
+              <span class="h-2 w-2 rounded-full bg-accent animate-pulse-soft"></span>
+              <span class="font-mono text-xs uppercase tracking-[0.15em] text-accent">
                 {t("layouts.authorLayout.latestPosts")}
-              </h2>
-              <ul class="space-y-4 mt-4">
-                {authorPosts.map(({ id, title }) => (
-                  <li>
-                    <Link href={`/blog/${id}`}>{title}</Link>
-                  </li>
-                ))}
-              </ul>
+              </span>
             </div>
-          )
-        }
+            <ul class="space-y-3 mt-4">
+              {authorPosts.map(({ id, title }) => (
+                <li>
+                  <Link
+                    href={`/blog/${id}`}
+                    class="text-sm text-foreground hover:text-accent transition-colors duration-200 flex items-center gap-2"
+                  >
+                    <span class="text-accent">→</span>
+                    {title}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
       </div>
     </div>
   </div>
@@ -125,27 +135,27 @@ const authorPosts = await getCollection(
 
 <div
   id="email-toast"
-  class="fixed bottom-6 left-1/2 -translate-x-1/2 bg-gray-900 text-white text-sm px-5 py-3 rounded-xl shadow-lg z-50 flex items-center gap-2 transition-opacity duration-300 opacity-0 pointer-events-none"
+  class="fixed bottom-6 left-1/2 -translate-x-1/2 bg-foreground text-background text-sm px-5 py-3 rounded-xl shadow-lg z-50 flex items-center gap-2 transition-opacity duration-300 opacity-0 pointer-events-none"
 >
-  <span>✓</span>
+  <span class="text-accent">✓</span>
   <span id="email-toast-text"></span>
 </div>
 
 <script>
-  const btn = document.getElementById('copy-email-btn');
-  const toast = document.getElementById('email-toast');
-  const toastText = document.getElementById('email-toast-text');
+  const btn = document.getElementById("copy-email-btn");
+  const toast = document.getElementById("email-toast");
+  const toastText = document.getElementById("email-toast-text");
 
   if (btn && toast && toastText) {
-    btn.addEventListener('click', () => {
-      const email = (btn as HTMLButtonElement).dataset.email ?? '';
+    btn.addEventListener("click", () => {
+      const email = (btn as HTMLButtonElement).dataset.email ?? "";
       navigator.clipboard.writeText(email).then(() => {
-        toastText.textContent = email + ' copied to clipboard';
-        toast.classList.remove('opacity-0', 'pointer-events-none');
-        toast.classList.add('opacity-100');
+        toastText.textContent = email + " copied to clipboard";
+        toast.classList.remove("opacity-0", "pointer-events-none");
+        toast.classList.add("opacity-100");
         setTimeout(() => {
-          toast.classList.remove('opacity-100');
-          toast.classList.add('opacity-0', 'pointer-events-none');
+          toast.classList.remove("opacity-100");
+          toast.classList.add("opacity-0", "pointer-events-none");
         }, 2500);
       });
     });

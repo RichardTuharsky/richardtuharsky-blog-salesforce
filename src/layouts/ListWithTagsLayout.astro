@@ -1,7 +1,6 @@
 ---
 import { getCollection } from "astro:content";
 import { type CollectionEntry } from "astro:content";
-
 import Link from "../components/Link.astro";
 import Pagination from "../components/Pagination.astro";
 import RootLayout from "./RootLayout.astro";
@@ -25,8 +24,7 @@ const posts = await getCollection("blog");
 
 function tagCount(id: CollectionEntry<"tags">["id"]) {
   if (!posts) return 0;
-  return posts.filter((post) => post.data.tags.some((ref) => ref.id === id))
-    .length;
+  return posts.filter((post) => post.data.tags.some((ref) => ref.id === id)).length;
 }
 
 function isSamePath(path: string) {
@@ -39,101 +37,90 @@ const isBlogPage = Astro.url.pathname.startsWith("/blog");
 ---
 
 <RootLayout {title} {description} {robots} {titleTemplate}>
-  <div>
-    <div class="pb-6 pt-6">
-      <h1
-        class="text-3xl font-extrabold leading-9 tracking-tight text-gray-900 dark:text-gray-100 sm:text-4xl sm:leading-10 md:text-6xl md:leading-14"
-      >
+  <div class="py-10">
+    <!-- Page header -->
+    <div class="mb-12" data-animate>
+      <div class="inline-flex items-center gap-3 rounded-full border border-accent/30 bg-accent/5 px-5 py-2 mb-6">
+        <span class="h-2 w-2 rounded-full bg-accent animate-pulse-soft"></span>
+        <span class="font-mono text-xs uppercase tracking-[0.15em] text-accent">{title}</span>
+      </div>
+      <h1 class="font-display text-[2.5rem] sm:text-5xl leading-[1.08] tracking-[-0.02em] text-foreground mb-4">
         {title}
       </h1>
-      {
-        hasDefaultSlot && (
-          <div class="prose dark:prose-invert py-4">
-            <slot />
-          </div>
-        )
-      }
+      {hasDefaultSlot && (
+        <div class="prose prose-sm max-w-none text-muted-foreground">
+          <slot />
+        </div>
+      )}
     </div>
-    <div class="flex sm:space-x-24">
-      <div
-        class="hidden max-h-screen h-full sm:flex flex-wrap bg-gray-50 dark:bg-gray-900/70 shadow-md pt-5 dark:shadow-gray-800/40 rounded min-w-[280px] max-w-[280px] overflow-auto"
-      >
-        <div class="py-4 px-6">
-          {
-            isBlogPage ? (
-              <h3 class="text-primary-500 font-bold uppercase">
+
+    <div class="flex gap-10">
+      <!-- Tag sidebar -->
+      <aside class="hidden sm:block shrink-0 w-56">
+        <div class="sticky top-8 rounded-xl border border-border bg-card p-5">
+          <div class="mb-4">
+            {isBlogPage ? (
+              <span class="font-mono text-xs uppercase tracking-[0.12em] text-accent font-medium">
                 {t("layouts.listWithTagsLayout.allPosts")}
-              </h3>
+              </span>
             ) : (
               <Link
                 href="/blog"
-                class="font-bold uppercase text-gray-700 dark:text-gray-300 hover:text-primary-500 dark:hover:text-primary-500"
+                class="font-mono text-xs uppercase tracking-[0.12em] text-muted-foreground hover:text-accent transition-colors duration-200"
               >
                 {t("layouts.listWithTagsLayout.allPosts")}
               </Link>
-            )
-          }
-          <ul>
-            {
-              tags.map(({ id, data }) => (
-                <li class="my-3">
-                  {isSamePath(`/tag/${id}`) ? (
-                    <h3 class="inline py-2 px-3 uppercase text-sm font-bold text-primary-500">
-                      {`${data.name} (${tagCount(id)})`}
-                    </h3>
-                  ) : (
-                    <Link
-                      href={`/tags/${id}`}
-                      class="py-2 px-3 uppercase text-sm font-medium text-gray-500 dark:text-gray-300 hover:text-primary-500 dark:hover:text-primary-500"
-                      aria-label={`View posts tagged ${data.name}`}
-                    >
-                      {`${data.name} (${tagCount(id)})`}
-                    </Link>
-                  )}
-                </li>
-              ))
-            }
+            )}
+          </div>
+          <ul class="space-y-1">
+            {tags.map(({ id, data }) => (
+              <li>
+                {isSamePath(`/tags/${id}`) ? (
+                  <span class="block py-1.5 px-3 rounded-lg text-sm font-medium text-accent bg-accent/8">
+                    {data.name}
+                    <span class="ml-1 text-xs text-accent/70">({tagCount(id)})</span>
+                  </span>
+                ) : (
+                  <Link
+                    href={`/tags/${id}`}
+                    class="block py-1.5 px-3 rounded-lg text-sm text-muted-foreground hover:text-foreground hover:bg-muted transition-all duration-200"
+                    aria-label={`View posts tagged ${data.name}`}
+                  >
+                    {data.name}
+                    <span class="ml-1 text-xs opacity-60">({tagCount(id)})</span>
+                  </Link>
+                )}
+              </li>
+            ))}
           </ul>
         </div>
-      </div>
-      <div>
-        <ul>
-          {
-            page.data.map(({ id, data: { date, title, summary, tags } }) => (
-              <li class="py-5">
-                <article class="space-y-2 flex flex-col xl:space-y-0">
-                  <dl>
-                    <dt class="sr-only">
-                      {t("layouts.listWithTagsLayout.publishedAt")}
-                    </dt>
-                    <dd class="text-base font-medium leading-6 text-gray-500 dark:text-gray-400">
-                      <FormattedDate date={date} />
-                    </dd>
-                  </dl>
-                  <div class="space-y-3">
-                    <div>
-                      <h3 class="text-2xl font-bold leading-8 tracking-tight">
-                        <Link
-                          href={`/blog/${id}`}
-                          class="text-gray-900 dark:text-gray-100"
-                        >
-                          {title}
-                        </Link>
-                      </h3>
-                      <div class="flex flex-wrap">
-                        {tags.map(({ id }) => (
-                          <Tag slug={id} />
-                        ))}
-                      </div>
-                    </div>
-                    <div class="prose max-w-none text-gray-500 dark:text-gray-400">
-                      {summary}
-                    </div>
+      </aside>
+
+      <!-- Post list -->
+      <div class="flex-1 min-w-0">
+        <ul class="divide-y divide-border">
+          {page.data.map(({ id, data: { date, title, summary, tags } }) => (
+            <li class="py-8" data-animate>
+              <article class="group space-y-3">
+                <time class="font-mono text-xs text-muted-foreground tracking-wide block">
+                  <FormattedDate date={date} />
+                </time>
+                <div>
+                  <h3 class="text-xl font-semibold tracking-[-0.01em] text-foreground group-hover:text-accent transition-colors duration-200 mb-2">
+                    <Link href={`/blog/${id}`}>{title}</Link>
+                  </h3>
+                  <div class="flex flex-wrap gap-2">
+                    {tags.map(({ id }) => <Tag slug={id} />)}
                   </div>
-                </article>
-              </li>
-            ))
-          }
+                </div>
+                {summary && (
+                  <p class="text-sm text-muted-foreground leading-relaxed">
+                    {summary}
+                  </p>
+                )}
+              </article>
+            </li>
+          ))}
         </ul>
         {(page.url.next || page.url.prev) && <Pagination page={page} />}
       </div>
