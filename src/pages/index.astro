@@ -6,6 +6,7 @@ import Link from "@/components/Link.astro";
 import Tag from "@/components/Tag.astro";
 import FormattedDate from "@/components/FormattedDate.astro";
 import { excludeDrafts, sortBlogPosts } from "@/functions";
+import HeroGraphic from "@/components/HeroGraphic.astro";
 import { useTranslations } from "@/i18n";
 
 const t = useTranslations();
@@ -18,44 +19,54 @@ const posts = await getCollection("blog", excludeDrafts).then(sortBlogPosts);
 >
   <!-- Hero -->
   <section class="pt-8 pb-20 md:pt-10 md:pb-36">
-    <div data-animate>
-      <!-- Section label -->
-      <div class="inline-flex items-center gap-3 rounded-full border border-accent/30 bg-accent/5 px-5 py-2 mb-10">
-        <span class="h-2 w-2 rounded-full bg-accent animate-pulse-soft"></span>
-        <span class="font-mono text-xs uppercase tracking-[0.15em] text-accent">Salesforce Consulting</span>
+    <div class="grid lg:grid-cols-[1.1fr_0.9fr] gap-12 items-center" data-animate>
+
+      <!-- Left: text -->
+      <div>
+        <!-- Section label -->
+        <div class="inline-flex items-center gap-3 rounded-full border border-accent/30 bg-accent/5 px-5 py-2 mb-10">
+          <span class="h-2 w-2 rounded-full bg-accent animate-pulse-soft"></span>
+          <span class="font-mono text-xs uppercase tracking-[0.15em] text-accent">Salesforce Consulting</span>
+        </div>
+
+        <!-- Headline -->
+        <h1 class="font-display text-[2.75rem] sm:text-6xl lg:text-[5rem] leading-[1.05] tracking-[-0.02em] mb-6 text-foreground">
+          Practical
+          <span class="gradient-text">Salesforce</span><br />
+          Solutions
+        </h1>
+
+        <!-- Description -->
+        <p class="text-lg md:text-xl text-muted-foreground max-w-xl leading-relaxed mb-10">
+          {t("siteMetadata.description")}
+        </p>
+
+        <!-- CTAs -->
+        <div class="flex flex-col sm:flex-row gap-4">
+          <a
+            href="/case-studies"
+            class="group inline-flex items-center justify-center gap-2 h-12 bg-gradient-to-r from-accent to-accent-secondary text-accent-foreground font-medium px-7 rounded-xl shadow-sm hover:-translate-y-0.5 active:scale-[0.98] transition-all duration-200"
+            style="box-shadow: var(--shadow-accent);"
+            onmouseover="this.style.boxShadow='var(--shadow-accent-lg)'"
+            onmouseout="this.style.boxShadow='var(--shadow-accent)'"
+          >
+            View Case Studies
+            <span class="group-hover:translate-x-1 transition-transform duration-200">→</span>
+          </a>
+          <a
+            href="/blog"
+            class="inline-flex items-center justify-center gap-2 h-12 border border-border hover:border-accent/30 hover:bg-muted text-foreground font-medium px-7 rounded-xl transition-all duration-200"
+          >
+            Read the Blog
+          </a>
+        </div>
       </div>
 
-      <!-- Headline -->
-      <h1 class="font-display text-[2.75rem] sm:text-6xl lg:text-[5rem] leading-[1.05] tracking-[-0.02em] mb-6 text-foreground">
-        Practical
-        <span class="gradient-text">Salesforce</span><br />
-        Solutions
-      </h1>
-
-      <!-- Description -->
-      <p class="text-lg md:text-xl text-muted-foreground max-w-xl leading-relaxed mb-10">
-        {t("siteMetadata.description")}
-      </p>
-
-      <!-- CTAs -->
-      <div class="flex flex-col sm:flex-row gap-4">
-        <a
-          href="/case-studies"
-          class="group inline-flex items-center justify-center gap-2 h-12 bg-gradient-to-r from-accent to-accent-secondary text-accent-foreground font-medium px-7 rounded-xl shadow-sm hover:-translate-y-0.5 active:scale-[0.98] transition-all duration-200"
-          style="box-shadow: var(--shadow-accent);"
-          onmouseover="this.style.boxShadow='var(--shadow-accent-lg)'"
-          onmouseout="this.style.boxShadow='var(--shadow-accent)'"
-        >
-          View Case Studies
-          <span class="group-hover:translate-x-1 transition-transform duration-200">→</span>
-        </a>
-        <a
-          href="/blog"
-          class="inline-flex items-center justify-center gap-2 h-12 border border-border hover:border-accent/30 hover:bg-muted text-foreground font-medium px-7 rounded-xl transition-all duration-200"
-        >
-          Read the Blog
-        </a>
+      <!-- Right: visual (hidden on mobile) -->
+      <div class="hidden lg:block">
+        <HeroGraphic />
       </div>
+
     </div>
   </section>
 
