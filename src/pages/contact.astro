@@ -1,0 +1,61 @@
+---
+import RootLayout from "@/layouts/RootLayout.astro";
+---
+
+<RootLayout
+  title="Contact"
+  description="Get in touch with Richard Tuharsky."
+>
+  <div class="py-10">
+    <div class="mb-14" data-animate>
+      <div class="inline-flex items-center gap-3 rounded-full border border-accent/30 bg-accent/5 px-5 py-2 mb-6">
+        <span class="h-2 w-2 rounded-full bg-accent animate-pulse-soft"></span>
+        <span class="font-mono text-xs uppercase tracking-[0.15em] text-accent">Contact</span>
+      </div>
+      <h1 class="font-display text-[2.5rem] sm:text-5xl leading-[1.08] tracking-[-0.02em] text-foreground mb-4">
+        Get in Touch
+      </h1>
+      <p class="text-lg text-muted-foreground max-w-xl leading-relaxed">
+        Have a question or want to work together? Send me a message.
+      </p>
+    </div>
+
+    <form class="max-w-xl space-y-4" data-animate>
+      <div>
+        <label for="contact-email" class="block font-mono text-xs uppercase tracking-[0.12em] text-muted-foreground mb-2">Email</label>
+        <input
+          id="contact-email"
+          type="email"
+          placeholder="your@email.com"
+          class="w-full h-12 rounded-xl border border-border bg-transparent px-4 text-sm text-foreground placeholder:text-muted-foreground/50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background transition-colors duration-200"
+        />
+      </div>
+      <div>
+        <label for="contact-subject" class="block font-mono text-xs uppercase tracking-[0.12em] text-muted-foreground mb-2">Subject</label>
+        <input
+          id="contact-subject"
+          type="text"
+          placeholder="What's this about?"
+          class="w-full h-12 rounded-xl border border-border bg-transparent px-4 text-sm text-foreground placeholder:text-muted-foreground/50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background transition-colors duration-200"
+        />
+      </div>
+      <div>
+        <label for="contact-message" class="block font-mono text-xs uppercase tracking-[0.12em] text-muted-foreground mb-2">Message</label>
+        <textarea
+          id="contact-message"
+          rows="5"
+          placeholder="Your message..."
+          class="w-full rounded-xl border border-border bg-transparent px-4 py-3 text-sm text-foreground placeholder:text-muted-foreground/50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background transition-colors duration-200 resize-none"
+        ></textarea>
+      </div>
+      <button
+        type="submit"
+        class="group inline-flex items-center justify-center gap-2 h-12 bg-gradient-to-r from-accent to-accent-secondary text-accent-foreground font-medium px-7 rounded-xl shadow-sm hover:-translate-y-0.5 active:scale-[0.98] transition-all duration-200"
+        style="box-shadow: var(--shadow-accent);"
+      >
+        Send Message
+        <span class="group-hover:translate-x-1 transition-transform duration-200">→</span>
+      </button>
+    </form>
+  </div>
+</RootLayout>

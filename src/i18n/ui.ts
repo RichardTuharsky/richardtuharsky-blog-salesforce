@@ -48,6 +48,7 @@ export const ui = {
     'nav.caseStudies': 'Case Studies',
     'nav.blog': 'Blog',
     'nav.newsletter': 'Newsletter',
+    'nav.contact': 'Contact',
 
     // Layouts
     'layouts.authorLayout.aboutAuthor': 'About {author}',

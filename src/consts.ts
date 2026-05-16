@@ -80,6 +80,7 @@ export const NAVIGATION = [
   { href: "/case-studies", title: "nav.caseStudies" },
   { href: "/blog", title: "nav.blog" },
   { href: "/newsletter", title: "nav.newsletter" },
+  { href: "/contact", title: "nav.contact" },
 ] as const;
 
 export const POST_METADATA = {
