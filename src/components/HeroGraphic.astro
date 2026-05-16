@@ -9,34 +9,72 @@
   <!-- Dot grid -->
   <div
     class="absolute inset-0"
-    style="background-image: radial-gradient(circle, rgb(0 82 255 / 0.14) 1px, transparent 1px); background-size: 28px 28px;"
+    style="background-image: radial-gradient(circle, rgb(0 82 255 / 0.11) 1px, transparent 1px); background-size: 28px 28px;"
   ></div>
 
-  <!-- Radial glow -->
+  <!-- Dual radial glow: blue at center, warm at bottom-left -->
   <div
     class="absolute inset-0"
-    style="background: radial-gradient(circle at 50% 50%, rgb(0 82 255 / 0.08) 0%, transparent 65%);"
+    style="background:
+      radial-gradient(circle at 50% 50%, rgb(0 82 255 / 0.10) 0%, transparent 58%),
+      radial-gradient(circle at 18% 78%, rgb(255 107 61 / 0.07) 0%, transparent 38%);"
   ></div>
 
-  <!-- Rotating dashed outer ring -->
-  <div class="absolute inset-3 rounded-full border-2 border-dashed border-accent/25 hero-spin"></div>
+  <!-- Three orbital rings -->
+  <div class="absolute inset-3 rounded-full hero-spin"
+    style="border: 1.5px dashed rgb(0 82 255 / 0.22);"></div>
+  <div class="absolute inset-10 rounded-full hero-spin-reverse"
+    style="border: 1px dotted rgb(0 82 255 / 0.12);"></div>
+  <div class="absolute inset-16 rounded-full hero-spin"
+    style="border: 1px solid rgb(0 82 255 / 0.14);"></div>
 
-  <!-- Counter-rotating inner ring -->
-  <div class="absolute inset-16 rounded-full border border-accent/20 hero-spin-reverse"></div>
+  <!-- SVG overlay: connection lines + animated data dots + node endpoints -->
+  <svg
+    class="absolute inset-0 w-full h-full pointer-events-none"
+    viewBox="0 0 480 480"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <!-- Dashed connection lines (hub center = 240,240) -->
+    <line x1="240" y1="240" x2="82" y2="88"  stroke="rgb(0 82 255 / 0.18)"   stroke-width="1" stroke-dasharray="3 6"/>
+    <line x1="240" y1="240" x2="406" y2="68" stroke="rgb(0 82 255 / 0.18)"   stroke-width="1" stroke-dasharray="3 6"/>
+    <line x1="240" y1="240" x2="76"  y2="394" stroke="rgb(255 107 61 / 0.18)" stroke-width="1" stroke-dasharray="3 6"/>
+    <line x1="240" y1="240" x2="406" y2="390" stroke="rgb(255 107 61 / 0.18)" stroke-width="1" stroke-dasharray="3 6"/>
 
-  <!-- Central hub — Salesforce as the connective layer -->
+    <!-- Node circles at card anchor points -->
+    <circle cx="82"  cy="88"  r="3.5" fill="rgb(0 82 255 / 0.15)"   stroke="rgb(0 82 255 / 0.35)"   stroke-width="1"/>
+    <circle cx="406" cy="68"  r="3.5" fill="rgb(0 82 255 / 0.15)"   stroke="rgb(0 82 255 / 0.35)"   stroke-width="1"/>
+    <circle cx="76"  cy="394" r="3.5" fill="rgb(255 107 61 / 0.15)" stroke="rgb(255 107 61 / 0.35)" stroke-width="1"/>
+    <circle cx="406" cy="390" r="3.5" fill="rgb(255 107 61 / 0.15)" stroke="rgb(255 107 61 / 0.35)" stroke-width="1"/>
+
+    <!-- Animated data dots: blue — hub to blue cards -->
+    <circle r="2.5" fill="rgb(0 82 255 / 0.8)">
+      <animateMotion dur="2.8s" repeatCount="indefinite" path="M240,240 L82,88"/>
+    </circle>
+    <circle r="2.5" fill="rgb(0 82 255 / 0.8)">
+      <animateMotion dur="3.1s" repeatCount="indefinite" begin="1.4s" path="M240,240 L406,68"/>
+    </circle>
+
+    <!-- Animated data dots: orange — hub to orange cards -->
+    <circle r="2.5" fill="rgb(255 107 61 / 0.85)">
+      <animateMotion dur="2.6s" repeatCount="indefinite" begin="0.8s" path="M240,240 L76,394"/>
+    </circle>
+    <circle r="2.5" fill="rgb(255 107 61 / 0.85)">
+      <animateMotion dur="3.3s" repeatCount="indefinite" begin="2s" path="M240,240 L406,390"/>
+    </circle>
+  </svg>
+
+  <!-- Central hub -->
   <div class="absolute inset-0 flex items-center justify-center">
     <div class="relative">
       <div
         class="w-20 h-20 rounded-full flex items-center justify-center"
         style="background: linear-gradient(135deg, var(--color-accent), var(--color-accent-secondary)); box-shadow: 0 8px 32px rgb(0 82 255 / 0.45);"
       >
-        <!-- Salesforce cloud -->
         <svg viewBox="0 0 24 24" class="w-9 h-9" fill="white">
           <path d="M19.35 10.04A7.49 7.49 0 0012 4C9.11 4 6.6 5.64 5.35 8.04A5.994 5.994 0 000 14c0 3.31 2.69 6 6 6h13c2.76 0 5-2.24 5-5 0-2.64-2.05-4.78-4.65-4.96z"/>
         </svg>
       </div>
-      <!-- Pulse rings -->
       <div class="absolute -inset-3 rounded-full border-2 border-accent/40 hero-pulse"></div>
       <div class="absolute -inset-6 rounded-full border border-accent/15 hero-pulse" style="animation-delay: -1s;"></div>
     </div>
@@ -44,76 +82,96 @@
 
   <!-- Card: Customer 360 (top-left) — Data Cloud unified profile -->
   <div class="absolute top-[9%] left-[1%] hero-float" style="animation-delay: 0s;">
-    <div class="bg-card border border-border rounded-xl px-3.5 py-2.5 shadow-lg min-w-[130px]">
-      <div class="flex items-center gap-2 mb-1.5">
-        <div class="w-5 h-5 rounded-md flex items-center justify-center shrink-0" style="background: linear-gradient(135deg, var(--color-accent), var(--color-accent-secondary));">
-          <!-- Eye / unified view icon -->
-          <svg class="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="white" stroke-width="2.5">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M2.036 12.322a1.012 1.012 0 010-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178z" />
-            <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-          </svg>
+    <div class="bg-card border border-border rounded-xl overflow-hidden shadow-lg min-w-[130px]"
+      style="box-shadow: 0 4px 24px rgb(0 0 0 / 0.07);">
+      <div style="height: 2px; background: linear-gradient(90deg, var(--color-accent), var(--color-accent-secondary));"></div>
+      <div class="px-3.5 py-2.5">
+        <div class="flex items-center gap-2 mb-1.5">
+          <div class="w-5 h-5 rounded-md flex items-center justify-center shrink-0"
+            style="background: linear-gradient(135deg, var(--color-accent), var(--color-accent-secondary));">
+            <svg class="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="white" stroke-width="2.5">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M2.036 12.322a1.012 1.012 0 010-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178z" />
+              <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+            </svg>
+          </div>
+          <span class="font-mono text-[0.58rem] uppercase tracking-widest text-muted-foreground">Customer 360</span>
         </div>
-        <span class="font-mono text-[0.58rem] uppercase tracking-widest text-muted-foreground">Customer 360</span>
+        <p class="font-display text-xl text-foreground leading-none">1 Profile</p>
+        <p class="font-mono text-[0.58rem] mt-0.5" style="color: #16a34a;">↑ 6 systems merged</p>
       </div>
-      <p class="font-display text-xl text-foreground leading-none">1 Profile</p>
-      <p class="font-mono text-[0.58rem] mt-0.5" style="color: #16a34a;">↑ 6 systems merged</p>
     </div>
   </div>
 
   <!-- Card: B2B Pipeline (top-right) — Sales Cloud wholesale/services -->
   <div class="absolute top-[5%] right-[0%] hero-float" style="animation-delay: -1.8s;">
-    <div class="bg-card border border-border rounded-xl px-3.5 py-2.5 shadow-lg min-w-[126px]">
-      <div class="flex items-center gap-2 mb-1.5">
-        <div class="w-5 h-5 rounded-md flex items-center justify-center shrink-0" style="background: linear-gradient(135deg, var(--color-accent), var(--color-accent-secondary));">
-          <!-- Trending up -->
-          <svg class="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="white" stroke-width="2.5">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
-          </svg>
+    <div class="bg-card border border-border rounded-xl overflow-hidden shadow-lg min-w-[126px]"
+      style="box-shadow: 0 4px 24px rgb(0 0 0 / 0.07);">
+      <div style="height: 2px; background: linear-gradient(90deg, var(--color-accent), var(--color-accent-secondary));"></div>
+      <div class="px-3.5 py-2.5">
+        <div class="flex items-center gap-2 mb-1.5">
+          <div class="w-5 h-5 rounded-md flex items-center justify-center shrink-0"
+            style="background: linear-gradient(135deg, var(--color-accent), var(--color-accent-secondary));">
+            <svg class="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="white" stroke-width="2.5">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
+            </svg>
+          </div>
+          <span class="font-mono text-[0.58rem] uppercase tracking-widest text-muted-foreground">B2B Pipeline</span>
         </div>
-        <span class="font-mono text-[0.58rem] uppercase tracking-widest text-muted-foreground">B2B Pipeline</span>
+        <p class="font-display text-xl text-foreground leading-none">$2.8M</p>
+        <p class="font-mono text-[0.58rem] text-muted-foreground mt-0.5">Wholesale Q2</p>
       </div>
-      <p class="font-display text-xl text-foreground leading-none">$2.8M</p>
-      <p class="font-mono text-[0.58rem] text-muted-foreground mt-0.5">Wholesale Q2</p>
     </div>
   </div>
 
-  <!-- Card: AI Deflection (bottom-left) — Agentforce tier-1 automation -->
+  <!-- Card: Agentforce (bottom-left) — AI tier-1 case deflection -->
   <div class="absolute bottom-[10%] left-[0%] hero-float" style="animation-delay: -3.2s;">
-    <div class="bg-card border border-border rounded-xl px-3.5 py-2.5 shadow-lg min-w-[122px]">
-      <div class="flex items-center gap-2 mb-1.5">
-        <div class="w-5 h-5 rounded-md flex items-center justify-center shrink-0" style="background: linear-gradient(135deg, var(--color-warm), var(--color-warm-secondary));">
-          <!-- Sparkles / AI -->
-          <svg class="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="white" stroke-width="2.5">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09z" />
-          </svg>
+    <div class="bg-card border border-border rounded-xl overflow-hidden shadow-lg min-w-[122px]"
+      style="box-shadow: 0 4px 24px rgb(0 0 0 / 0.07);">
+      <div style="height: 2px; background: linear-gradient(90deg, var(--color-warm), var(--color-warm-secondary));"></div>
+      <div class="px-3.5 py-2.5">
+        <div class="flex items-center gap-2 mb-1.5">
+          <div class="w-5 h-5 rounded-md flex items-center justify-center shrink-0"
+            style="background: linear-gradient(135deg, var(--color-warm), var(--color-warm-secondary));">
+            <svg class="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="white" stroke-width="2.5">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09z" />
+            </svg>
+          </div>
+          <span class="font-mono text-[0.58rem] uppercase tracking-widest text-muted-foreground">Agentforce</span>
         </div>
-        <span class="font-mono text-[0.58rem] uppercase tracking-widest text-muted-foreground">Agentforce</span>
+        <p class="font-display text-xl text-foreground leading-none">68%</p>
+        <p class="font-mono text-[0.58rem] mt-0.5" style="color: #16a34a;">↓ Tier-1 deflected</p>
       </div>
-      <p class="font-display text-xl text-foreground leading-none">68%</p>
-      <p class="font-mono text-[0.58rem] mt-0.5" style="color: #16a34a;">↓ Tier-1 deflected</p>
     </div>
   </div>
 
-  <!-- Card: Integrations (bottom-right) — MuleSoft connecting Shopify/SAP/POS -->
+  <!-- Card: MuleSoft (bottom-right) — system integrations -->
   <div class="absolute bottom-[6%] right-[1%] hero-float" style="animation-delay: -0.6s;">
-    <div class="bg-card border border-border rounded-xl px-3.5 py-2.5 shadow-lg min-w-[130px]">
-      <div class="flex items-center gap-2 mb-1.5">
-        <div class="w-5 h-5 rounded-md flex items-center justify-center shrink-0" style="background: linear-gradient(135deg, var(--color-warm), var(--color-warm-secondary));">
-          <!-- Share / network nodes -->
-          <svg class="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="white" stroke-width="2.5">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M7.217 10.907a2.25 2.25 0 100 2.186m0-2.186c.18.324.283.696.283 1.093s-.103.77-.283 1.093m0-2.186l9.566-5.314m-9.566 7.5l9.566 5.314m0 0a2.25 2.25 0 103.935 2.186 2.25 2.25 0 00-3.935-2.186zm0-12.814a2.25 2.25 0 103.933-2.185 2.25 2.25 0 00-3.933 2.185z" />
-          </svg>
+    <div class="bg-card border border-border rounded-xl overflow-hidden shadow-lg min-w-[130px]"
+      style="box-shadow: 0 4px 24px rgb(0 0 0 / 0.07);">
+      <div style="height: 2px; background: linear-gradient(90deg, var(--color-warm), var(--color-warm-secondary));"></div>
+      <div class="px-3.5 py-2.5">
+        <div class="flex items-center gap-2 mb-1.5">
+          <div class="w-5 h-5 rounded-md flex items-center justify-center shrink-0"
+            style="background: linear-gradient(135deg, var(--color-warm), var(--color-warm-secondary));">
+            <svg class="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="white" stroke-width="2.5">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M7.217 10.907a2.25 2.25 0 100 2.186m0-2.186c.18.324.283.696.283 1.093s-.103.77-.283 1.093m0-2.186l9.566-5.314m-9.566 7.5l9.566 5.314m0 0a2.25 2.25 0 103.935 2.186 2.25 2.25 0 00-3.935-2.186zm0-12.814a2.25 2.25 0 103.933-2.185 2.25 2.25 0 00-3.933 2.185z" />
+            </svg>
+          </div>
+          <span class="font-mono text-[0.58rem] uppercase tracking-widest text-muted-foreground">MuleSoft</span>
         </div>
-        <span class="font-mono text-[0.58rem] uppercase tracking-widest text-muted-foreground">MuleSoft</span>
+        <p class="font-display text-xl text-foreground leading-none">4 → 1</p>
+        <p class="font-mono text-[0.58rem] text-muted-foreground mt-0.5">Shopify · SAP · POS</p>
       </div>
-      <p class="font-display text-xl text-foreground leading-none">4 → 1</p>
-      <p class="font-mono text-[0.58rem] text-muted-foreground mt-0.5">Shopify · SAP · POS</p>
     </div>
   </div>
 
-  <!-- Decorative dots -->
-  <div class="absolute top-[37%] right-[5%] w-2.5 h-2.5 rounded-sm hero-pulse" style="background: linear-gradient(135deg, var(--color-accent), var(--color-accent-secondary)); animation-delay: -0.5s;"></div>
-  <div class="absolute bottom-[37%] left-[6%] w-2 h-2 rounded-sm hero-pulse" style="background: var(--color-accent); opacity: 0.5; animation-delay: -1.5s;"></div>
+  <!-- Decorative pulse nodes -->
+  <div class="absolute top-[38%] right-[6%] w-2 h-2 rounded-full hero-pulse"
+    style="background: var(--color-accent); opacity: 0.45; animation-delay: -0.5s;"></div>
+  <div class="absolute bottom-[38%] left-[7%] w-1.5 h-1.5 rounded-full hero-pulse"
+    style="background: var(--color-warm); opacity: 0.45; animation-delay: -1.5s;"></div>
+  <div class="absolute top-[54%] right-[9%] w-1.5 h-1.5 rounded-full hero-pulse"
+    style="background: var(--color-accent); opacity: 0.3; animation-delay: -2.2s;"></div>
 </div>
 
 <style>
@@ -134,10 +192,10 @@
     50%       { opacity: 0.9; transform: scale(1.08); }
   }
 
-  .hero-float   { animation: hfloat 4s ease-in-out infinite; }
-  .hero-spin    { animation: hspin  25s linear infinite; }
+  .hero-float        { animation: hfloat 4s ease-in-out infinite; }
+  .hero-spin         { animation: hspin  25s linear infinite; }
   .hero-spin-reverse { animation: hspinr 18s linear infinite; }
-  .hero-pulse   { animation: hpulse 2.5s ease-in-out infinite; }
+  .hero-pulse        { animation: hpulse 2.5s ease-in-out infinite; }
 
   @media (prefers-reduced-motion: reduce) {
     .hero-float, .hero-spin, .hero-spin-reverse, .hero-pulse { animation: none; }
