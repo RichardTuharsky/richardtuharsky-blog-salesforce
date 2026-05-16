@@ -15,6 +15,7 @@ export default defineConfig({
   image: {
     service: passthroughImageService(),
   },
+  output: 'hybrid',
   integrations: [mdx(), sitemap(), solidJs(), metaTags(), robotsTxt()],
   vite: {
     plugins: [tailwindcss()],
