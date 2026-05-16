@@ -29,6 +29,11 @@
   --color-card: #ffffff;
   --color-ring: #0052ff;
 
+  /* Warm accent (orange/coral) */
+  --color-warm: #ff6b3d;
+  --color-warm-secondary: #ff8c5a;
+  --shadow-warm: 0 4px 14px rgb(255 107 61 / 0.28);
+
   /* Brand color (Salesforce tag contexts) */
   --color-sage: #7a8b6c;
 
@@ -91,6 +96,8 @@
     --blue: #4d7cff;
     --ink: #fafafa;
     --cream: #0a0a0a;
+    --color-warm: #ff8c5a;
+    --color-warm-secondary: #ffad80;
   }
 }
 
