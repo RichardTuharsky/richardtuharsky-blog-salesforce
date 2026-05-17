@@ -16,6 +16,7 @@ export default defineConfig({
   image: {
     service: passthroughImageService(),
   },
+  output: 'server',
   adapter: vercel(),
   integrations: [mdx(), sitemap(), solidJs(), metaTags(), robotsTxt()],
   vite: {
