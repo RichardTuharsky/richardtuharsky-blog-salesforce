@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://tasb.yon.fun/sitemap-index.xml

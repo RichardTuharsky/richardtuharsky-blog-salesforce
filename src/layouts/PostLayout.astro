@@ -230,7 +230,7 @@ const { Content, headings } = await render(post);
                 {t("layouts.postLayout.relatedPosts")}
               </p>
               <ul class="space-y-2">
-                {related.map((post) => (
+                {related.filter(Boolean).map((post) => (
                   <li>
                     <Link href={`/blog/${post.id}`} class="text-sm text-accent hover:underline">
                       → {post.data.title}
