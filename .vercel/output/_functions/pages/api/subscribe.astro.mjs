@@ -1,13 +1,13 @@
 export { renderers } from '../../renderers.mjs';
 
 const prerender = false;
-const API_KEY = "eo_0bb7d0869496dd3cd5b3e18cdc16c42889b0ff61058892421b1e0ef2bd07b832";
-const LIST_ID = "1224feb2-513d-11f1-80e9-8fefb2580109";
 const json = (data, status = 200) => new Response(JSON.stringify(data), {
   status,
   headers: { "Content-Type": "application/json" }
 });
 const POST = async ({ request }) => {
+  const API_KEY = "eo_0bb7d0869496dd3cd5b3e18cdc16c42889b0ff61058892421b1e0ef2bd07b832";
+  const LIST_ID = "1224feb2-513d-11f1-80e9-8fefb2580109";
   let body;
   try {
     body = await request.json();
@@ -40,14 +40,21 @@ const POST = async ({ request }) => {
         })
       }
     );
-    const data = await res.json();
+    const text = await res.text();
+    let data;
+    try {
+      data = JSON.parse(text);
+    } catch {
+      console.error("EmailOctopus non-JSON response:", res.status, text);
+      return json({ error: "Something went wrong. Please try again." }, 500);
+    }
     if (res.ok) {
       return json({ success: true });
     }
     if (data?.error?.code === "MEMBER_EXISTS_WITH_EMAIL_ADDRESS") {
       return json({ success: true, alreadySubscribed: true });
     }
-    console.error("EmailOctopus error:", data);
+    console.error("EmailOctopus error:", res.status, data);
     return json({ error: "Something went wrong. Please try again." }, 500);
   } catch (err) {
     console.error("Subscribe fetch error:", err);

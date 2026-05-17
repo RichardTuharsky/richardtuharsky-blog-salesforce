@@ -2,9 +2,6 @@ export const prerender = false;
 
 import type { APIRoute } from 'astro';
 
-const API_KEY = import.meta.env.EMAILOCTOPUS_API_KEY;
-const LIST_ID = import.meta.env.EMAILOCTOPUS_LIST_ID;
-
 const json = (data: unknown, status = 200) =>
   new Response(JSON.stringify(data), {
     status,
@@ -12,6 +9,15 @@ const json = (data: unknown, status = 200) =>
   });
 
 export const POST: APIRoute = async ({ request }) => {
+  // Support both Astro's import.meta.env and Node's process.env (Vercel runtime)
+  const API_KEY = import.meta.env.EMAILOCTOPUS_API_KEY ?? process.env.EMAILOCTOPUS_API_KEY;
+  const LIST_ID = import.meta.env.EMAILOCTOPUS_LIST_ID ?? process.env.EMAILOCTOPUS_LIST_ID;
+
+  if (!API_KEY || !LIST_ID) {
+    console.error('Missing EMAILOCTOPUS_API_KEY or EMAILOCTOPUS_LIST_ID env vars');
+    return json({ error: 'Server configuration error.' }, 500);
+  }
+
   let body: { email?: string; firstName?: string; website?: string };
 
   try {
@@ -52,7 +58,15 @@ export const POST: APIRoute = async ({ request }) => {
       }
     );
 
-    const data = await res.json();
+    // Read as text first — EmailOctopus may return non-JSON on some errors
+    const text = await res.text();
+    let data: any;
+    try {
+      data = JSON.parse(text);
+    } catch {
+      console.error('EmailOctopus non-JSON response:', res.status, text);
+      return json({ error: 'Something went wrong. Please try again.' }, 500);
+    }
 
     if (res.ok) {
       return json({ success: true });
@@ -62,7 +76,7 @@ export const POST: APIRoute = async ({ request }) => {
       return json({ success: true, alreadySubscribed: true });
     }
 
-    console.error('EmailOctopus error:', data);
+    console.error('EmailOctopus error:', res.status, data);
     return json({ error: 'Something went wrong. Please try again.' }, 500);
   } catch (err) {
     console.error('Subscribe fetch error:', err);
