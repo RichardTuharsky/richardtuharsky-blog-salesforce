@@ -1,61 +1,376 @@
 ---
 import RootLayout from "@/layouts/RootLayout.astro";
+const ACCESS_KEY = import.meta.env.PUBLIC_WEB3FORMS_ACCESS_KEY;
 ---
 
 <RootLayout
-  title="Contact"
-  description="Get in touch with Richard Tuharsky."
+  title="Contact — Richard Tuharsky"
+  description="Have a Salesforce project, a question about a case study, or just want to compare notes? Get in touch."
 >
   <div class="py-10">
-    <div class="mb-14" data-animate>
-      <div class="inline-flex items-center gap-3 rounded-full border border-accent/30 bg-accent/5 px-5 py-2 mb-6">
+
+    <div class="mb-12" data-animate>
+      <div class="inline-flex items-center gap-3 rounded-full border border-accent/30 bg-accent/5 px-5 py-2 mb-8">
         <span class="h-2 w-2 rounded-full bg-accent animate-pulse-soft"></span>
         <span class="font-mono text-xs uppercase tracking-[0.15em] text-accent">Contact</span>
       </div>
-      <h1 class="font-display text-[2.5rem] sm:text-5xl leading-[1.08] tracking-[-0.02em] text-foreground mb-4">
-        Get in Touch
+
+      <h1 class="font-display text-[2.5rem] sm:text-5xl leading-[1.08] tracking-[-0.02em] text-foreground mb-5 max-w-xl">
+        Get in touch.
       </h1>
-      <p class="text-lg text-muted-foreground max-w-xl leading-relaxed">
-        Have a question or want to work together? Send me a message.
+      <p class="text-lg text-muted-foreground leading-relaxed max-w-lg">
+        Have a Salesforce project, a question about a case study, or just want to compare notes? Send a message — I read everything and reply personally.
       </p>
     </div>
 
-    <form class="max-w-xl space-y-4" data-animate>
-      <div>
-        <label for="contact-email" class="block font-mono text-xs uppercase tracking-[0.12em] text-muted-foreground mb-2">Email</label>
-        <input
-          id="contact-email"
-          type="email"
-          placeholder="your@email.com"
-          class="w-full h-12 rounded-xl border border-border bg-transparent px-4 text-sm text-foreground placeholder:text-muted-foreground/50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background transition-colors duration-200"
-        />
-      </div>
-      <div>
-        <label for="contact-subject" class="block font-mono text-xs uppercase tracking-[0.12em] text-muted-foreground mb-2">Subject</label>
-        <input
-          id="contact-subject"
-          type="text"
-          placeholder="What's this about?"
-          class="w-full h-12 rounded-xl border border-border bg-transparent px-4 text-sm text-foreground placeholder:text-muted-foreground/50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background transition-colors duration-200"
-        />
-      </div>
-      <div>
-        <label for="contact-message" class="block font-mono text-xs uppercase tracking-[0.12em] text-muted-foreground mb-2">Message</label>
-        <textarea
-          id="contact-message"
-          rows="5"
-          placeholder="Your message..."
-          class="w-full rounded-xl border border-border bg-transparent px-4 py-3 text-sm text-foreground placeholder:text-muted-foreground/50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background transition-colors duration-200 resize-none"
-        ></textarea>
-      </div>
-      <button
-        type="submit"
-        class="group inline-flex items-center justify-center gap-2 h-12 bg-gradient-to-r from-accent to-accent-secondary text-accent-foreground font-medium px-7 rounded-xl shadow-sm hover:-translate-y-0.5 active:scale-[0.98] transition-all duration-200"
-        style="box-shadow: var(--shadow-accent);"
-      >
-        Send Message
-        <span class="group-hover:translate-x-1 transition-transform duration-200">→</span>
-      </button>
-    </form>
+    <!-- Form wrapper — hidden on success -->
+    <div id="form-wrapper" data-animate>
+      <form id="contact-form" novalidate>
+
+        <!-- Web3Forms required field -->
+        <input type="hidden" name="access_key" value={ACCESS_KEY} />
+        <!-- Sender label shown in inbox -->
+        <input type="hidden" name="from_name" value="richardtuharsky.com contact form" />
+
+        <!-- Honeypot — Web3Forms drops submission if this checkbox is checked -->
+        <div class="sr-hidden" aria-hidden="true">
+          <label>Leave this unchecked
+            <input type="checkbox" name="botcheck" tabindex="-1" autocomplete="off" />
+          </label>
+        </div>
+
+        <div class="form-row">
+          <div class="field">
+            <label for="name">Name <span aria-hidden="true">*</span></label>
+            <input
+              type="text"
+              id="name"
+              name="name"
+              placeholder="Jane Smith"
+              required
+              autocomplete="name"
+            />
+          </div>
+          <div class="field">
+            <label for="email">Email <span aria-hidden="true">*</span></label>
+            <input
+              type="email"
+              id="email"
+              name="email"
+              placeholder="jane@company.com"
+              required
+              autocomplete="email"
+            />
+          </div>
+        </div>
+
+        <div class="field">
+          <label for="subject">Subject</label>
+          <input
+            type="text"
+            id="subject"
+            name="subject"
+            placeholder="What's this about?"
+            autocomplete="off"
+          />
+        </div>
+
+        <div class="field">
+          <label for="message">Message <span aria-hidden="true">*</span></label>
+          <textarea
+            id="message"
+            name="message"
+            rows="5"
+            placeholder="Your message…"
+            required
+          ></textarea>
+        </div>
+
+        <button type="submit" id="submit-btn">
+          <span id="btn-label">Send message</span>
+        </button>
+
+        <p class="consent">
+          I read everything and reply personally.
+        </p>
+      </form>
+    </div>
+
+    <!-- Success state — shown after submit -->
+    <div id="success-state" class="success-state hidden" role="status" aria-live="polite">
+      <div class="success-icon" aria-hidden="true">✓</div>
+      <p class="success-heading">Thanks — I'll be in touch within a couple of days.</p>
+    </div>
+
+    <!-- Inline error area -->
+    <div
+      id="form-message"
+      role="alert"
+      aria-live="polite"
+      aria-atomic="true"
+      class="message hidden"
+    ></div>
+
   </div>
 </RootLayout>
+
+<style>
+  /* Honeypot — off-screen but rendered so bots see it */
+  .sr-hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+  }
+
+  form {
+    max-width: 540px;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.75rem;
+  }
+
+  @media (max-width: 500px) {
+    .form-row { grid-template-columns: 1fr; }
+  }
+
+  .field {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+  }
+
+  label {
+    font-family: var(--font-mono);
+    font-size: 0.65rem;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--color-muted-foreground);
+  }
+
+  label span { opacity: 0.6; }
+
+  input[type="text"],
+  input[type="email"],
+  textarea {
+    padding: 0 1rem;
+    border-radius: 0.75rem;
+    border: 1px solid var(--color-border);
+    background: transparent;
+    font-family: var(--font-sans);
+    font-size: 0.875rem;
+    color: var(--color-foreground);
+    transition: border-color 0.15s ease, box-shadow 0.15s ease;
+    outline: none;
+    width: 100%;
+  }
+
+  input[type="text"],
+  input[type="email"] { height: 2.75rem; }
+
+  textarea {
+    padding-top: 0.75rem;
+    padding-bottom: 0.75rem;
+    resize: vertical;
+    min-height: 8rem;
+  }
+
+  input::placeholder,
+  textarea::placeholder {
+    color: color-mix(in srgb, var(--color-muted-foreground) 50%, transparent);
+  }
+
+  input:focus,
+  textarea:focus {
+    border-color: var(--color-accent);
+    box-shadow: 0 0 0 3px color-mix(in srgb, var(--color-accent) 12%, transparent);
+  }
+
+  button[type="submit"] {
+    align-self: flex-start;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    height: 2.75rem;
+    padding: 0 1.75rem;
+    border: none;
+    border-radius: 0.75rem;
+    background: linear-gradient(to right, var(--color-accent), var(--color-accent-secondary));
+    color: var(--color-accent-foreground);
+    font-family: var(--font-sans);
+    font-size: 0.9rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: opacity 0.15s ease, transform 0.15s ease;
+    box-shadow: var(--shadow-accent);
+  }
+
+  button[type="submit"]:hover:not(:disabled) {
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-accent-lg);
+  }
+
+  button[type="submit"]:active:not(:disabled) { transform: scale(0.98); }
+
+  button[type="submit"]:disabled {
+    opacity: 0.65;
+    cursor: not-allowed;
+  }
+
+  .consent {
+    font-family: var(--font-mono);
+    font-size: 0.62rem;
+    color: var(--color-muted-foreground);
+    line-height: 1.6;
+    margin-top: 0.25rem;
+  }
+
+  /* Error message */
+  .message {
+    max-width: 540px;
+    margin-top: 1.25rem;
+    padding: 0.9rem 1.1rem;
+    border-radius: 0.75rem;
+    font-size: 0.875rem;
+    line-height: 1.5;
+    font-family: var(--font-sans);
+  }
+
+  .message.hidden { display: none; }
+
+  .message.error {
+    background: color-mix(in srgb, #dc2626 8%, transparent);
+    border: 1px solid color-mix(in srgb, #dc2626 25%, transparent);
+    color: #b91c1c;
+  }
+
+  :global(.dark) .message.error { color: #f87171; }
+
+  /* Success state */
+  .success-state {
+    max-width: 540px;
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+    padding: 1.5rem;
+    border-radius: 0.75rem;
+    background: color-mix(in srgb, #16a34a 7%, transparent);
+    border: 1px solid color-mix(in srgb, #16a34a 22%, transparent);
+  }
+
+  .success-state.hidden { display: none; }
+
+  .success-icon {
+    flex-shrink: 0;
+    width: 2rem;
+    height: 2rem;
+    border-radius: 50%;
+    background: color-mix(in srgb, #16a34a 15%, transparent);
+    border: 1px solid color-mix(in srgb, #16a34a 30%, transparent);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.9rem;
+    color: #16a34a;
+    font-weight: 600;
+  }
+
+  .success-heading {
+    font-family: var(--font-sans);
+    font-size: 0.95rem;
+    color: #15803d;
+    line-height: 1.5;
+    padding-top: 0.35rem;
+  }
+
+  :global(.dark) .success-heading { color: #4ade80; }
+</style>
+
+<script>
+  const form = document.getElementById('contact-form') as HTMLFormElement;
+  const formWrapper = document.getElementById('form-wrapper') as HTMLDivElement;
+  const successState = document.getElementById('success-state') as HTMLDivElement;
+  const messageEl = document.getElementById('form-message') as HTMLDivElement;
+  const btn = document.getElementById('submit-btn') as HTMLButtonElement;
+  const btnLabel = document.getElementById('btn-label') as HTMLSpanElement;
+
+  function showError(text: string) {
+    messageEl.textContent = text;
+    messageEl.className = 'message error';
+  }
+
+  function setLoading(loading: boolean) {
+    btn.disabled = loading;
+    btnLabel.textContent = loading ? 'Sending…' : 'Send message';
+  }
+
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+
+    const data = new FormData(form);
+
+    const name    = (data.get('name')    as string)?.trim();
+    const email   = (data.get('email')   as string)?.trim();
+    const message = (data.get('message') as string)?.trim();
+    const subject = (data.get('subject') as string)?.trim() || 'New message from contact form';
+
+    if (!name) {
+      showError('Please enter your name.');
+      (form.querySelector('#name') as HTMLInputElement).focus();
+      return;
+    }
+    if (!email) {
+      showError('Please enter your email address.');
+      (form.querySelector('#email') as HTMLInputElement).focus();
+      return;
+    }
+    if (!message) {
+      showError('Please enter a message.');
+      (form.querySelector('#message') as HTMLTextAreaElement).focus();
+      return;
+    }
+
+    setLoading(true);
+    messageEl.className = 'message hidden';
+
+    try {
+      const res = await fetch('https://api.web3forms.com/submit', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          access_key: data.get('access_key'),
+          name,
+          email,
+          subject,
+          message,
+          from_name: 'richardtuharsky.com contact form',
+          botcheck: data.get('botcheck') === 'on',
+        }),
+      });
+
+      const result = await res.json();
+
+      if (result.success) {
+        formWrapper.style.display = 'none';
+        successState.classList.remove('hidden');
+      } else {
+        showError(result.message ?? 'Something went wrong. Try again, or email me directly at richard@tuharsky.co.');
+      }
+    } catch {
+      showError('Something went wrong. Try again, or email me directly at richard@tuharsky.co.');
+    } finally {
+      setLoading(false);
+    }
+  });
+</script>
