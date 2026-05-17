@@ -6,22 +6,26 @@ const json = (data, status = 200) => new Response(JSON.stringify(data), {
   headers: { "Content-Type": "application/json" }
 });
 const POST = async ({ request }) => {
-  const API_KEY = "eo_0bb7d0869496dd3cd5b3e18cdc16c42889b0ff61058892421b1e0ef2bd07b832";
-  const LIST_ID = "1224feb2-513d-11f1-80e9-8fefb2580109";
-  let body;
   try {
-    body = await request.json();
-  } catch {
-    return json({ error: "Invalid request." }, 400);
-  }
-  const { email, firstName, website } = body;
-  if (website) {
-    return json({ success: true });
-  }
-  if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim())) {
-    return json({ error: "Please enter a valid email address." }, 400);
-  }
-  try {
+    const API_KEY = process.env.EMAILOCTOPUS_API_KEY;
+    const LIST_ID = process.env.EMAILOCTOPUS_LIST_ID;
+    if (!API_KEY || !LIST_ID) {
+      console.error("Missing EMAILOCTOPUS_API_KEY or EMAILOCTOPUS_LIST_ID");
+      return json({ error: "Server configuration error." }, 500);
+    }
+    let body;
+    try {
+      body = await request.json();
+    } catch {
+      return json({ error: "Invalid request." }, 400);
+    }
+    const { email, firstName, website } = body;
+    if (website) {
+      return json({ success: true });
+    }
+    if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim())) {
+      return json({ error: "Please enter a valid email address." }, 400);
+    }
     const res = await fetch(
       `https://api.emailoctopus.com/lists/${LIST_ID}/contacts`,
       {
@@ -45,7 +49,7 @@ const POST = async ({ request }) => {
     try {
       data = JSON.parse(text);
     } catch {
-      console.error("EmailOctopus non-JSON response:", res.status, text);
+      console.error("EmailOctopus non-JSON response:", res.status, text.slice(0, 200));
       return json({ error: "Something went wrong. Please try again." }, 500);
     }
     if (res.ok) {
@@ -54,11 +58,11 @@ const POST = async ({ request }) => {
     if (data?.error?.code === "MEMBER_EXISTS_WITH_EMAIL_ADDRESS") {
       return json({ success: true, alreadySubscribed: true });
     }
-    console.error("EmailOctopus error:", res.status, data);
+    console.error("EmailOctopus error:", res.status, JSON.stringify(data));
     return json({ error: "Something went wrong. Please try again." }, 500);
   } catch (err) {
-    console.error("Subscribe fetch error:", err);
-    return json({ error: "Network error. Please try again." }, 500);
+    console.error("Unhandled subscribe error:", err);
+    return json({ error: "Something went wrong. Please try again." }, 500);
   }
 };
 
