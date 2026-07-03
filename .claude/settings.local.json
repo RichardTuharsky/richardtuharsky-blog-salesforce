@@ -5,7 +5,13 @@
       "Bash(del *)",
       "Bash(npm run:*)",
       "Bash(pnpm add:*)",
-      "Bash(pnpm run:*)"
+      "Bash(pnpm run:*)",
+      "Bash(python3 -m pip install --break-system-packages pdfminer.six)",
+      "Bash(python3 -c ' *)",
+      "Bash(curl -s http://localhost:4321/blog/sfmc-to-mcn-migration)",
+      "Bash(curl -s http://localhost:4322/tags/sfmc)",
+      "Bash(curl -s http://localhost:4322/blog/sfmc-to-mcn-migration)",
+      "WebSearch"
     ]
   }
 }

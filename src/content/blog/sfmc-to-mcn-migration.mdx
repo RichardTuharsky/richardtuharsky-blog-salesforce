@@ -1,0 +1,168 @@
+---
+title: "Marketing Cloud Engagement to Marketing Cloud Next: Is It Worth Migrating?"
+summary: "Most MCE orgs are asking the wrong question. The real work isn't picking a migration date — it's getting your data ready for Data Cloud. Here's the honest breakdown."
+date: '2026-06-15'
+tags: [sfmc]
+draft: false
+postLayout: "column"
+---
+
+If you run Marketing Cloud Engagement and you've sat through a Salesforce QBR in the last year, you've heard about Marketing Cloud Next. Probably framed two ways at once: *"this is the future of the platform"* and *"don't worry, nothing is being sunset."* Both statements are true. That's exactly why teams are confused.
+
+<div class="my-6 rounded-xl border-l-4 border-[#0052ff] bg-[#eff4ff] dark:bg-[#001552]/40 dark:border-[#4d7cff] px-6 py-4 text-[#002777] dark:text-[#93b5ff]">
+**The short answer before the long one:** for most MCE orgs right now, a full migration is the wrong project. Getting your data ready for Data Cloud is the right one.
+</div>
+
+The rest of this post explains why.
+
+---
+
+## What Marketing Cloud Next Actually Is
+
+Marketing Cloud Next (MCN) was announced at Connections in June 2025. It is **not** a new version of MCE. It's a rebuild of Salesforce's marketing stack on the core platform, with Data 360 (Data Cloud) as the data foundation and Agentforce as the native AI layer. It folds the acquisition history — ExactTarget, Pardot, Datorama, Evergage — into one application that covers both B2B and B2C.
+
+For someone who lives in MCE, the practical translation looks like this:
+
+<div class="my-6 space-y-3">
+  <div class="rounded-lg border border-[#bfd4ff] bg-[#eff4ff] dark:bg-[#001552]/30 dark:border-[#002d8f] p-4">
+    <p class="font-semibold text-[#0042d6] dark:text-[#6090ff] mb-1">Data Extensions → Data Model Objects</p>
+    <p class="text-sm text-[#0f172a] dark:text-slate-300">Your bespoke relational tables give way to a standardized data model. Identity resolution stitches records from CRM, commerce, service, and MCE into one unified individual — replacing the scattered subscriber-key logic most orgs run on today.</p>
+  </div>
+  <div class="rounded-lg border border-[#bfd4ff] bg-[#eff4ff] dark:bg-[#001552]/30 dark:border-[#002d8f] p-4">
+    <p class="font-semibold text-[#0042d6] dark:text-[#6090ff] mb-1">Automation Studio SQL → Data Cloud Segmentation</p>
+    <p class="text-sm text-[#0f172a] dark:text-slate-300">Segments are built on unified profiles, including natural-language segment creation, instead of hand-written queries against data views and DEs.</p>
+  </div>
+  <div class="rounded-lg border border-[#bfd4ff] bg-[#eff4ff] dark:bg-[#001552]/30 dark:border-[#002d8f] p-4">
+    <p class="font-semibold text-[#0042d6] dark:text-[#6090ff] mb-1">Journey Builder → Campaign Flows</p>
+    <p class="text-sm text-[#0f172a] dark:text-slate-300">Campaigns run on the same Flow engine Salesforce uses for sales and service automation, making real-time, event-driven triggering the default rather than an integration project.</p>
+  </div>
+  <div class="rounded-lg border border-[#ff6b3d]/40 bg-[#fff4f0] dark:bg-[#3d1a0a]/30 dark:border-[#ff6b3d]/30 p-4">
+    <p class="font-semibold text-[#c04010] dark:text-[#ff8c5a] mb-1">AMPscript → Dynamic Values from the Unified Profile</p>
+    <p class="text-sm text-[#0f172a] dark:text-slate-300">Personalization moves away from code-in-the-template toward data-graph-driven fields. <strong>AMPscript is not supported in MCN today.</strong> If your program is heavy on AMPscript and SSJS, read that sentence twice.</p>
+  </div>
+</div>
+
+---
+
+## What Salesforce Is (and Isn't) Saying
+
+Salesforce is deliberate about the word *convergence*. There is no sunset date for MCE. Email Studio, Journey Builder, Content Builder, and Automation Studio continue to ship and receive updates. Nobody is forcing a cutover.
+
+The mechanism is the **Engagement+ path**: everything in your current MCE org stays intact, and the on-core capabilities (Marketing Cloud Advanced, Data Cloud, Agentforce) are added alongside it on a consumption basis. You build new messaging and flows in MCN and invoke your existing Journey Builder journeys from within them — a daisy-chain, not a lift-and-shift.
+
+<div class="my-6 rounded-xl border border-[#e2e8f0] dark:border-slate-700 bg-white dark:bg-slate-800/50 p-5">
+  <p class="text-sm font-semibold uppercase tracking-wide text-[#64748b] dark:text-slate-400 mb-2">What Salesforce says less loudly</p>
+  <p class="text-[#0f172a] dark:text-slate-200">As of early 2026 there is no automated tooling for moving content. Email templates, images, and files don't transfer with one click. Every template rebuild is a manual exercise. Anyone quoting you a fast, clean migration of a mature MCE estate hasn't looked inside a mature MCE estate.</p>
+</div>
+
+---
+
+## So — Worth Migrating?
+
+Wrong first question, but let's answer it anyway. It depends on what your org actually looks like.
+
+<div class="my-6 grid gap-4 sm:grid-cols-2">
+  <div class="rounded-xl border border-emerald-200 bg-emerald-50 dark:bg-emerald-950/30 dark:border-emerald-800 p-5">
+    <p class="font-semibold text-emerald-700 dark:text-emerald-400 mb-3">✓ You can start converging now if:</p>
+    <ul class="space-y-1 text-sm text-emerald-900 dark:text-emerald-200 list-disc list-inside">
+      <li>Journeys are mostly standard entry-source-plus-decision-splits</li>
+      <li>Custom code is light</li>
+      <li>CRM and MCE data are in reasonable shape</li>
+      <li>You want the AI and real-time capabilities</li>
+    </ul>
+    <p class="mt-3 text-xs text-emerald-700 dark:text-emerald-400 font-medium">The path is genuinely additive for you.</p>
+  </div>
+  <div class="rounded-xl border border-amber-200 bg-amber-50 dark:bg-amber-950/30 dark:border-amber-700 p-5">
+    <p class="font-semibold text-amber-700 dark:text-amber-400 mb-3">⚠ You should wait — but prepare — if:</p>
+    <ul class="space-y-1 text-sm text-amber-900 dark:text-amber-200 list-disc list-inside">
+      <li>Heavy AMPscript, SSJS, or CloudPages usage</li>
+      <li>Complex multi-DE data models</li>
+      <li>High-volume transactional sends</li>
+    </ul>
+    <p class="mt-3 text-xs text-amber-700 dark:text-amber-400 font-medium">This is a phased re-architecture measured in quarters. Rushing it is how revenue-critical sends break.</p>
+  </div>
+</div>
+
+<div class="my-6 rounded-xl border border-[#e2e8f0] dark:border-slate-700 bg-[#f8fafc] dark:bg-slate-800/50 px-6 py-4">
+  <p class="font-semibold text-[#0f172a] dark:text-slate-100 mb-1">Everyone, regardless of camp:</p>
+  <p class="text-[#334155] dark:text-slate-300 text-sm">Two years of Dreamforce and Connections keynotes have been Data Cloud, Agentforce, and the core platform. MCE isn't dying, but it also isn't where the roadmap energy goes. Doing nothing is also a decision — just one you'll end up making reactively instead of on your own timeline.</p>
+</div>
+
+---
+
+## The Part Nobody Puts on the Slide
+
+Whatever timeline you pick, the gating factor is the same: **your data**.
+
+Data Cloud's unified profile is only as good as what feeds it. If your subscriber keys are inconsistent across business units, your data extensions are undocumented, and your Marketing Cloud Connect sync has been quietly half-broken since the agency that built it left — identity resolution won't fix that. It will produce confident-looking unified profiles built on garbage, and every AI feature downstream inherits the problem.
+
+Which is why the pragmatic sequence for an MCE org in 2026 looks like this:
+
+<div class="my-6 space-y-3">
+  <div class="flex gap-4 rounded-lg border border-[#e2e8f0] dark:border-slate-700 bg-white dark:bg-slate-800/40 p-4">
+    <div class="flex-shrink-0 w-8 h-8 rounded-full bg-[#0052ff] text-white text-sm font-bold flex items-center justify-center">1</div>
+    <div>
+      <p class="font-semibold text-[#0f172a] dark:text-slate-100">Audit the estate</p>
+      <p class="text-sm text-[#334155] dark:text-slate-300 mt-0.5">Every active DE, journey, automation, and piece of custom code — with its dependencies. Most orgs discover they don't actually know what's live.</p>
+    </div>
+  </div>
+  <div class="flex gap-4 rounded-lg border border-[#e2e8f0] dark:border-slate-700 bg-white dark:bg-slate-800/40 p-4">
+    <div class="flex-shrink-0 w-8 h-8 rounded-full bg-[#0052ff] text-white text-sm font-bold flex items-center justify-center">2</div>
+    <div>
+      <p class="font-semibold text-[#0f172a] dark:text-slate-100">Fix hygiene and identity</p>
+      <p class="text-sm text-[#334155] dark:text-slate-300 mt-0.5">Consistent keys, documented models, a working MCE-to-CRM sync. This pays off immediately in your current sends, before MCN enters the picture.</p>
+    </div>
+  </div>
+  <div class="flex gap-4 rounded-lg border border-[#e2e8f0] dark:border-slate-700 bg-white dark:bg-slate-800/40 p-4">
+    <div class="flex-shrink-0 w-8 h-8 rounded-full bg-[#0052ff] text-white text-sm font-bold flex items-center justify-center">3</div>
+    <div>
+      <p class="font-semibold text-[#0f172a] dark:text-slate-100">Stand up Data Cloud</p>
+      <p class="text-sm text-[#334155] dark:text-slate-300 mt-0.5">Connect MCE and CRM, run identity resolution, and validate that unified individuals actually resolve the way your business thinks about a customer.</p>
+    </div>
+  </div>
+  <div class="flex gap-4 rounded-lg border border-[#e2e8f0] dark:border-slate-700 bg-white dark:bg-slate-800/40 p-4">
+    <div class="flex-shrink-0 w-8 h-8 rounded-full bg-[#0052ff] text-white text-sm font-bold flex items-center justify-center">4</div>
+    <div>
+      <p class="font-semibold text-[#0f172a] dark:text-slate-100">Build new on core, daisy-chain to old</p>
+      <p class="text-sm text-[#334155] dark:text-slate-300 mt-0.5">New use cases in MCN flows, invoking existing journeys where they still earn their keep.</p>
+    </div>
+  </div>
+  <div class="flex gap-4 rounded-lg border border-[#e2e8f0] dark:border-slate-700 bg-white dark:bg-slate-800/40 p-4">
+    <div class="flex-shrink-0 w-8 h-8 rounded-full bg-[#0052ff] text-white text-sm font-bold flex items-center justify-center">5</div>
+    <div>
+      <p class="font-semibold text-[#0f172a] dark:text-slate-100">Let the center of gravity shift</p>
+      <p class="text-sm text-[#334155] dark:text-slate-300 mt-0.5">Retire journeys as their MCN replacements prove out — not before.</p>
+    </div>
+  </div>
+</div>
+
+Do steps one through three and you've improved the performance of the platform you're on today and de-risked the move — whether you make it this year or in 2028.
+
+<div class="my-8 rounded-xl border-l-4 border-[#ff6b3d] bg-[#fff4f0] dark:bg-[#3d1a0a]/30 dark:border-[#ff8c5a] px-6 py-4">
+  <p class="italic text-[#7c2d12] dark:text-[#fdba74]">"Should we migrate" quietly assumes the platform is the decision. It isn't. The data is. Get the data right and the platform question stops being scary in either direction.</p>
+</div>
+
+Running MCE and not sure which camp you're in? That's usually a two-week audit, not a leap of faith. Happy to compare notes.
+
+---
+
+## Further Reading
+
+### Official / Trailhead
+
+- **[Marketing Cloud Next Basics](https://trailhead.salesforce.com/content/learn/modules/marketing-cloud-next-basics)** — Salesforce's own framing of what MCN is and the problems it targets.
+- **[Marketing Cloud Next for Marketing Cloud Engagement Foundations](https://trailhead.salesforce.com/content/learn/modules/marketing-cloud-next-for-marketing-cloud-engagement-foundations)** — the most useful module for MCE practitioners: Flow-triggered sends into MCE, journey-to-flow handoffs, Unified Reporting.
+- **[Data 360-Driven Interactions in Marketing Cloud Engagement](https://trailhead.salesforce.com/content/learn/modules/data-clouddriven-interactions-in-marketing-cloud)** — how Data Cloud segments land in Journey Builder as shared data extensions, including refresh and re-entry behavior.
+- **[Data 360 Learning Journey](https://trailhead.salesforce.com/content/learn/trailhead-journey/data-360)** — the structured badge path if you're skilling up a team.
+
+### Community Analysis
+
+- **[Salesforce Ben: Marketing Cloud Next vs. MCE, MCAE, MCG, MCA](https://www.salesforceben.com/salesforce-marketing-cloud-next-vs-mce-mcae-mcg-mca/)** — Lucy Mazalon's untangling of the naming soup and the convergence pathways between products.
+- **[Salesforce Ben: 8 Takeaways from Connections '25](https://www.salesforceben.com/8-takeaways-from-salesforce-connections-25/)** — includes the honest read that MCE is the heavier lift for convergence, plus notes on credit-based consumption.
+- **[Knak: Marketing Cloud Next Doesn't Have to Mean Starting Over](https://knak.com/blog/salesforce-marketing-cloud-next/)** — a useful counterweight to migration panic; their practitioner estimate is that real migration traction doesn't arrive before 2028.
+
+### Migration Mechanics
+
+- **[Mavlers: SFMC to Marketing Cloud Next Migration Checklist](https://www.mavlers.com/blog/sfmc-to-marketing-cloud-next-migration-guide/)** — the most technically concrete walkthrough: data kits, connector lookback, identity resolution sequencing, and the daisy-chain pattern.
+- **[Mavlers: Marketing Cloud Next — Who Should Move and Why](https://www.mavlers.com/blog/salesforce-marketing-cloud-next-guide/)** — includes the Engagement+ consumption model and the current content-migration gap.
+- **[MarCloud: Is It Time to Move?](https://marcloudconsulting.com/marketing-cloud/salesforce-marketing-cloud-next/)** — written for the MCAE side but the decision framework (and the "fix data hygiene first" advice) applies equally to MCE.
