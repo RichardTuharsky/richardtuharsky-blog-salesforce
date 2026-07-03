@@ -146,6 +146,46 @@ Running MCE and not sure which camp you're in? That's usually a two-week audit, 
 
 ---
 
+## Data
+
+This section deserves its own heading because it keeps getting buried in migration discussions.
+
+Data Cloud doesn't create a unified profile from nothing. It resolves identity across sources using match rules you configure. The output is only as good as the inputs, and most MCE orgs have inputs with years of accumulated drift.
+
+The three most common problems:
+
+<div class="my-6 space-y-3">
+  <div class="rounded-lg border border-[#e2e8f0] dark:border-slate-700 bg-white dark:bg-slate-800/40 p-5">
+    <p class="font-semibold text-[#0f172a] dark:text-slate-100 mb-1">Subscriber key inconsistency</p>
+    <p class="text-sm text-[#334155] dark:text-slate-300">Different business units use different keys for the same person. Email address in one, CRM contact ID in another, a legacy numeric ID in a third. Identity resolution sees three people where there is one customer. Every downstream segment, every AI signal, every send decision inherits that split.</p>
+  </div>
+  <div class="rounded-lg border border-[#e2e8f0] dark:border-slate-700 bg-white dark:bg-slate-800/40 p-5">
+    <p class="font-semibold text-[#0f172a] dark:text-slate-100 mb-1">Undocumented data extensions</p>
+    <p class="text-sm text-[#334155] dark:text-slate-300">DEs that were built for a campaign three years ago and never retired. No retention rules, no owner, no record of what populates them or why. When you go to map your data model to Data Cloud objects, you're reverse-engineering archaeology. The mapping work stalls, the timeline slips.</p>
+  </div>
+  <div class="rounded-lg border border-[#e2e8f0] dark:border-slate-700 bg-white dark:bg-slate-800/40 p-5">
+    <p class="font-semibold text-[#0f172a] dark:text-slate-100 mb-1">A broken Marketing Cloud Connect sync</p>
+    <p class="text-sm text-[#334155] dark:text-slate-300">The sync that was configured by an agency, partially broke when someone changed a field in Sales Cloud, and has been silently mismatching records for 18 months. Consent flags not syncing. Opt-outs stuck in one direction. You find out when identity resolution produces unified profiles with contradictory suppression records.</p>
+  </div>
+</div>
+
+None of these require MCN to fix. All of them block MCN from working correctly if you don't.
+
+<div class="my-6 rounded-xl border border-[#bfd4ff] bg-[#eff4ff] dark:bg-[#001552]/30 dark:border-[#002d8f] px-6 py-4">
+  <p class="font-semibold text-[#0042d6] dark:text-[#6090ff] mb-2">What "data ready" actually means</p>
+  <ul class="space-y-1 text-sm text-[#0f172a] dark:text-slate-300 list-disc list-inside">
+    <li>One consistent identifier strategy across all business units and source systems</li>
+    <li>Every active DE documented: owner, source, purpose, retention period</li>
+    <li>MCE-to-CRM sync validated end-to-end, consent flags confirmed in both directions</li>
+    <li>A working data dictionary - even a spreadsheet counts - before mapping to Data Cloud objects</li>
+    <li>Identity resolution test run with a known set of records, results spot-checked against what your business expects</li>
+  </ul>
+</div>
+
+That list isn't glamorous. It doesn't show up in keynotes. But it's the difference between Data Cloud unlocking real-time personalization and Data Cloud producing a beautifully formatted unified profile for the wrong person.
+
+---
+
 ## Further Reading
 
 ### Official / Trailhead
