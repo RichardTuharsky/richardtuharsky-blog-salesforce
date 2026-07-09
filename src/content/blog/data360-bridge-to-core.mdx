@@ -1,0 +1,165 @@
+---
+title: "Salesforce Data 360 and Marketing Cloud: How the Data Cloud Rebrand Bridges to Your Core CRM"
+summary: "Data Cloud is now Data 360 — same product, new name. Here's what that actually means for Marketing Cloud orgs trying to close the gap between email data and CRM data."
+date: '2026-07-09'
+tags: [sfmc]
+draft: false
+postLayout: "column"
+---
+
+If you own Marketing Cloud, you have probably felt the seam. Your email and journey data lives in one system. Your sales pipeline and service history live in another. Somewhere in between sits a connector, a nightly sync, and a handful of fields that never quite agree with each other. When someone asks "what's the full picture on this customer," the honest answer is that no single system holds it.
+
+That seam is exactly what Salesforce Data 360 is built to close. Before you can decide whether it matters for your org, it helps to cut through the naming — because the Data Cloud rebrand has confused a lot of teams.
+
+---
+
+## What Is Salesforce Data 360?
+
+**Salesforce Data 360 is the platform that ingests data from every Salesforce cloud and many outside systems, resolves it into a single customer profile, and pushes that profile back out to wherever it is useful.**
+
+If you have been searching "Salesforce Data Cloud vs Data 360," here is the short answer: they are the same product.
+
+At Dreamforce in October 2025, Salesforce renamed Data Cloud to Data 360, as part of a broader "Agentforce 360" structure for its AI products. The name is new. The product underneath is not. The license, the integrations, and the data model carried over unchanged.
+
+<div class="my-6 rounded-xl border border-[#e2e8f0] dark:border-slate-700 bg-[#f8fafc] dark:bg-slate-800/50 px-6 py-4">
+  <p class="text-sm font-semibold uppercase tracking-wide text-[#64748b] dark:text-slate-400 mb-2">The naming history</p>
+  <p class="text-sm text-[#334155] dark:text-slate-300">Data 360 is the <strong>sixth name</strong> for this platform: Customer 360 Audiences → Salesforce CDP → Marketing Cloud CDP → Genie → Data Cloud → Data 360. If a vendor tells you that you need to "migrate to Data 360," be skeptical. For most orgs this is a convergence story, not a rip-and-replace.</p>
+</div>
+
+The interesting question is not "should I buy a new thing." It is "what does putting my data in the middle actually let me do that I can't do today."
+
+---
+
+## What Data 360 Does, in One Sentence
+
+Data 360 ingests data from the systems you already run, unifies it into one profile, and activates that profile — and the signals derived from it — back out to marketing, sales, and service.
+
+Three things make that more than marketing language:
+
+<div class="my-6 space-y-3">
+  <div class="rounded-lg border border-[#bfd4ff] bg-[#eff4ff] dark:bg-[#001552]/30 dark:border-[#002d8f] p-5">
+    <p class="font-semibold text-[#0042d6] dark:text-[#6090ff] mb-1">Native ingestion from systems you already run</p>
+    <p class="text-sm text-[#0f172a] dark:text-slate-300">Data 360 has native connectors for Sales Cloud, Service Cloud, Marketing Cloud Engagement, Marketing Cloud Account Engagement, and B2C Commerce — alongside 270+ connectors, APIs, SDKs, and MuleSoft for everything else. Your MCE data and your core CRM data land in the same place without a bespoke integration for each pairing.</p>
+  </div>
+  <div class="rounded-lg border border-[#bfd4ff] bg-[#eff4ff] dark:bg-[#001552]/30 dark:border-[#002d8f] p-5">
+    <p class="font-semibold text-[#0042d6] dark:text-[#6090ff] mb-1">Zero-copy federation — your warehouse stays where it is</p>
+    <p class="text-sm text-[#0f172a] dark:text-slate-300">Data 360 can query data sitting in Snowflake, Databricks, BigQuery, or Redshift without duplicating it, using open formats (Parquet and Iceberg) underneath. That matters for cost and for the "single source of truth" argument your data team will otherwise resist.</p>
+  </div>
+  <div class="rounded-lg border border-[#bfd4ff] bg-[#eff4ff] dark:bg-[#001552]/30 dark:border-[#002d8f] p-5">
+    <p class="font-semibold text-[#0042d6] dark:text-[#6090ff] mb-1">Unify, then activate</p>
+    <p class="text-sm text-[#0f172a] dark:text-slate-300">Incoming data is harmonized into a shared model where the unified profile becomes the reference point for segmentation and activation. From there, Data 360 activates audiences back into Marketing Cloud, ad platforms, and other endpoints — handling the real-world messiness of business-unit-aware filtering and multiple Enterprise IDs.</p>
+  </div>
+</div>
+
+---
+
+## Data 360 and Marketing Cloud Integration, Explained
+
+This is the part that changes how you plan.
+
+**Marketing Cloud Next** is built natively on Data 360. Legacy Marketing Cloud Engagement ran on ExactTarget's separate infrastructure — which is the root cause of the seam you feel today. In the newer model, marketing data and CRM data are no longer separate systems bolted together. They share one data layer. The practical effect: fewer connectors to babysit, less nightly-sync reconciliation, because the audience you build, the journey you launch, and any agent you deploy all read from the same profile.
+
+<div class="my-6 rounded-xl border-l-4 border-[#0052ff] bg-[#eff4ff] dark:bg-[#001552]/40 dark:border-[#4d7cff] px-6 py-4 text-[#002777] dark:text-[#93b5ff]">
+  <strong>You do not have to be on Marketing Cloud Next to benefit.</strong> You can connect your existing Marketing Cloud Engagement account to Data 360 today — including connecting multiple Enterprise IDs, each with its own connection. Keep sending from the platform you know, but let Data 360 become the place where marketing, sales, and service data finally meet.
+</div>
+
+---
+
+## The Bridge to the Core Salesforce Platform, Concretely
+
+"Bridge to the core platform" is easy to say and easy to hand-wave. Here is what it actually looks like in the product:
+
+<div class="my-6 space-y-3">
+  <div class="flex gap-4 rounded-lg border border-[#e2e8f0] dark:border-slate-700 bg-white dark:bg-slate-800/40 p-4">
+    <div class="flex-shrink-0 w-8 h-8 rounded-full bg-[#0052ff] text-white text-sm font-bold flex items-center justify-center">1</div>
+    <div>
+      <p class="font-semibold text-[#0f172a] dark:text-slate-100">Governance runs through core Salesforce</p>
+      <p class="text-sm text-[#334155] dark:text-slate-300 mt-0.5">Access policies, user identities, and permissions in Data 360 are administered with the same Salesforce tools your admins already use — so the marketing data layer is not a separate security island.</p>
+    </div>
+  </div>
+  <div class="flex gap-4 rounded-lg border border-[#e2e8f0] dark:border-slate-700 bg-white dark:bg-slate-800/40 p-4">
+    <div class="flex-shrink-0 w-8 h-8 rounded-full bg-[#0052ff] text-white text-sm font-bold flex items-center justify-center">2</div>
+    <div>
+      <p class="font-semibold text-[#0f172a] dark:text-slate-100">Signals flow back into core processes</p>
+      <p class="text-sm text-[#334155] dark:text-slate-300 mt-0.5">Data 360 supports real-time data actions. When a meaningful event is detected — a purchase, a form submission, a balance crossing a threshold — it can trigger a Salesforce Flow, update a CRM record, or call an external webhook. That is the difference between a marketing profile that merely describes a customer and one that can set operational work in motion inside Sales Cloud and Service Cloud.</p>
+    </div>
+  </div>
+  <div class="flex gap-4 rounded-lg border border-[#e2e8f0] dark:border-slate-700 bg-white dark:bg-slate-800/40 p-4">
+    <div class="flex-shrink-0 w-8 h-8 rounded-full bg-[#0052ff] text-white text-sm font-bold flex items-center justify-center">3</div>
+    <div>
+      <p class="font-semibold text-[#0f172a] dark:text-slate-100">Insights computed once, reused everywhere</p>
+      <p class="text-sm text-[#334155] dark:text-slate-300 mt-0.5">Calculated insights let you define metrics like lifetime value or visit recency once — in Data 360 — and then use them for segmentation, personalization, and service context alike, instead of recreating the same logic in three places and watching them drift.</p>
+    </div>
+  </div>
+</div>
+
+Put together, the pattern is simple. Marketing engagement data and core CRM data land in one profile, that profile is enriched with shared metrics, and the results are activated outward into campaigns and pushed inward into core workflows. The marketing team and the sales and service team stop arguing about whose number is right, because they are reading the same one.
+
+---
+
+## What About Data 360 Pricing?
+
+Cost is the first thing most buyers search for, so it is worth being clear.
+
+<div class="my-6 rounded-xl border border-[#bfd4ff] bg-[#eff4ff] dark:bg-[#001552]/30 dark:border-[#002d8f] px-6 py-4">
+  <p class="font-semibold text-[#0042d6] dark:text-[#6090ff] mb-2">The key pricing shift</p>
+  <p class="text-sm text-[#0f172a] dark:text-slate-300">Data 360 pricing is consumption-based — you pay for what you use rather than a flat seat count. Salesforce has also simplified the model recently: structured data ingested from core Salesforce connectors (Sales Cloud, Service Cloud, Marketing Cloud Engagement, Marketing Cloud Personalization, Commerce Cloud) can now be brought in at <strong>no additional cost</strong>.</p>
+  <p class="text-sm text-[#0f172a] dark:text-slate-300 mt-2">Check current SKUs and consumption rates before you budget — these terms change. The practical takeaway: bringing your own Salesforce data into the unified profile is cheaper than it used to be, which lowers the barrier to that first use case.</p>
+</div>
+
+---
+
+## The Reason Everyone Actually Cares: Agentforce and AI
+
+The push behind all of this is **Agentforce**. AI agents are only as good as the data they can see, and an agent reasoning over siloed, contradictory records produces confident nonsense. Data 360 is positioned as the data foundation that gives agents a unified, real-time profile to work from.
+
+<div class="my-8 rounded-xl border-l-4 border-[#ff6b3d] bg-[#fff4f0] dark:bg-[#3d1a0a]/30 dark:border-[#ff8c5a] px-6 py-4">
+  <p class="italic text-[#7c2d12] dark:text-[#fdba74]">Clean and connect the data first, then add the AI. Buying the agent before the foundation is how you end up automating a mess.</p>
+</div>
+
+---
+
+## What to Do With This
+
+You do not need a wholesale migration to start. The realistic first steps are narrow:
+
+<div class="my-6 grid gap-4 sm:grid-cols-3">
+  <div class="rounded-xl border border-emerald-200 bg-emerald-50 dark:bg-emerald-950/30 dark:border-emerald-800 p-5">
+    <p class="font-semibold text-emerald-700 dark:text-emerald-400 mb-2">Step 1</p>
+    <p class="text-sm text-emerald-900 dark:text-emerald-200">Connect your existing Marketing Cloud Engagement account to Data 360</p>
+  </div>
+  <div class="rounded-xl border border-emerald-200 bg-emerald-50 dark:bg-emerald-950/30 dark:border-emerald-800 p-5">
+    <p class="font-semibold text-emerald-700 dark:text-emerald-400 mb-2">Step 2</p>
+    <p class="text-sm text-emerald-900 dark:text-emerald-200">Bring in Sales Cloud and Service Cloud data, unify around a single profile</p>
+  </div>
+  <div class="rounded-xl border border-emerald-200 bg-emerald-50 dark:bg-emerald-950/30 dark:border-emerald-800 p-5">
+    <p class="font-semibold text-emerald-700 dark:text-emerald-400 mb-2">Step 3</p>
+    <p class="text-sm text-emerald-900 dark:text-emerald-200">Target one high-value use case: a churn signal, a lifetime-value segment, a lead handoff that currently falls through</p>
+  </div>
+</div>
+
+Prove the seam is gone in one place, then widen it.
+
+If your Marketing Cloud org is underperforming, your journeys have become undocumented, or an agency built something and left — that groundwork is worth doing before it gets more expensive, and long before you write a cheque for AI.
+
+---
+
+## Sources
+
+Every claim above is drawn from Salesforce's own documentation and recognized independent authorities. Verify any specific figure against these before quoting it, since the platform moves quickly.
+
+### Official Salesforce Documentation
+
+- **[Data 360 (Formerly Data Cloud)](https://www.salesforce.com/data/)** - Salesforce's product page for Data 360.
+- **[About Salesforce Data 360](https://help.salesforce.com/s/articleView?id=data.c360_a_data_cloud.htm&language=en_US&type=5)** - Core help article.
+- **[Set Up a Marketing Cloud Engagement Connection in Data 360](https://help.salesforce.com/s/articleView?id=data.c360_a_set_up_marketing_cloud_connection.htm&language=en_US&type=5)** - Step-by-step MCE connection setup.
+- **[Data 360 SKUs and Pricing Models](https://help.salesforce.com/s/articleView?id=002330973&language=en_US&type=1)** - Current pricing reference.
+- **[Data 360 Architecture](https://architect.salesforce.com/docs/architect/fundamentals/guide/data-360-architecture)** - Salesforce Architect guide.
+- **[Data 360 Integration Patterns and Practices](https://architect.salesforce.com/docs/architect/fundamentals/guide/data360_integration_patterns_and_practices)** - Integration patterns guide.
+- **[Salesforce Blog: Data Cloud Pricing Updates](https://www.salesforce.com/blog/data-cloud-pricing-updates/)** - Pricing changes and zero-cost ingestion details.
+
+### Independent Industry Authorities
+
+- **[Salesforce Ben: Salesforce Data Cloud Renamed to 'Data 360'](https://www.salesforceben.com/salesforce-data-cloud-renamed-to-data-360-as-part-of-agentforce-360/)** - Coverage of the Dreamforce 2025 rebrand.
+- **[Salesforce Ben: Data 360 - The 3 Pillars of Implementation](https://www.salesforceben.com/salesforce-data-360-formerly-data-cloud-the-3-pillars-of-implementation/)** - Practitioner implementation breakdown.
+- **[Salesforce Ben: How Much Does Salesforce Data Cloud Cost?](https://www.salesforceben.com/how-much-does-salesforce-data-cloud-cost-overview-of-editions-and-add-ons/)** - Editions and add-ons overview.
