@@ -5,68 +5,132 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 ## Commands
 
 ```bash
-npm run dev       # Start dev server at localhost:4321
-npm run build     # Build production site to ./dist/
-npm run preview   # Build then preview production site locally
-npm run astro     # Run Astro CLI commands directly
+npm run dev       # Dev server at localhost:4321
+npm run build     # Production build to ./dist/
+npm run preview   # Build then preview production locally
+npm run astro     # Astro CLI directly
 ```
 
-There is no test runner or linter configured in this project.
+No test runner or linter is configured.
+
+## What this site is
+
+Independent **HubSpot consulting practice** site for a solo consultant repositioning from Salesforce to HubSpot. Content is intentionally minimal: one homepage (10 sections), `/services`, `/about`, `/notes` + `/notes/[slug]`, `/privacy`, `/terms`, `/llms.txt`. No case studies, no tag routes, no comments, no search, no newsletter, no client logos, no testimonials. There are comment-only stubs for a logo strip and testimonial section, ready to switch on when honest content exists.
+
+The **positioning** is the spine: N years of enterprise Salesforce work, now deliberately building HubSpot for companies that don't need Salesforce's weight. All copy is first-person singular ("I", never "we"/"our team"). Never imply a long HubSpot track record.
 
 ## Architecture
 
-This is an **Astro 5 blog** using MDX content collections, Solid.js for interactive islands, and Tailwind CSS v4. The site runs in **SSR mode** (`output: 'server'`) deployed on Vercel via `@astrojs/vercel`.
+Astro 5 SSR on Vercel (`@astrojs/vercel`) with MDX content collections, Solid.js islands, and Tailwind CSS v4 via `@tailwindcss/vite`.
 
 ### Configuration hub: `src/consts.ts`
 
-All site-wide behavior is controlled from a single file. This includes the site URL, analytics provider (Fathom, GA, Plausible, Umami, etc.), Giscus comments config, navigation links, pagination (default: 5 posts per page), and the `POST_METADATA` object that toggles per-post features (cover images, tags, authors, related posts, table of contents, share buttons, comments).
+Single source of truth. Exports:
+- `SITE_METADATA` — brand, domain, SEO copy, HubSpot portal (portalId, region, meetingsEmbedUrl, form IDs), socials
+- `NAVIGATION` — Services · How I work · Notes · About (order matters — capability → method → thinking → identity)
+- `OFFERS` — the three scoped engagements (name, who, delivered, duration, price)
+- `NOTE_METADATA` — per-note display toggles (notes are lean: no TOC sidebar, no share buttons, no comments)
+- `ITEMS_PER_PAGE`
+
+**All identity-specific values are `{{PLACEHOLDER}}` tokens.** Grep for `{{` to surface every remaining stub before launch. The site renders honestly with placeholders in place ("priced per scope") and sharper once real values land. Never invent numbers, client counts, results, or years.
 
 ### Content collections: `src/content.config.ts`
 
-Three typed collections drive all content:
-- `blog/` — MDX posts with frontmatter: `title`, `date`, `tags`, `authors`, `draft`, `summary`, `postLayout` (`"simple"` | `"column"`), `cover`, `related`, `canonicalUrl`
-- `authors/` — MDX author profiles referenced by blog posts
-- `tags/` — MDX tag definitions; a `salesforce-core` tag is applied as default when none is set
+Three typed collections:
+- `notes/` — MDX; frontmatter: `title`, `summary`, `date`, `lastmod`, `draft`, `cover`, `tags`, `authors`, `canonicalUrl`, `related`. Default tag is `sfmc`.
+- `authors/` — MDX profiles. **Schema uses `z.string()` (not `.email()`/`.url()`)** so `{{PLACEHOLDER}}` values don't fail the build. Tighten these once real values land.
+- `tags/` — MDX definitions. Tag routes were removed; tags now appear only as inline labels on note cards.
 
-Content is queried via Astro's `getCollection()` API. `src/functions.ts` provides `sortBlogPosts()` and `excludeDrafts()` helpers. Note: `excludeDrafts` is currently hardcoded to return `true` in both dev and prod, so `draft: true` posts will always render.
+Helpers in `src/functions.ts`: `sortNotes()`, `excludeDrafts()` (properly gated on `import.meta.env.PROD`).
 
-### Page types
+### Pages
 
-There are two distinct types of pages:
+**Homepage** (`src/pages/index.astro`) — 10 marked sections `§01`–`§09` (plus footer):
+1. Hero (position headline, not service description)
+2. Credibility strip (honest facts only, no logos)
+3. What I do (three offer cards from `OFFERS`)
+4. Who I'm not for (qualification, unapologetic)
+5. Salesforce → HubSpot (the one topic with earned authority — full section, includes SF-object→HubSpot-object schema morph)
+6. How I work (three phase-questions in schema-boxes)
+7. Notes (latest three)
+8. What happens on the call
+9. Book (HubSpot meetings embed)
 
-**Content-collection pages** — blog posts in `src/content/blog/` rendered via `src/pages/blog/[...slug].astro`, which delegates to either `PostLayout.astro` or `SimplePostLayout.astro` based on the post's `postLayout` frontmatter.
+Every section opens with `<p class="schema-annotation">§ NN — SECTION</p>` — this is the signature aesthetic.
 
-**Standalone Astro pages** — hand-authored `.astro` files for everything else. `src/pages/case-studies/` is the key example: each case study is a self-contained `.astro` page (not a content collection entry). To add a new case study, create a new file in that directory and link it from `src/pages/case-studies/index.astro`. Case study pages use `shiki` directly at request time to syntax-highlight embedded code samples.
+**Standalone pages**: `/services`, `/about`, `/privacy`, `/terms`, `/404`. All use `RootLayout`.
 
-### Layouts
+**Notes**: `/notes` (list) + `/notes/[...slug]` (post, prerendered). `[...slug]` resolves `authors`, `tags`, `related` via `getEntries()`.
 
-- `PostLayout.astro` — Full post view: cover, author, TOC from headings, share buttons, related posts, comments
-- `SimplePostLayout.astro` — Stripped-down post view (no sidebar features)
-- `ListWithTagsLayout.astro` — Paginated listing with tag sidebar
-- `RootLayout.astro` — Root shell wrapping all pages (BaseHead + Header + Footer)
+**Endpoints**: `/rss.xml` (from notes collection), `/llms.txt` (built from `SITE_METADATA` + `OFFERS`).
+
+### Design tokens (`src/styles/global.css`)
+
+Deliberately anti-cliché — the brief bans cream+terracotta+serif, near-black+acid-green, and broadsheet layouts. Palette is six values:
+
+- `--color-background`: `#F7F6F2` light / `#0E1015` dark (warm off-white / cool near-black)
+- `--color-foreground`: `#111318` / `#E7E9EE`
+- `--color-muted` + `--color-muted-foreground` for cards / secondary text
+- `--color-accent`: `#3651E8` (indigo — the one accent)
+- `--color-rule`: `#8891A4` (cool gray-blue for schema lines and monospace micro-labels)
+
+**Faces** — all variable, all free, all self-hosted via `@fontsource-variable/*`:
+- Display (h1–h4): **Fraunces Variable** — soft-angled serif, weight 500, opsz for scale
+- Body: **Manrope Variable** — warm sans, weight 400/500
+- Utility/mono: **JetBrains Mono**
+
+Border radius max `2px` (`--radius-sm`). Not iOS-bubbly.
+
+### Signature element: CRM schema annotations
+
+The site's one signature move. `src/components/SchemaObject.astro` renders small monospace-labeled object boxes (e.g., `contact` with `email · lifecycle_stage · owner_id`) connected implicitly by the shared cool-gray rule color. Used sparingly in three places only:
+1. Hero backdrop (subtle, decorative)
+2. `§05 SF → HubSpot` section (an SF object schema morphs into a HubSpot one)
+3. `§06 How I work` (each phase-question sits inside a `.schema-box`)
+
+CSS classes: `.schema-annotation` (monospace section marker), `.schema-box` (bordered object frame with the object name as a labeled tab via `::before`), `.schema-field` (row inside a box).
+
+### HubSpot integration (three isolated components)
+
+- `HubspotTracking.astro` — Loaded from `BaseHead`. Uses HubSpot's own consent module (no third-party CMP; state stays in sync with what HubSpot enforces server-side). Renders nothing if `SITE_METADATA.hubspot.portalId` is still a `{{PLACEHOLDER}}`. Picks `js-eu1.hs-scripts.com` vs `js.hs-scripts.com` based on `region`.
+- `HubspotForm.astro` — Two variants: `variant="audit"` (high-intent, used on `/services` and homepage) and `variant="lowFriction"`. **Passes `region` to `hbspt.forms.create` — EU portals silently fail without it.** Renders a visible placeholder stub when portal/form IDs are unfilled.
+- `HubspotMeetings.astro` — Meetings embed on `§09 BOOK`. Same placeholder-safe rendering.
+
+**Never add GA4 alongside HubSpot analytics unless there's a stated reason** — the brief prohibits it.
 
 ### Interactivity (Solid.js islands)
 
-Components in `src/components/solidjs/` are Solid.js and run on the client. Key ones:
-- `ThemeSwitcher.tsx` — Reads/writes `localStorage` for dark/light/system preference; toggles `.dark` class on `<html>`
+Only two active islands remain:
+- `ThemeSwitcher.tsx` — Reads/writes `localStorage`; toggles `.dark` on `<html>`
 - `MobileNav.tsx` — Mobile menu toggle
-- `SearchButton.tsx` / search JSON served from `src/pages/search.json.ts`
-- `Giscus.tsx` — Comments embed, synced to the current theme
 
-### Styling
-
-Tailwind v4 is loaded via the `@tailwindcss/vite` plugin (not PostCSS). Theme customization lives in `src/styles/global.css` using `@theme`. The accent color is **blue** (`#0052ff`). Fonts used: Inter (sans), Calistoga (display/headings), JetBrains Mono (code), Caveat (handwritten). Dark mode is class-based: `@custom-variant dark (&:where(.dark, .dark *))`.
-
-### i18n
-
-Translations are in `src/i18n/ui.ts` (English only by default). `getLangFromUrl()` and `useTranslations()` from `src/i18n/utils.ts` are used in layouts and components. Navigation titles like `"nav.home"` are looked up there; unmatched keys render as-is.
+`Link.tsx` still exists as a helper.
 
 ### Path aliases
 
-`@/*` maps to `src/*` and `@/solid/*` maps to `src/components/solidjs/*` (configured in `tsconfig.json`).
+`@/*` → `src/*` and `@/solid/*` → `src/components/solidjs/*` (in `tsconfig.json`).
 
-### Newsletter API
+### i18n
 
-`src/pages/api/subscribe.ts` handles newsletter signups via EmailOctopus. Requires two environment variables:
-- `EMAILOCTOPUS_API_KEY`
-- `EMAILOCTOPUS_LIST_ID`
+`src/i18n/ui.ts` is English-only. `useTranslations()` returns a `t()` function; **unmatched keys are returned verbatim** (no error thrown). Multi-language scaffolding is intentionally kept in place (unused) — adding SK later is a smaller change than reintroducing i18n.
+
+## Copy rules (from the brief — non-negotiable)
+
+- First person singular. Never "we"/"our team"/"the agency".
+- No invented numbers, client counts, results, years, or certifications. If it's not in a placeholder, don't write it.
+- Ban words: *leverage, seamless, robust, unlock, empower, "in today's fast-paced", "we help you"*.
+- Buttons say what happens: "Book a call", not "Get started".
+- Sentence case. Active voice. One H1 per page.
+
+## Quality floor (unannounced but required)
+
+- Responsive to 360px
+- Visible `:focus-visible` outline (indigo, `outline-offset: 2px`, radius 2px)
+- `prefers-reduced-motion` respected — CSS disables `[data-animate]` transitions and animation-durations
+- WCAG AA contrast on all text
+- Sticky header, no mega-menu, no cookie-setting scripts before consent
+
+## Placeholders inventory
+
+Grep `{{` in `src/` and `public/` before launch. Currently used:
+`{{NAME}}`, `{{DOMAIN}}`, `{{EMAIL}}`, `{{TARGET_MARKET}}`, `{{YEARS_SF}}`, `{{ENV_DESCRIPTORS}}`, `{{CERTS}}`, `{{PORTAL_ID}}`, `{{PORTAL_REGION}}`, `{{MEETINGS_EMBED_URL}}`, `{{LI_URL}}`, `{{X_URL}}`, `{{FORM_ID_AUDIT}}`, `{{FORM_ID_LOW_FRICTION}}`, `{{GOVERNING_LAW}}`, `{{LAST_UPDATED}}`, and per-offer `{{OFFER_N_NAME|WHO|DELIVERED|DURATION|PRICE}}` × 3.

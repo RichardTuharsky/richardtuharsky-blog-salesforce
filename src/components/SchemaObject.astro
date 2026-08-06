@@ -1,0 +1,27 @@
+---
+// Signature element: a small CRM-schema-style object with typed fields.
+// Used sparingly (hero, "How I work", SF→HubSpot section). Pure semantic
+// HTML — no external icons, no runtime cost, one accent color at most.
+//
+// Usage:
+//   <SchemaObject object="contact" fields={[
+//     { k: "email", t: "string" },
+//     { k: "lifecycle_stage", t: "enum" },
+//     { k: "owner_id", t: "ref → User" },
+//   ]} />
+
+interface Field { k: string; t: string }
+interface Props { object: string; fields: Field[]; class?: string }
+const { object, fields, class: className } = Astro.props;
+---
+
+<div class:list={["schema-box", className]} data-object={object}>
+  <div class="pt-1 space-y-0">
+    {fields.map((f) => (
+      <div class="schema-field">
+        <span class="k">{f.k}</span>
+        <span class="t">{f.t}</span>
+      </div>
+    ))}
+  </div>
+</div>

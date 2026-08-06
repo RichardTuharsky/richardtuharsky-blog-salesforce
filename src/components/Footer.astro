@@ -1,14 +1,38 @@
 ---
-import { useTranslations } from "@/i18n";
-const t = useTranslations();
+import { SITE_METADATA } from "@/consts";
 ---
 
-<footer class="mt-20 border-t border-border py-8">
-  <div class="flex flex-col items-center gap-3 sm:flex-row sm:justify-between text-sm text-muted-foreground">
-    <div class="flex items-center gap-2">
-      <span class="h-1.5 w-1.5 rounded-full bg-accent animate-pulse-soft"></span>
-      <span>{t("siteMetadata.title")}</span>
+<footer class="mt-32 border-t border-border/60">
+  <div class="mx-auto max-w-6xl px-4 sm:px-6 xl:px-8 py-12">
+    <div class="grid gap-10 sm:grid-cols-[1.4fr_1fr_1fr] items-start">
+      <div>
+        <p class="font-display text-lg leading-snug text-foreground max-w-sm">
+          {SITE_METADATA.description}
+        </p>
+      </div>
+
+      <nav aria-label="Site" class="flex flex-col gap-2 text-sm text-muted-foreground">
+        <span class="schema-annotation mb-1">Site</span>
+        <a href="/services" class="hover:text-foreground transition-colors">Services</a>
+        <a href="/#how-i-work" class="hover:text-foreground transition-colors">How I work</a>
+        <a href="/notes" class="hover:text-foreground transition-colors">Notes</a>
+        <a href="/about" class="hover:text-foreground transition-colors">About</a>
+        <a href="/#book" class="hover:text-foreground transition-colors">Book a call</a>
+      </nav>
+
+      <nav aria-label="Elsewhere" class="flex flex-col gap-2 text-sm text-muted-foreground">
+        <span class="schema-annotation mb-1">Elsewhere</span>
+        <a href={SITE_METADATA.socials.linkedin} rel="me noopener" class="hover:text-foreground transition-colors">LinkedIn</a>
+        <a href={SITE_METADATA.socials.twitter} rel="me noopener" class="hover:text-foreground transition-colors">X</a>
+        <a href="/privacy" class="hover:text-foreground transition-colors">Privacy</a>
+        <a href="/terms" class="hover:text-foreground transition-colors">Terms</a>
+        <a href="/llms.txt" class="hover:text-foreground transition-colors">llms.txt</a>
+      </nav>
     </div>
-    <span>© {new Date().getFullYear()}</span>
+
+    <div class="mt-10 pt-6 border-t border-border/60 flex flex-col sm:flex-row justify-between gap-2 text-xs text-muted-foreground font-mono">
+      <span>© {new Date().getFullYear()} {SITE_METADATA.name}</span>
+      <span>{SITE_METADATA.domain}</span>
+    </div>
   </div>
 </footer>

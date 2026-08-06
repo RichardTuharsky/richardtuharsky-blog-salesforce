@@ -1,9 +1,7 @@
 ---
-import type { CollectionEntry } from "astro:content";
-import BaseHead from "../components/BaseHead.astro";
-import Header from "../components/Header.astro";
-import Footer from "../components/Footer.astro";
-import SectionContainer from "../components/SectionContainer.astro";
+import BaseHead from "@/components/BaseHead.astro";
+import Header from "@/components/Header.astro";
+import Footer from "@/components/Footer.astro";
 import { useTranslations } from "@/i18n";
 
 const t = useTranslations();
@@ -13,32 +11,27 @@ type Props = {
   description: string;
   titleTemplate?: string;
   robots?: string;
+  canonical?: string;
   article?: {
     publishedTime: Date;
     modifiedTime?: Date;
     authors: string[];
-    authorTwitter?: string;
     tags: string[];
-    cover: CollectionEntry<"blog">["data"]["cover"];
   };
 };
 ---
 
 <html lang={t("siteMetadata.language")} class="scroll-smooth">
   <BaseHead {...Astro.props} />
-  <body class="bg-background text-foreground antialiased font-sans">
-    <SectionContainer>
-      <div class="flex min-h-screen flex-col justify-between">
-        <Header />
-        <main class="mb-auto">
-          <slot />
-        </main>
-        <Footer />
-      </div>
-    </SectionContainer>
+  <body class="bg-background text-foreground antialiased font-sans min-h-screen flex flex-col">
+    <Header />
+    <main class="flex-1">
+      <slot />
+    </main>
+    <Footer />
 
     <script>
-      // Entrance animation IntersectionObserver
+      // Entrance animation observer — respects prefers-reduced-motion (handled in CSS).
       const items = document.querySelectorAll<HTMLElement>("[data-animate]");
       const io = new IntersectionObserver(
         (entries) => {

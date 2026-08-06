@@ -1,0 +1,60 @@
+---
+import { SITE_METADATA } from "@/consts";
+
+// Isolated HubSpot form embed. Two mount points on this site:
+//   - "audit"        (high-intent) — used on /services and the homepage booking section
+//   - "lowFriction"  (low-friction) — used inline in notes / lightweight contexts
+//
+// IMPORTANT: EU-hosted portals silently fail without the `region` parameter
+// on hbspt.forms.create. The region is read from SITE_METADATA.hubspot.region.
+//
+// Placeholder-safe: if PORTAL_ID or the form ID is still {{PLACEHOLDER}}, we
+// render a visible stub instead of trying to embed a broken form.
+
+type Variant = "audit" | "lowFriction";
+interface Props { variant: Variant; label?: string }
+const { variant, label } = Astro.props;
+
+const { portalId, region, forms } = SITE_METADATA.hubspot;
+const formId = forms[variant];
+const canEmbed =
+  portalId && !portalId.includes("{{") && formId && !formId.includes("{{");
+const domId = `hubspot-form-${variant}-${Math.random().toString(36).slice(2, 8)}`;
+---
+
+{canEmbed ? (
+  <>
+    <div id={domId} class="hubspot-form-mount" data-variant={variant}></div>
+    <script is:inline src="//js.hsforms.net/forms/embed/v2.js" async defer></script>
+    <script
+      is:inline
+      define:vars={{ portalId, formId, region, domId }}
+    >{`
+      (function initHubspotForm() {
+        function tryCreate() {
+          if (window.hbspt && window.hbspt.forms) {
+            window.hbspt.forms.create({
+              region: region,
+              portalId: portalId,
+              formId: formId,
+              target: '#' + domId,
+            });
+          } else {
+            setTimeout(tryCreate, 200);
+          }
+        }
+        tryCreate();
+      })();
+    `}</script>
+  </>
+) : (
+  <div class="rounded-sm border border-dashed border-rule/60 bg-muted/50 p-6">
+    <div class="schema-annotation mb-2">HubSpot form · {variant}</div>
+    <p class="text-sm text-muted-foreground">
+      {label ?? "Placeholder — replace {{PORTAL_ID}} and the form ID in src/consts.ts to render this embed."}
+    </p>
+    <p class="mt-2 text-xs font-mono text-rule">
+      Reminder: EU portals silently fail without region="eu1".
+    </p>
+  </div>
+)}

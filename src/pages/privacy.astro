@@ -1,0 +1,49 @@
+---
+import RootLayout from "@/layouts/RootLayout.astro";
+import { SITE_METADATA } from "@/consts";
+---
+
+<RootLayout
+  title={`Privacy — ${SITE_METADATA.name}`}
+  description="How this site handles personal data, cookies, and HubSpot tracking."
+>
+  <section class="mx-auto max-w-3xl px-4 sm:px-6 xl:px-8 pt-16 pb-24">
+    <p class="schema-annotation">§ — Privacy</p>
+    <h1 class="mt-6 font-display text-4xl sm:text-5xl leading-tight tracking-tight text-foreground">
+      Privacy
+    </h1>
+
+    <div class="mt-10 prose prose-neutral dark:prose-invert max-w-none">
+      <p>
+        This is a solo practice. Personal data collected on this site is controlled by <strong>{`{{NAME}}`}</strong>, reachable at <a href={`mailto:{{EMAIL}}`}>{`{{EMAIL}}`}</a>.
+      </p>
+
+      <h2>What I collect</h2>
+      <ul>
+        <li><strong>Contact form submissions</strong> — name, email, and whatever you write. Stored in HubSpot (portal <code>{`{{PORTAL_ID}}`}</code>, region <code>{`{{PORTAL_REGION}}`}</code>). Used to reply to you and to schedule work.</li>
+        <li><strong>Meeting bookings</strong> — via HubSpot Meetings. Same portal.</li>
+        <li><strong>Analytics</strong> — HubSpot's own tracking, subject to its consent module. No third-party analytics.</li>
+      </ul>
+
+      <h2>Cookies</h2>
+      <p>
+        No cookies are set before you accept the consent banner. HubSpot's tracking cookies (<code>__hstc</code>, <code>hubspotutk</code>, <code>__hssc</code>, <code>__hssrc</code>) are placed only after consent.
+      </p>
+
+      <h2>Your rights</h2>
+      <p>
+        Under GDPR you can request access, correction, deletion, or export of your data. Email <a href={`mailto:{{EMAIL}}`}>{`{{EMAIL}}`}</a> and I will respond within 30 days.
+      </p>
+
+      <h2>Data processors</h2>
+      <ul>
+        <li>HubSpot (CRM, forms, meetings, analytics)</li>
+        <li>Vercel (site hosting, edge logs)</li>
+      </ul>
+
+      <p class="text-sm text-muted-foreground">
+        Last updated: <time datetime="{{LAST_UPDATED}}">{`{{LAST_UPDATED}}`}</time>
+      </p>
+    </div>
+  </section>
+</RootLayout>

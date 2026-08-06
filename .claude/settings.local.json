@@ -11,7 +11,8 @@
       "Bash(curl -s http://localhost:4321/blog/sfmc-to-mcn-migration)",
       "Bash(curl -s http://localhost:4322/tags/sfmc)",
       "Bash(curl -s http://localhost:4322/blog/sfmc-to-mcn-migration)",
-      "WebSearch"
+      "WebSearch",
+      "Bash(npm install *)"
     ]
   }
 }

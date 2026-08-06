@@ -1,0 +1,37 @@
+---
+import { SITE_METADATA } from "@/consts";
+
+// HubSpot's own tracking + consent banner. Its consent module ships with
+// the tracking script itself, so a third-party CMP is not wired in — the
+// state stays in sync with what HubSpot enforces server-side.
+//
+// The script does NOT set cookies until the visitor accepts. Before that
+// point HubSpot suppresses persistent identifiers, so it is safe to load
+// in <head> without a pre-consent gate.
+//
+// Before enabling: replace {{PORTAL_ID}} and confirm the portal region.
+// EU-hosted portals need js-eu1.hs-scripts.com (below picks automatically).
+
+const { portalId, region } = SITE_METADATA.hubspot;
+const scriptHost =
+  region === "eu1" ? "js-eu1.hs-scripts.com" : "js.hs-scripts.com";
+const scriptSrc = `//${scriptHost}/${portalId}.js`;
+---
+
+{
+  portalId && !portalId.includes("{{") && (
+    <script
+      is:inline
+      type="text/javascript"
+      id="hs-script-loader"
+      async
+      defer
+      src={scriptSrc}
+    />
+  )
+}
+{
+  portalId && portalId.includes("{{") && (
+    <!-- HubSpot tracking disabled: {{PORTAL_ID}} placeholder not filled. -->
+  )
+}

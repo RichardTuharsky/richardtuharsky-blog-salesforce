@@ -18,7 +18,7 @@ export default function MobileNav() {
   return (
     <>
       <button
-        aria-label={t("components.mobileNav.toggleMenu")}
+        aria-label={t("components.mobileNav.toggle")}
         class="sm:hidden p-1 text-muted-foreground hover:text-foreground transition-colors duration-200"
         onClick={toggleMenu}
       >
@@ -37,7 +37,7 @@ export default function MobileNav() {
         <div class="flex justify-end p-6">
           <button
             class="p-2 text-muted-foreground hover:text-foreground transition-colors duration-200"
-            aria-label={t("components.mobileNav.toggleMenu")}
+            aria-label={t("components.mobileNav.toggle")}
             onClick={toggleMenu}
           >
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="h-6 w-6">

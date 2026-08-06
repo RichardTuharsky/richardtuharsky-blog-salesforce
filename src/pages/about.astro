@@ -1,14 +1,62 @@
 ---
-import { getEntry, render } from "astro:content";
-import AuthorLayout from "@/layouts/AuthorLayout.astro";
-
-const author = await getEntry("authors", "default");
-if (!author) {
-  return Astro.redirect("/404");
-}
-const { Content } = await render(author);
+import RootLayout from "@/layouts/RootLayout.astro";
+import { SITE_METADATA } from "@/consts";
+import SchemaObject from "@/components/SchemaObject.astro";
 ---
 
-<AuthorLayout content={author.data} slug={author.id}>
-  <Content />
-</AuthorLayout>
+<RootLayout
+  title={`About — ${SITE_METADATA.name}`}
+  description={`About ${SITE_METADATA.name}, independent HubSpot consultant.`}
+>
+  <section class="mx-auto max-w-4xl px-4 sm:px-6 xl:px-8 pt-16 pb-28">
+    <p class="schema-annotation">§ — About</p>
+    <h1 class="mt-6 font-display text-4xl sm:text-6xl leading-[1.05] tracking-tight text-foreground">
+      {SITE_METADATA.name}
+    </h1>
+    <p class="mt-6 text-lg text-muted-foreground max-w-2xl leading-relaxed">
+      Independent HubSpot practice for {`{{TARGET_MARKET}}`}.
+    </p>
+
+    <div class="mt-14 prose prose-neutral dark:prose-invert max-w-none">
+      <p>
+        I spent {`{{YEARS_SF}}`} years inside Salesforce, in {`{{ENV_DESCRIPTORS}}`} environments. Long enough to see what Salesforce is good at, what it costs to keep running, and what happens to a team that inherits a Salesforce org someone else built.
+      </p>
+      <p>
+        I now build HubSpot for companies that don't need Salesforce's weight or cost. That combination — deep CRM competence, a deliberate choice of tool — is the differentiator. It is not "I've done HubSpot forever". It is "I know what Salesforce solves, I know what HubSpot solves, and I know which one you actually need".
+      </p>
+      <p>
+        This is a solo practice. If you engage me, you get me. No account manager, no offshore delivery, no team lead you never meet.
+      </p>
+
+      <h2>What I know well</h2>
+      <ul>
+        <li>HubSpot Sales Hub, Marketing Hub, Operations Hub — build, migration, and rescue.</li>
+        <li>Salesforce → HubSpot migration assessment. When to migrate, when to stay, what breaks.</li>
+        <li>Data model design for growing B2B teams. Deduplication, lifecycle stages, ownership.</li>
+        <li>Reports and dashboards that survive the "prove it" question from a CFO.</li>
+      </ul>
+
+      <h2>Certifications</h2>
+      <p class="font-mono text-sm">{`{{CERTS}}`}</p>
+    </div>
+
+    <div class="mt-16 grid gap-6 sm:grid-cols-2">
+      <SchemaObject object="engagement" fields={[
+        { k: "scope", t: "fixed" },
+        { k: "timeline", t: "days | weeks" },
+        { k: "price", t: "defensible" },
+      ]} />
+      <SchemaObject object="not_engagement" fields={[
+        { k: "retainers_no_deliverable", t: "declined" },
+        { k: "audit_only_decks", t: "declined" },
+        { k: "content_marketing", t: "declined" },
+      ]} />
+    </div>
+
+    <div class="mt-16">
+      <a href="/#book" class="inline-flex items-center rounded-sm bg-accent px-5 py-3 text-sm font-medium text-accent-foreground hover:opacity-90 transition-opacity">
+        Book a call
+      </a>
+    </div>
+  </section>
+</RootLayout>

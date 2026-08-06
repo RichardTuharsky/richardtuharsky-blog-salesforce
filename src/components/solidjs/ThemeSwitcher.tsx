@@ -7,7 +7,7 @@ const t = useTranslations();
 export default function ThemeSwitcher() {
   const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
   let preferredTheme = mediaQuery.matches ? 'dark' : 'light';
-  if (SITE_METADATA.theme !== 'system') {
+  if (SITE_METADATA.theme !== 'system' && (SITE_METADATA.theme === 'light' || SITE_METADATA.theme === 'dark')) {
     preferredTheme = SITE_METADATA.theme;
   }
   const savedTheme = localStorage.getItem('theme');
@@ -32,9 +32,9 @@ export default function ThemeSwitcher() {
   }
 
   return (
-    <button aria-label={t('components.themeSwitcher.toggleDarkMode')} onClick={toggleTheme}>
+    <button aria-label={t('components.themeSwitcher.toggle')} onClick={toggleTheme} class="p-1 text-muted-foreground hover:text-foreground transition-colors">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
-        class="text-gray-900 dark:text-gray-100 h-6 w-6">
+        class="h-5 w-5">
         <path class="sun"
           classList={{ hidden: theme() === 'light' }}
           fill-rule="evenodd"

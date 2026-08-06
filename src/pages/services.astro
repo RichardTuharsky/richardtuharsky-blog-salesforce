@@ -1,0 +1,67 @@
+---
+import RootLayout from "@/layouts/RootLayout.astro";
+import { OFFERS, SITE_METADATA } from "@/consts";
+import HubspotForm from "@/components/HubspotForm.astro";
+---
+
+<RootLayout
+  title={`Services — ${SITE_METADATA.name}`}
+  description="Three scoped HubSpot engagements: build, migration, and rescue. Each with a fixed shape, duration, and price."
+>
+  <section class="mx-auto max-w-6xl px-4 sm:px-6 xl:px-8 pt-16 pb-16">
+    <p class="schema-annotation">§ — Services</p>
+    <h1 class="mt-6 font-display text-4xl sm:text-6xl leading-[1.05] tracking-tight text-foreground max-w-3xl">
+      Three engagements. Fixed shape. Defensible price.
+    </h1>
+    <p class="mt-6 max-w-2xl text-lg text-muted-foreground leading-relaxed">
+      Scoped offers read as a practice. Seven capabilities read as a freelancer who takes anything. Here is what I actually take on.
+    </p>
+  </section>
+
+  {OFFERS.map((offer, i) => (
+    <section class:list={["border-t border-border/60", i % 2 === 1 && "bg-muted/40"]}>
+      <div class="mx-auto max-w-6xl px-4 sm:px-6 xl:px-8 py-20" data-animate>
+        <div class="grid gap-12 lg:grid-cols-[0.9fr_1.4fr]">
+          <div>
+            <p class="schema-annotation">{offer.slug}</p>
+            <h2 class="mt-6 font-display text-3xl sm:text-4xl leading-tight text-foreground">{offer.name}</h2>
+            <dl class="mt-8 space-y-4 text-sm">
+              <div>
+                <dt class="font-mono text-xs uppercase tracking-widest text-rule">Duration</dt>
+                <dd class="mt-1 text-foreground">{offer.duration}</dd>
+              </div>
+              <div>
+                <dt class="font-mono text-xs uppercase tracking-widest text-rule">Investment</dt>
+                <dd class="mt-1 text-foreground">{offer.price}</dd>
+              </div>
+            </dl>
+          </div>
+          <div>
+            <div class="prose prose-neutral dark:prose-invert max-w-none">
+              <p><strong class="text-foreground">Who this is for:</strong> {offer.who}</p>
+              <p><strong class="text-foreground">What's delivered:</strong> {offer.delivered}</p>
+              <p class="text-sm text-muted-foreground">Full brief and outcomes are covered on the intro call — the shape of the engagement is fixed, the specifics are yours.</p>
+            </div>
+            <div class="mt-8">
+              <a href="/#book" class="inline-flex items-center rounded-sm bg-accent px-5 py-3 text-sm font-medium text-accent-foreground hover:opacity-90 transition-opacity">
+                Book a call about {offer.name}
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  ))}
+
+  <section class="border-t border-border/60">
+    <div class="mx-auto max-w-6xl px-4 sm:px-6 xl:px-8 py-24" data-animate>
+      <p class="schema-annotation">§ — Not sure which fits</p>
+      <h2 class="mt-6 font-display text-3xl sm:text-4xl leading-tight text-foreground max-w-2xl">
+        Send the shape of the problem. I will tell you which offer, or that none of them fit.
+      </h2>
+      <div class="mt-12 max-w-2xl">
+        <HubspotForm variant="audit" label="High-intent audit enquiry form goes here — replace {{FORM_ID_AUDIT}} in src/consts.ts." />
+      </div>
+    </div>
+  </section>
+</RootLayout>

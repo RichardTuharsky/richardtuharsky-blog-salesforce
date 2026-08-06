@@ -1,75 +1,36 @@
-export const defaultLang = 'en' as const;
+export const defaultLang = "en" as const;
 
 export const ui = {
-  'en': {
-    // Site Metadata
-    'siteMetadata.title': 'Richard Tuharsky - Salesforce',
-    'siteMetadata.headerTitle': 'Richard Tuharsky',   
-    'siteMetadata.description': 'A Salesforce blog by Richard Tuharsky focused on delivering value and practical business solutions.',
-    'siteMetadata.language': 'en-US',
+  en: {
+    "siteMetadata.language": "en-US",
 
-    // Pages
-    'pages.home.latestPosts': 'Latest posts',
-    'pages.home.viewAllPosts': 'View all posts',
-    'pages.home.noPosts': 'No posts found',
-    'pages.home.readMoreAbout': 'Read more about {title}',
-    'pages.home.readMore': 'Read more',
-    'pages.tags.title': 'Tags',
-    'pages.tags.description': 'All tags used in the blog',
-    'pages.tags.allTags': 'All tags',
-    'pages.tags.noTags': 'No tags found',
-    'pages.tags.viewPosts': 'View all posts with tag {tag}',
-    'pages.projects.title': 'Projects',
-    'pages.projects.description': 'All projects',
-    'pages.projects.allProjects': 'All projects',
-    'pages.projects.showcase': 'Showcase your projects',
-    'pages.blog.title': 'Blog',
-    'pages.blog.description': 'All blog posts',
-    'pages.404.title': '404 - Not Found',
-    'pages.404.description': 'The page you are looking for does not exist.',
-    'pages.404.backToHome': 'Back to home',
+    "nav.services": "Services",
+    "nav.how": "How I work",
+    "nav.notes": "Notes",
+    "nav.about": "About",
+    "nav.book": "Book a call",
 
+    "pages.notes.title": "Notes",
+    "pages.notes.description":
+      "Working notes on HubSpot, RevOps, and CRM architecture — written to be defended in a discovery call.",
+    "pages.notes.empty": "No notes yet.",
+    "pages.404.title": "404 — Not found",
+    "pages.404.description": "That page does not exist.",
+    "pages.404.back": "Back to home",
 
-    // Components
-    'components.scrollTopAndComments.scrollTop': 'Scroll To Top',
-    'components.scrollTopAndComments.scrollToComments': 'Scroll To Comments',
-    'components.themeSwitcher.toggleDarkMode': 'Toggle Dark Mode',
-    'components.card.linkToPost': 'Read more about {title}',
-    'components.mobileNav.toggleMenu': 'Toggle Menu',
-    'components.listPostCover.publishedAt': 'Published at',
-    'components.pagination.previous': 'Previous',
-    'components.pagination.next': 'Next',
-    'components.socialShareButtons.sharing': 'Sharing is caring!',
-    'components.comments.title': 'Comments',
+    "components.themeSwitcher.toggle": "Toggle theme",
+    "components.mobileNav.toggle": "Toggle menu",
+    "components.pagination.previous": "Previous",
+    "components.pagination.next": "Next",
 
-    // Navigation
-    'nav.home': 'Home',
-    'nav.about': 'About',
-    'nav.caseStudies': 'Case Studies',
-    'nav.blog': 'Blog',
-    'nav.newsletter': 'Newsletter',
-    'nav.contact': 'Contact',
+    "notes.draftBanner":
+      "This is a draft. It might be incomplete or have errors.",
+    "notes.backToNotes": "All notes",
+    "notes.publishedAt": "Published",
+    "notes.related": "Related notes",
+    "notes.previousNote": "Previous",
+    "notes.nextNote": "Next",
 
-    // Layouts
-    'layouts.authorLayout.aboutAuthor': 'About {author}',
-    'layouts.authorLayout.latestPosts': 'Latest author posts',
-    'layouts.listWithTagsLayout.allPosts': 'All posts',
-    'layouts.listWithTagsLayout.publishedAt': 'Published at',
-    'layouts.postLayout.publishedAt': 'Published at',
-    'layouts.postLayout.authors': 'Authors',
-    'layouts.postLayout.authorName': 'Name',
-    'layouts.postLayout.authorTwitter': 'Twitter',
-    'layouts.postLayout.draftMessage': 'This is a draft. It might be incomplete or have errors.',
-    'layouts.postLayout.tableOfContents': 'Table of Contents',
-    'layouts.postLayout.tags': 'Tags',
-    'layouts.postLayout.previousPost': 'Previous post',
-    'layouts.postLayout.nextPost': 'Next post',
-    'layouts.postLayout.relatedPosts': 'Related posts',
-    'layouts.postLayout.backToBlog': 'Back to blog',
-    'layouts.simplePostLayout.previousPost': 'Previous post: {title}',
-    'layouts.simplePostLayout.nextPost': 'Next post: {title}',
-
-    // SEO
-    'seo.pagination.page': '%s - Page {page}',
-  }
+    "seo.pagination.page": "%s — Page {page}",
+  },
 };

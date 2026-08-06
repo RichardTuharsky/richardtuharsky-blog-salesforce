@@ -3,24 +3,22 @@ import "@/styles/global.css";
 import { SITE_METADATA } from "@/consts";
 import { ClientRouter } from "astro:transitions";
 import { SEO } from "astro-seo";
-import { getEntry, type CollectionEntry } from "astro:content";
 import { getImage } from "astro:assets";
-import Analytics from "./Analytics.astro";
+import HubspotTracking from "./HubspotTracking.astro";
 
 interface Props {
   title: string;
   description: string;
   ogImage?: string;
-  robots?: string; // default to SITE_METADATA.robots
+  robots?: string;
   titleTemplate?: string;
   article?: {
     publishedTime: Date;
     modifiedTime?: Date;
     authors: string[];
-    authorTwitter?: string;
     tags: string[];
-    cover: CollectionEntry<"blog">["data"]["cover"];
   };
+  canonical?: string;
 }
 
 const {
@@ -29,32 +27,11 @@ const {
   robots = SITE_METADATA.robots,
   article,
   titleTemplate,
+  canonical,
 } = Astro.props;
 
-// The default author is the site creator
-const creator = await getEntry("authors", "default");
-
-// Optimize open graph image
-let openGraphImage;
-if (article?.cover) {
-  openGraphImage = await getImage({
-    src: article.cover,
-    width: 1200,
-    height: 630,
-  });
-} else {
-  const importedOgImage = await import(`../assets/og-image.png`).then(
-    (m) => m.default
-  );
-  openGraphImage = await getImage({
-    src: importedOgImage,
-    width: 1200,
-    height: 630,
-  });
-}
-
-const twitterCreator = article?.authorTwitter || creator?.data?.twitter;
-const isProduction = import.meta.env.PROD;
+// Placeholder-safe OG image. Falls back to /og-default.svg (see /public).
+const ogUrl = new URL("/og-default.svg", Astro.site ?? SITE_METADATA.siteUrl).toString();
 ---
 
 <head>
@@ -65,11 +42,10 @@ const isProduction = import.meta.env.PROD;
     description={description}
     nofollow={robots.includes("nofollow")}
     noindex={robots.includes("noindex")}
-    url={Astro.url}
+    canonical={canonical ?? Astro.url.toString()}
     charset="utf-8"
     extend={{
       meta: [
-        { name: "theme-color", content: "#f5f7fa" },
         { name: "viewport", content: "width=device-width,initial-scale=1" },
       ],
       link: [
@@ -77,34 +53,14 @@ const isProduction = import.meta.env.PROD;
         { rel: "alternate", type: "application/rss+xml", href: "/rss.xml" },
       ],
     }}
-    twitter={{
-      ...((twitterCreator && {
-        card: "summary_large_image",
-        creator: twitterCreator.replace("https://twitter.com/", "@"),
-        title,
-        description,
-        image: openGraphImage.src,
-      }) ||
-        {}),
-    }}
     openGraph={{
       basic: {
-        type: "website",
-        url: Astro.url,
+        type: article ? "article" : "website",
+        url: Astro.url.toString(),
         title,
-        image: openGraphImage.src,
+        image: ogUrl,
       },
-      image: {
-        url: openGraphImage.src,
-        type: `image/${openGraphImage.options.format}`,
-        width: openGraphImage.options.width,
-        height: openGraphImage.options.height,
-        alt: title,
-      },
-      optional: {
-        locale: SITE_METADATA.language,
-        description,
-      },
+      optional: { locale: SITE_METADATA.locale, description },
       ...(article && {
         article: {
           publishedTime: article.publishedTime.toISOString(),
@@ -114,9 +70,10 @@ const isProduction = import.meta.env.PROD;
         },
       }),
     }}
+    twitter={{ card: "summary_large_image", title, description, image: ogUrl }}
   />
-  {isProduction && <Analytics />}
+  <HubspotTracking />
   <ClientRouter />
-  <meta name="theme-color" content="#fafafa" media="(prefers-color-scheme: light)" />
-  <meta name="theme-color" content="#0a0a0a" media="(prefers-color-scheme: dark)" />
+  <meta name="theme-color" content="#f7f6f2" media="(prefers-color-scheme: light)" />
+  <meta name="theme-color" content="#0e1015" media="(prefers-color-scheme: dark)" />
 </head>

@@ -3,29 +3,37 @@ import { NAVIGATION } from "@/consts";
 import HeaderLink from "./HeaderLink.astro";
 import Logo from "./Logo.astro";
 import MobileNav from "@/solid/MobileNav.tsx";
-import SearchButton from "@/solid/SearchButton.tsx";
 import ThemeSwitcher from "@/solid/ThemeSwitcher.tsx";
 import { useTranslations } from "@/i18n";
 
 const t = useTranslations();
 ---
 
-<header class="flex items-center justify-between py-8 border-b border-border/50 mb-2">
-  <a href="/" aria-label={t("siteMetadata.headerTitle")} class="shrink-0">
-    <Logo />
-  </a>
-  <nav class="hidden sm:flex items-center gap-7" aria-label="Main navigation">
-    {
-      NAVIGATION.filter((link) => link.href !== "/").map((link) => (
-        <HeaderLink href={link.href}>
-          {t(link.title)}
-        </HeaderLink>
-      ))
-    }
-  </nav>
-  <div class="flex items-center gap-3">
-    <SearchButton client:only="solid-js" />
-    <ThemeSwitcher client:only="solid-js" />
-    <MobileNav client:only="solid-js" />
+<header class="sticky top-0 z-40 bg-background/85 backdrop-blur-md border-b border-border/60">
+  <div class="mx-auto max-w-6xl px-4 sm:px-6 xl:px-8">
+    <div class="flex items-center justify-between h-16">
+      <a href="/" class="shrink-0" aria-label={t("nav.about")}>
+        <Logo />
+      </a>
+
+      <nav class="hidden sm:flex items-center gap-8" aria-label="Main navigation">
+        {
+          NAVIGATION.map((link) => (
+            <HeaderLink href={link.href}>{t(link.title)}</HeaderLink>
+          ))
+        }
+      </nav>
+
+      <div class="flex items-center gap-3">
+        <a
+          href="/#book"
+          class="hidden sm:inline-flex items-center rounded-sm bg-accent px-4 py-2 text-sm font-medium text-accent-foreground hover:opacity-90 transition-opacity"
+        >
+          {t("nav.book")}
+        </a>
+        <ThemeSwitcher client:only="solid-js" />
+        <MobileNav client:only="solid-js" />
+      </div>
+    </div>
   </div>
 </header>

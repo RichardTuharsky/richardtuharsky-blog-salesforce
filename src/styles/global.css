@@ -1,12 +1,25 @@
-@import "@fontsource/inter/400.css";
-@import "@fontsource/inter/500.css";
-@import "@fontsource/inter/600.css";
-@import "@fontsource/inter/700.css";
-@import "@fontsource/calistoga/400.css";
+/*
+ * Design tokens for the HubSpot consulting practice site.
+ *
+ * Deliberate choices (justify each):
+ * - Fraunces (display) — variable serif with soft angles; distinctive at
+ *   high optical size; not the tired "Instrument Serif" or "Newsreader".
+ * - Manrope (body) — variable sans with warmth; not Inter, not overused
+ *   in RevOps sites; reads confident at long-form.
+ * - JetBrains Mono — for annotations, schema-diagram labels, section
+ *   markers. Already suited to CRM/technical vocabulary.
+ * - Palette: warm off-white / cool near-black / indigo accent / cool
+ *   gray-blue rule. Six values total. Avoids the AI-design clichés:
+ *   cream+terracotta+serif, near-black+acid-green, broadsheet hairlines.
+ * - One accent (indigo). Warmer tones are used only as micro rules and
+ *   backgrounds derived from the accent.
+ */
+
+@import "@fontsource-variable/fraunces";
+@import "@fontsource-variable/manrope";
 @import "@fontsource/jetbrains-mono/400.css";
 @import "@fontsource/jetbrains-mono/500.css";
-@import "@fontsource/caveat/400.css";
-@import "@fontsource/caveat/600.css";
+
 @import "tailwindcss";
 @plugin "@tailwindcss/typography";
 @plugin "@tailwindcss/forms";
@@ -14,114 +27,83 @@
 @custom-variant dark (&:where(.dark, .dark *));
 
 @theme {
-  /* Typography */
-  --font-display: "Calistoga", Georgia, serif;
-  --font-sans: "Inter", system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+  /* Faces */
+  --font-display: "Fraunces Variable", "Fraunces", Georgia, serif;
+  --font-sans: "Manrope Variable", "Manrope", system-ui, -apple-system, sans-serif;
   --font-mono: "JetBrains Mono", ui-monospace, "Courier New", monospace;
-  --font-handwritten: "Caveat", cursive;
 
-  /* Color tokens — light mode defaults */
-  --color-background: #fafafa;
-  --color-foreground: #0f172a;
-  --color-muted: #f1f5f9;
-  --color-muted-foreground: #64748b;
-  --color-accent: #0052ff;
-  --color-accent-secondary: #4d7cff;
+  /* Palette — light mode defaults (six values) */
+  --color-background: #f7f6f2;      /* warm off-white */
+  --color-foreground: #111318;      /* dense warm-neutral text */
+  --color-muted: #edece7;            /* card / subtle surface */
+  --color-muted-foreground: #5a616e; /* secondary text */
+  --color-accent: #3651e8;           /* indigo — the one accent */
   --color-accent-foreground: #ffffff;
-  --color-border: #e2e8f0;
-  --color-card: #ffffff;
-  --color-ring: #0052ff;
+  --color-rule: #8891a4;             /* cool gray-blue for schema lines and micro labels */
+  --color-border: #dcdbd4;
 
-  /* Warm accent (orange/coral) */
-  --color-warm: #ff6b3d;
-  --color-warm-secondary: #ff8c5a;
-  --shadow-warm: 0 4px 14px rgb(255 107 61 / 0.28);
+  /* Derived surfaces (kept minimal) */
+  --color-accent-soft: #eef0ff;      /* light accent tint for callout backgrounds */
+  --color-accent-ring: #c7ceff;      /* subtle border for accent surfaces */
 
-  /* Brand color (Salesforce tag contexts) */
-  --color-sage: #7a8b6c;
-
-  /* Primary scale → accent for legacy primary-* utilities */
-  --color-primary-50: #eff4ff;
-  --color-primary-100: #dbe8ff;
-  --color-primary-200: #bfd4ff;
-  --color-primary-300: #93b5ff;
-  --color-primary-400: #6090ff;
-  --color-primary-500: #0052ff;
-  --color-primary-600: #0042d6;
-  --color-primary-700: #0035b0;
-  --color-primary-800: #002d8f;
-  --color-primary-900: #002777;
-  --color-primary-950: #001552;
-
-  /* Accent-tinted shadows */
-  --shadow-accent: 0 4px 14px rgb(0 82 255 / 0.25);
-  --shadow-accent-lg: 0 8px 24px rgb(0 82 255 / 0.35);
-
-  /* Animations */
-  --animate-float: float 5s ease-in-out infinite;
-  --animate-float-slow: float 4s ease-in-out infinite;
-  --animate-pulse-soft: pulse-soft 2s ease-in-out infinite;
-  --animate-spin-slow: spin 60s linear infinite;
-  --animate-fade-up: fade-up 0.7s cubic-bezier(0.16, 1, 0.3, 1) both;
+  /* Layout */
+  --radius-sm: 2px;
+  --radius-md: 4px;
+  --radius-lg: 6px;
 
   /* Extended line-heights */
   --line-height-11: 2.75rem;
   --line-height-12: 3rem;
   --line-height-13: 3.25rem;
   --line-height-14: 3.5rem;
+
+  /* Animations — restrained */
+  --animate-fade-up: fade-up 0.7s cubic-bezier(0.16, 1, 0.3, 1) both;
+  --animate-draw-line: draw-line 1.2s cubic-bezier(0.16, 1, 0.3, 1) 0.3s both;
 }
 
-/* Dark theme overrides */
 @layer base {
   :root {
     color-scheme: light;
-    /* CSS custom properties for inline-style contexts (techgears, etc.) */
-    --blue: #0052ff;
-    --ink: #0f172a;
-    --sage: #7a8b6c;
-    --taupe: #b8b0a4;
-    --cream: #fafafa;
   }
-
   .dark {
     color-scheme: dark;
-    --color-background: #0a0a0a;
-    --color-foreground: #fafafa;
-    --color-muted: #171717;
-    --color-muted-foreground: #a1a1aa;
-    --color-accent: #4d7cff;
-    --color-accent-secondary: #7b9cff;
-    --color-border: #262626;
-    --color-card: #111111;
-    --color-ring: #4d7cff;
+    --color-background: #0e1015;
+    --color-foreground: #e7e9ee;
+    --color-muted: #171a22;
+    --color-muted-foreground: #8a94a8;
+    --color-accent: #6979ff;
+    --color-accent-foreground: #0e1015;
+    --color-rule: #4a5468;
+    --color-border: #232631;
+    --color-accent-soft: #1a1f4b;
+    --color-accent-ring: #2b3477;
+  }
 
-    /* Update raw CSS vars for inline-style contexts */
-    --blue: #4d7cff;
-    --ink: #fafafa;
-    --cream: #0a0a0a;
-    --color-warm: #ff8c5a;
-    --color-warm-secondary: #ffad80;
+  html { font-family: var(--font-sans); }
+  body { font-feature-settings: "ss01", "cv11"; }
+
+  h1, h2, h3, h4 {
+    font-family: var(--font-display);
+    font-weight: 500;
+    letter-spacing: -0.015em;
   }
 }
 
 /* Keyframes */
-@keyframes float {
-  0%, 100% { transform: translateY(0); }
-  50%       { transform: translateY(-10px); }
-}
-@keyframes pulse-soft {
-  0%, 100% { transform: scale(1);   opacity: 1;   }
-  50%       { transform: scale(1.3); opacity: 0.7; }
-}
 @keyframes fade-up {
-  from { opacity: 0; transform: translateY(28px); }
+  from { opacity: 0; transform: translateY(20px); }
   to   { opacity: 1; transform: translateY(0); }
 }
+@keyframes draw-line {
+  from { stroke-dashoffset: var(--line-length, 200); }
+  to   { stroke-dashoffset: 0; }
+}
 
-/* Entrance animation system */
+/* Entrance animation system (kept from original — good pattern) */
 [data-animate] {
   opacity: 0;
-  transform: translateY(28px);
+  transform: translateY(20px);
   transition:
     opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1),
     transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
@@ -130,45 +112,77 @@
   opacity: 1;
   transform: translateY(0);
 }
-[data-animate-stagger] > * {
-  transition-delay: calc(var(--i, 0) * 80ms);
-}
+[data-animate-stagger] > * { transition-delay: calc(var(--i, 0) * 70ms); }
+
 @media (prefers-reduced-motion: reduce) {
   [data-animate] { opacity: 1; transform: none; transition: none; }
-  .animate-spin-slow, .animate-float, .animate-float-slow, .animate-pulse-soft {
-    animation: none !important;
-  }
+  * { animation-duration: 0.001ms !important; animation-iteration-count: 1 !important; }
 }
 
-/* Gradient text utility */
-.gradient-text {
-  background: linear-gradient(to right, var(--color-accent), var(--color-accent-secondary));
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
-}
-
-/* Gradient border wrapper utility */
-.gradient-border {
-  background: linear-gradient(to bottom right, var(--color-accent), var(--color-accent-secondary), var(--color-accent));
-  padding: 2px;
-  border-radius: 0.75rem;
-}
-
-/* Editorial drop shadow */
-.editorial-shadow {
-  box-shadow: 3px 3px 0 rgb(0 0 0 / 0.07);
-}
-
-/* Shiki code blocks (techgears case study) */
-.shiki-wrapper > pre {
-  padding: 1.5rem;
-  font-size: 0.75rem;
-  line-height: 1.6;
-  overflow-x: auto;
-  margin: 0;
-  border-radius: 0;
+/*
+ * Signature element — CRM schema annotations.
+ * Small monospace-labeled boxes connected by thin cool-gray rules.
+ * Used sparingly: hero backdrop, "How I work" phase boxes, SF→HubSpot section.
+ */
+.schema-annotation {
   font-family: var(--font-mono);
+  font-size: 0.6875rem;      /* 11px */
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-rule);
+}
+.schema-box {
+  border: 1px solid var(--color-rule);
+  border-radius: var(--radius-sm);
+  padding: 1rem 1.25rem;
+  background: transparent;
+  position: relative;
+}
+.schema-box::before {
+  content: attr(data-object);
+  position: absolute;
+  top: -0.55rem;
+  left: 0.75rem;
+  padding: 0 0.5rem;
+  background: var(--color-background);
+  font-family: var(--font-mono);
+  font-size: 0.625rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--color-rule);
+}
+.schema-field {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: var(--color-muted-foreground);
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.25rem 0;
+  border-bottom: 1px dashed color-mix(in oklab, var(--color-rule) 30%, transparent);
+}
+.schema-field:last-child { border-bottom: 0; }
+.schema-field .k { color: var(--color-foreground); }
+.schema-field .t { color: var(--color-rule); }
+
+/* Section marker — the monospace "§ N — NAME" annotation at each section top */
+.section-marker {
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--color-rule);
+  display: inline-block;
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid var(--color-rule);
+  margin-bottom: 1.5rem;
+}
+
+/* Focus — visible, respects accent */
+:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 2px;
+  border-radius: var(--radius-sm);
 }
 
 /* MDX / prose helpers */
@@ -176,7 +190,6 @@
 .task-list-item { list-style: none; }
 .footnotes { margin-top: 3rem; border-top: 1px solid var(--color-border); padding-top: 2rem; }
 .data-footnote-backref { text-decoration: none; }
-.csl-entry { margin-top: 1.25rem; margin-bottom: 1.25rem; }
 
 /* Autofill flash prevention */
 input:-webkit-autofill,

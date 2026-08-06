@@ -1,0 +1,112 @@
+---
+import { getCollection, getEntry, getEntries, render } from "astro:content";
+import RootLayout from "@/layouts/RootLayout.astro";
+import FormattedDate from "@/components/FormattedDate.astro";
+import { NOTE_METADATA } from "@/consts";
+import { useTranslations } from "@/i18n";
+import { excludeDrafts, sortNotes } from "@/functions";
+
+export async function getStaticPaths() {
+  const notes = sortNotes(await getCollection("notes", excludeDrafts));
+  return notes.map((note, index) => ({
+    params: { slug: note.id },
+    props: {
+      note,
+      prev: notes[index + 1] ?? null,
+      next: notes[index - 1] ?? null,
+    },
+  }));
+}
+
+export const prerender = true;
+
+const t = useTranslations();
+const { note, prev, next } = Astro.props;
+const { Content } = await render(note);
+const tags = await getEntries(note.data.tags);
+const related = note.data.related?.length
+  ? await getEntries(note.data.related)
+  : [];
+---
+
+<RootLayout
+  title={note.data.title}
+  description={note.data.summary}
+  canonical={note.data.canonicalUrl ?? Astro.url.toString()}
+  article={{
+    publishedTime: note.data.date,
+    modifiedTime: note.data.lastmod,
+    authors: note.data.authors.map((a) => a.id),
+    tags: tags.map((t) => t.data.name),
+  }}
+>
+  <article class="mx-auto max-w-3xl px-4 sm:px-6 xl:px-8 pt-16 pb-24">
+    <header class="mb-14">
+      <p class="text-xs font-mono uppercase tracking-widest text-rule">
+        <FormattedDate date={note.data.date} />
+        {NOTE_METADATA.showTags && tags.length > 0 && (
+          <>
+            <span class="mx-2 opacity-50">·</span>
+            {tags.map((tag) => tag.data.name).join(" · ")}
+          </>
+        )}
+      </p>
+      <h1 class="mt-6 font-display text-3xl sm:text-5xl leading-[1.08] tracking-tight text-foreground">
+        {note.data.title}
+      </h1>
+      <p class="mt-6 text-lg text-muted-foreground leading-relaxed">
+        {note.data.summary}
+      </p>
+      {note.data.draft && (
+        <p class="mt-8 rounded-sm border border-dashed border-rule/60 px-4 py-3 text-sm text-muted-foreground">
+          {t("notes.draftBanner")}
+        </p>
+      )}
+    </header>
+
+    <div class="prose prose-neutral dark:prose-invert max-w-none prose-headings:font-display prose-headings:tracking-tight prose-a:text-accent prose-a:no-underline hover:prose-a:underline">
+      <Content />
+    </div>
+
+    <nav class="mt-20 pt-8 border-t border-border/60 grid gap-6 sm:grid-cols-2 text-sm">
+      {prev ? (
+        <a href={`/notes/${prev.id}`} class="group">
+          <p class="schema-annotation">← {t("notes.previousNote")}</p>
+          <p class="mt-2 font-display text-lg text-foreground group-hover:text-accent transition-colors">{prev.data.title}</p>
+        </a>
+      ) : <span></span>}
+      {next ? (
+        <a href={`/notes/${next.id}`} class="group sm:text-right">
+          <p class="schema-annotation">{t("notes.nextNote")} →</p>
+          <p class="mt-2 font-display text-lg text-foreground group-hover:text-accent transition-colors">{next.data.title}</p>
+        </a>
+      ) : <span></span>}
+    </nav>
+
+    {NOTE_METADATA.showRelatedNotes && related.length > 0 && (
+      <section class="mt-20 pt-10 border-t border-border/60">
+        <p class="schema-annotation mb-6">{t("notes.related")}</p>
+        <ul class="grid gap-6 sm:grid-cols-2">
+          {related.map((r) => (
+            <li>
+              <a href={`/notes/${r.id}`} class="group block">
+                <p class="text-xs font-mono uppercase tracking-widest text-rule">
+                  <FormattedDate date={r.data.date} />
+                </p>
+                <h3 class="mt-2 font-display text-lg text-foreground group-hover:text-accent transition-colors">
+                  {r.data.title}
+                </h3>
+              </a>
+            </li>
+          ))}
+        </ul>
+      </section>
+    )}
+
+    <div class="mt-20 pt-10 border-t border-border/60">
+      <a href="/notes" class="text-sm text-muted-foreground hover:text-foreground transition-colors">
+        ← {t("notes.backToNotes")}
+      </a>
+    </div>
+  </article>
+</RootLayout>

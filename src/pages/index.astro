@@ -1,126 +1,335 @@
 ---
 import { getCollection } from "astro:content";
-import { ITEMS_PER_PAGE } from "@/consts";
 import RootLayout from "@/layouts/RootLayout.astro";
-import Link from "@/components/Link.astro";
-import Tag from "@/components/Tag.astro";
+import { excludeDrafts, sortNotes } from "@/functions";
+import { SITE_METADATA, OFFERS } from "@/consts";
+import SchemaObject from "@/components/SchemaObject.astro";
+import HubspotMeetings from "@/components/HubspotMeetings.astro";
 import FormattedDate from "@/components/FormattedDate.astro";
-import { excludeDrafts, sortBlogPosts } from "@/functions";
-import HeroGraphic from "@/components/HeroGraphic.astro";
-import { useTranslations } from "@/i18n";
 
-const t = useTranslations();
-const posts = await getCollection("blog", excludeDrafts).then(sortBlogPosts);
+const latestNotes = (await getCollection("notes", excludeDrafts))
+  .sort((a, b) => sortNotes([a, b])[0] === a ? -1 : 1)
+  .slice(0, 3);
 ---
 
-<RootLayout
-  title={t("siteMetadata.title")}
-  description={t("siteMetadata.description")}
->
-  <!-- Hero -->
-  <section class="pt-8 pb-20 md:pt-10 md:pb-36">
-    <div class="grid lg:grid-cols-[1.1fr_0.9fr] gap-12 items-center" data-animate>
+<RootLayout title={SITE_METADATA.title} description={SITE_METADATA.description}>
 
-      <!-- Left: text -->
-      <div>
-        <!-- Section label -->
-        <!-- Headline -->
-        <h1 class="font-display text-[2.55rem] sm:text-6xl lg:text-[4rem] leading-[1.05] tracking-[-0.02em] mb-6 text-foreground">
-          What <span class="gradient-text">Salesforce</span><br />
-          looks like when<br />
-          it's actually in<br />
-          production.
-        </h1>
+  <!-- ============================================================ -->
+  <!-- §01 HERO                                                     -->
+  <!-- ============================================================ -->
+  <section class="relative overflow-hidden">
+    <div class="mx-auto max-w-6xl px-4 sm:px-6 xl:px-8 pt-14 pb-24 md:pt-20 md:pb-36">
+      <div class="grid lg:grid-cols-[1.35fr_0.75fr] gap-14 items-start" data-animate>
 
-        <!-- Description -->
-        <p class="text-lg md:text-xl text-muted-foreground max-w-xl leading-relaxed mb-10">
-          How retail and services teams unify customer data, automate support, and connect their stack across the Salesforce platform and MuleSoft.
-        </p>
+        <div>
+          <p class="schema-annotation">§ 01 — Position</p>
+          <h1 class="mt-6 font-display text-[2.75rem] sm:text-6xl lg:text-[4.25rem] leading-[1.02] tracking-[-0.025em] text-foreground">
+            HubSpot, built by someone who spent {SITE_METADATA.name === "{{NAME}}" ? "{{YEARS_SF}}" : "{{YEARS_SF}}"} years inside Salesforce.
+          </h1>
+          <p class="mt-8 max-w-xl text-lg text-muted-foreground leading-relaxed">
+            {SITE_METADATA.description}
+          </p>
+          <div class="mt-10 flex flex-wrap gap-3">
+            <a href="#book" class="inline-flex items-center rounded-sm bg-accent px-5 py-3 text-sm font-medium text-accent-foreground hover:opacity-90 transition-opacity">
+              Book a call
+            </a>
+            <a href="/notes" class="inline-flex items-center rounded-sm border border-border px-5 py-3 text-sm font-medium text-foreground hover:border-foreground/40 transition-colors">
+              Read the notes
+            </a>
+          </div>
+        </div>
 
-        <!-- CTAs -->
-        <div class="flex flex-col sm:flex-row gap-4">
-          <a
-            href="/case-studies"
-            class="group inline-flex items-center justify-center gap-2 h-12 bg-gradient-to-r from-accent to-accent-secondary text-accent-foreground font-medium px-7 rounded-xl shadow-sm hover:-translate-y-0.5 active:scale-[0.98] transition-all duration-200"
-            style="box-shadow: var(--shadow-accent);"
-            onmouseover="this.style.boxShadow='var(--shadow-accent-lg)'"
-            onmouseout="this.style.boxShadow='var(--shadow-accent)'"
-          >
-            View Case Studies
-            <span class="group-hover:translate-x-1 transition-transform duration-200">→</span>
-          </a>
-          <a
-            href="/blog"
-            class="inline-flex items-center justify-center gap-2 h-12 border border-border hover:border-accent/30 hover:bg-muted text-foreground font-medium px-7 rounded-xl transition-all duration-200"
-          >
-            Read the Blog
-          </a>
+        <!-- Signature: subtle CRM schema backdrop, uses only quiet accent tones -->
+        <div class="hidden lg:block relative">
+          <div class="space-y-6">
+            <SchemaObject object="contact" fields={[
+              { k: "email", t: "string" },
+              { k: "lifecycle_stage", t: "enum" },
+              { k: "owner_id", t: "ref → user" },
+            ]} />
+            <div class="pl-10">
+              <SchemaObject object="deal" fields={[
+                { k: "stage", t: "enum" },
+                { k: "amount", t: "number" },
+                { k: "primary_contact_id", t: "ref → contact" },
+              ]} />
+            </div>
+            <div class="pl-4">
+              <SchemaObject object="company" fields={[
+                { k: "domain", t: "string" },
+                { k: "hs_lead_status", t: "enum" },
+              ]} />
+            </div>
+          </div>
         </div>
       </div>
-
-      <!-- Right: visual (hidden on mobile) -->
-      <div class="hidden lg:block">
-        <HeroGraphic />
-      </div>
-
     </div>
   </section>
 
-  <!-- Latest posts (only when published posts exist) -->
-  {posts.length > 0 && (
-    <section class="pb-24 border-t border-border pt-16">
-      <div class="flex items-center justify-between mb-12" data-animate>
-        <div class="inline-flex items-center gap-3 rounded-full border border-accent/30 bg-accent/5 px-5 py-2">
-          <span class="h-2 w-2 rounded-full bg-accent animate-pulse-soft"></span>
-          <span class="font-mono text-xs uppercase tracking-[0.15em] text-accent">
-            {t("pages.home.latestPosts")}
-          </span>
+  <!-- ============================================================ -->
+  <!-- §02 CREDIBILITY — honest, checkable facts. No client logos.  -->
+  <!-- ============================================================ -->
+  <section class="border-t border-border/60 bg-muted/40">
+    <div class="mx-auto max-w-6xl px-4 sm:px-6 xl:px-8 py-14" data-animate>
+      <p class="schema-annotation">§ 02 — Credibility</p>
+      <div class="mt-6 grid gap-10 md:grid-cols-3">
+        <div>
+          <p class="font-display text-4xl text-foreground leading-none">{`{{YEARS_SF}}`}</p>
+          <p class="mt-3 text-sm text-muted-foreground">years of hands-on Salesforce work in {`{{ENV_DESCRIPTORS}}`} environments</p>
         </div>
-        {posts.length > ITEMS_PER_PAGE && (
-          <Link
-            href="/blog"
-            class="text-sm text-muted-foreground hover:text-accent transition-colors duration-200 flex items-center gap-1"
-            aria-label={t("pages.home.viewAllPosts")}
-          >
-            {t("pages.home.viewAllPosts")} →
-          </Link>
-        )}
+        <div>
+          <p class="font-display text-lg text-foreground leading-snug">Environments</p>
+          <p class="mt-3 text-sm text-muted-foreground">{`{{ENV_DESCRIPTORS}}`} — described by scale and complexity, no logos on the wall.</p>
+        </div>
+        <div>
+          <p class="font-display text-lg text-foreground leading-snug">HubSpot Academy</p>
+          <p class="mt-3 text-sm text-muted-foreground font-mono leading-relaxed">{`{{CERTS}}`}</p>
+        </div>
       </div>
 
-      <ul class="divide-y divide-border" data-animate-stagger>
-        {posts.slice(0, ITEMS_PER_PAGE).map((post, i) => {
-          const { title, summary, tags, date } = post.data;
-          return (
-            <li class="py-8" style={`--i: ${i}`} data-animate>
-              <article class="group flex flex-col sm:flex-row sm:items-start gap-4 sm:gap-8">
-                <div class="shrink-0 w-32">
-                  <time class="font-mono text-xs text-muted-foreground tracking-wide">
-                    <FormattedDate date={date} />
-                  </time>
-                </div>
-                <div class="flex-1 space-y-3 min-w-0">
-                  <h2 class="text-xl font-semibold tracking-[-0.01em] text-foreground group-hover:text-accent transition-colors duration-200">
-                    <Link href={`/blog/${post.id}`}>{title}</Link>
-                  </h2>
-                  <div class="flex flex-wrap gap-2">
-                    {tags.map((ref) => <Tag slug={ref.id} />)}
-                  </div>
-                  {summary && (
-                    <p class="text-sm text-muted-foreground leading-relaxed">{summary}</p>
-                  )}
-                  <Link
-                    href={`/blog/${post.id}`}
-                    class="inline-flex items-center gap-1 text-sm font-medium text-accent hover:gap-2 transition-all duration-200"
-                    aria-label={t("pages.home.readMoreAbout", { title })}
-                  >
-                    {t("pages.home.readMore")} →
-                  </Link>
-                </div>
-              </article>
+      <!--
+        LOGO STRIP — commented out, ready to enable when there are real logos to show.
+        Do not switch on before consent is secured for each.
+      <div class="mt-14 pt-10 border-t border-border/60 opacity-60">
+        <p class="schema-annotation mb-6">Worked with</p>
+        <div class="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-6 gap-8 items-center">
+          {LOGOS.map(logo => <img src={logo.src} alt={logo.name} class="h-6 object-contain" />)}
+        </div>
+      </div>
+      -->
+    </div>
+  </section>
+
+  <!-- ============================================================ -->
+  <!-- §03 WHAT I DO — three scoped offers                          -->
+  <!-- ============================================================ -->
+  <section id="services" class="border-t border-border/60">
+    <div class="mx-auto max-w-6xl px-4 sm:px-6 xl:px-8 py-24" data-animate>
+      <p class="schema-annotation">§ 03 — What I do</p>
+      <h2 class="mt-6 font-display text-3xl sm:text-4xl leading-tight text-foreground max-w-xl">
+        Three engagements. Everything else is a conversation, not a service.
+      </h2>
+
+      <div class="mt-14 grid gap-px bg-border/60 border border-border/60 sm:grid-cols-3">
+        {OFFERS.map((offer) => (
+          <div class="bg-background p-8 flex flex-col">
+            <p class="schema-annotation">{offer.slug}</p>
+            <h3 class="mt-3 font-display text-2xl text-foreground leading-tight">{offer.name}</h3>
+            <p class="mt-4 text-sm text-muted-foreground">
+              <span class="text-foreground font-medium">For:</span> {offer.who}
+            </p>
+            <p class="mt-3 text-sm text-muted-foreground">
+              <span class="text-foreground font-medium">Delivered:</span> {offer.delivered}
+            </p>
+            <div class="mt-auto pt-8 flex items-baseline justify-between text-xs font-mono uppercase tracking-widest text-rule">
+              <span>{offer.duration}</span>
+              <span>{offer.price}</span>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      <p class="mt-8 text-sm text-muted-foreground max-w-2xl">
+        Not sure which fits — <a href="#book" class="underline underline-offset-4 hover:text-foreground">book a call</a> and I will tell you honestly if none of them do.
+      </p>
+    </div>
+  </section>
+
+  <!-- ============================================================ -->
+  <!-- §04 WHO I'M NOT FOR — qualification, unapologetic            -->
+  <!-- ============================================================ -->
+  <section class="border-t border-border/60 bg-muted/40">
+    <div class="mx-auto max-w-6xl px-4 sm:px-6 xl:px-8 py-24" data-animate>
+      <div class="grid gap-12 lg:grid-cols-[1fr_1.4fr]">
+        <div>
+          <p class="schema-annotation">§ 04 — Who I'm not for</p>
+          <h2 class="mt-6 font-display text-3xl sm:text-4xl leading-tight text-foreground">
+            The work I don't do.
+          </h2>
+          <p class="mt-6 text-sm text-muted-foreground max-w-sm">
+            Naming what I don't do is more useful than naming what I do. If your problem is on this list, someone else is a better call.
+          </p>
+        </div>
+        <ul class="space-y-4 text-lg text-foreground/90 font-display">
+          <li class="flex gap-4"><span class="font-mono text-rule text-sm pt-2">01</span>Content marketing, SEO retainers, or paid media management.</li>
+          <li class="flex gap-4"><span class="font-mono text-rule text-sm pt-2">02</span>Six-week audit decks with no build attached.</li>
+          <li class="flex gap-4"><span class="font-mono text-rule text-sm pt-2">03</span>Anything that isn't building or fixing the CRM.</li>
+          <li class="flex gap-4"><span class="font-mono text-rule text-sm pt-2">04</span>Rescue projects where the honest answer is "start over, not patch".</li>
+          <li class="flex gap-4"><span class="font-mono text-rule text-sm pt-2">05</span>Retainers that bill without a defined deliverable.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================ -->
+  <!-- §05 SALESFORCE → HUBSPOT — the one topic with real authority -->
+  <!-- ============================================================ -->
+  <section id="salesforce-to-hubspot" class="border-t border-border/60">
+    <div class="mx-auto max-w-6xl px-4 sm:px-6 xl:px-8 py-28" data-animate>
+      <p class="schema-annotation">§ 05 — Salesforce → HubSpot</p>
+      <h2 class="mt-6 font-display text-3xl sm:text-5xl leading-tight text-foreground max-w-3xl">
+        Migrating off Salesforce is a decision, not a project.
+      </h2>
+      <p class="mt-8 max-w-2xl text-lg text-muted-foreground leading-relaxed">
+        I've spent {`{{YEARS_SF}}`} years inside Salesforce orgs — enough to know what breaks in a migration, what doesn't survive the schema flatten, and when the honest answer is <em class="not-italic text-foreground">stay on Salesforce</em>. This is the one topic on this site where deep authority is genuinely earned.
+      </p>
+
+      <!-- Signature: SF object morphing into a HubSpot object -->
+      <div class="mt-14 grid gap-6 sm:grid-cols-[1fr_auto_1fr] items-center">
+        <SchemaObject object="Account (SF)" fields={[
+          { k: "Name", t: "text(255)" },
+          { k: "RecordTypeId", t: "ref → RecordType" },
+          { k: "OwnerId", t: "ref → User" },
+          { k: "Custom_Field__c", t: "picklist" },
+        ]} />
+        <div class="flex justify-center">
+          <span class="font-mono text-xs text-rule uppercase tracking-widest">migrates to →</span>
+        </div>
+        <SchemaObject object="Company (HubSpot)" fields={[
+          { k: "name", t: "string" },
+          { k: "lifecyclestage", t: "enum" },
+          { k: "hubspot_owner_id", t: "ref → user" },
+          { k: "custom_field", t: "dropdown" },
+        ]} />
+      </div>
+
+      <div class="mt-14 grid gap-8 sm:grid-cols-3 text-sm">
+        <div>
+          <p class="font-mono text-xs uppercase tracking-widest text-rule mb-3">What actually breaks</p>
+          <p class="text-muted-foreground leading-relaxed">Record types, validation rules, and Apex-triggered automation. Migrations that treat those as "custom fields plus rules" underestimate the rebuild by 3–5×.</p>
+        </div>
+        <div>
+          <p class="font-mono text-xs uppercase tracking-widest text-rule mb-3">Migration assessment</p>
+          <p class="text-muted-foreground leading-relaxed">A fixed-scope engagement: your Salesforce org, mapped to a HubSpot data model, with a defensible cost and a defensible timeline before you sign anything.</p>
+        </div>
+        <div>
+          <p class="font-mono text-xs uppercase tracking-widest text-rule mb-3">When to stay on Salesforce</p>
+          <p class="text-muted-foreground leading-relaxed">Complex approval flows, deep territory management, or industry clouds you actually use. I will tell you if that's you, unpaid.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================ -->
+  <!-- §06 HOW I WORK — three phases as questions                   -->
+  <!-- ============================================================ -->
+  <section id="how-i-work" class="border-t border-border/60 bg-muted/40">
+    <div class="mx-auto max-w-6xl px-4 sm:px-6 xl:px-8 py-28" data-animate>
+      <p class="schema-annotation">§ 06 — How I work</p>
+      <h2 class="mt-6 font-display text-3xl sm:text-4xl leading-tight text-foreground max-w-2xl">
+        Three questions, in order. Skip one and the next is guesswork.
+      </h2>
+
+      <ol class="mt-14 grid gap-8 lg:grid-cols-3">
+        <li class="schema-box" data-object="Phase 01 · Foundation">
+          <p class="font-display text-xl text-foreground leading-snug pt-1">Can you trust your data?</p>
+          <p class="mt-4 text-sm text-muted-foreground leading-relaxed">Deduplication, ownership rules, source-of-truth per object. Nothing else works if the answer is no.</p>
+        </li>
+        <li class="schema-box" data-object="Phase 02 · Process">
+          <p class="font-display text-xl text-foreground leading-snug pt-1">Do your systems enforce your process?</p>
+          <p class="mt-4 text-sm text-muted-foreground leading-relaxed">Pipeline stages that mean something, required fields at the right gates, workflow automations that don't fight the humans.</p>
+        </li>
+        <li class="schema-box" data-object="Phase 03 · Truth">
+          <p class="font-display text-xl text-foreground leading-snug pt-1">Do your reports tell you the truth?</p>
+          <p class="mt-4 text-sm text-muted-foreground leading-relaxed">Reports that survive the "prove it" question from a CFO. If the number moves when you refresh, the number is wrong.</p>
+        </li>
+      </ol>
+    </div>
+  </section>
+
+  <!-- ============================================================ -->
+  <!-- §07 NOTES — latest three, real design weight                 -->
+  <!-- ============================================================ -->
+  <section class="border-t border-border/60">
+    <div class="mx-auto max-w-6xl px-4 sm:px-6 xl:px-8 py-28" data-animate>
+      <div class="flex items-end justify-between mb-14">
+        <div>
+          <p class="schema-annotation">§ 07 — Notes</p>
+          <h2 class="mt-6 font-display text-3xl sm:text-4xl leading-tight text-foreground">
+            Working notes. Written to be defended in a call.
+          </h2>
+        </div>
+        <a href="/notes" class="hidden sm:inline text-sm text-muted-foreground hover:text-foreground transition-colors">
+          All notes →
+        </a>
+      </div>
+
+      {latestNotes.length === 0 ? (
+        <p class="text-muted-foreground">No notes yet.</p>
+      ) : (
+        <ul class="grid gap-px bg-border/60 border border-border/60 sm:grid-cols-3">
+          {latestNotes.map((note) => (
+            <li class="bg-background">
+              <a href={`/notes/${note.id}`} class="group block h-full p-8 transition-colors hover:bg-muted/40">
+                <p class="text-xs font-mono uppercase tracking-widest text-rule">
+                  <FormattedDate date={note.data.date} />
+                </p>
+                <h3 class="mt-4 font-display text-xl leading-snug text-foreground group-hover:text-accent transition-colors">
+                  {note.data.title}
+                </h3>
+                <p class="mt-4 text-sm text-muted-foreground leading-relaxed line-clamp-3">
+                  {note.data.summary}
+                </p>
+              </a>
             </li>
-          );
-        })}
-      </ul>
-    </section>
-  )}
+          ))}
+        </ul>
+      )}
+
+      <!--
+        TESTIMONIALS — stub, commented out. Enable when there are real
+        quotes with named attribution. Anonymous quotes are worse than none.
+      <div class="mt-24 pt-12 border-t border-border/60">
+        <p class="schema-annotation mb-6">Voices</p>
+        <div class="grid gap-10 md:grid-cols-2"></div>
+      </div>
+      -->
+    </div>
+  </section>
+
+  <!-- ============================================================ -->
+  <!-- §08 WHAT HAPPENS ON THE CALL — de-risking                    -->
+  <!-- ============================================================ -->
+  <section class="border-t border-border/60 bg-muted/40">
+    <div class="mx-auto max-w-6xl px-4 sm:px-6 xl:px-8 py-28" data-animate>
+      <p class="schema-annotation">§ 08 — What happens on the call</p>
+      <div class="mt-6 grid gap-14 lg:grid-cols-[1fr_1.2fr]">
+        <h2 class="font-display text-3xl sm:text-4xl leading-tight text-foreground">
+          No pitch. No slides. A working diagnostic.
+        </h2>
+        <div class="space-y-8">
+          <div>
+            <p class="font-mono text-xs uppercase tracking-widest text-rule mb-2">What I'll ask</p>
+            <p class="text-foreground/90 leading-relaxed">Where the CRM lives now, what your team stops trusting first, what the last three RevOps decisions were and why.</p>
+          </div>
+          <div>
+            <p class="font-mono text-xs uppercase tracking-widest text-rule mb-2">What you don't need to prepare</p>
+            <p class="text-foreground/90 leading-relaxed">Nothing. If you can't answer a question, that's data too.</p>
+          </div>
+          <div>
+            <p class="font-mono text-xs uppercase tracking-widest text-rule mb-2">What you'll know by the end</p>
+            <p class="text-foreground/90 leading-relaxed">Whether the problem is a build, a migration, a rescue, or something I don't take. Named. In under 30 minutes.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================ -->
+  <!-- §09 BOOKING — HubSpot meetings embed                         -->
+  <!-- ============================================================ -->
+  <section id="book" class="border-t border-border/60">
+    <div class="mx-auto max-w-6xl px-4 sm:px-6 xl:px-8 py-28" data-animate>
+      <div class="max-w-2xl mb-12">
+        <p class="schema-annotation">§ 09 — Book</p>
+        <h2 class="mt-6 font-display text-3xl sm:text-4xl leading-tight text-foreground">
+          Pick a slot. 30 minutes.
+        </h2>
+      </div>
+      <HubspotMeetings />
+    </div>
+  </section>
+
+  <!-- §10 FOOTER lives in RootLayout -->
+
 </RootLayout>

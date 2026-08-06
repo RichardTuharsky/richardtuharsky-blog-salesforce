@@ -5,15 +5,20 @@ type Props = HTMLAttributes<"a">;
 
 const { href, class: className, ...props } = Astro.props;
 const { pathname } = Astro.url;
-const isActive = href === pathname || href === pathname.replace(/\/$/, "");
+const hrefStr = typeof href === "string" ? href : "";
+const [basePath] = hrefStr.split("#");
+const isActive =
+  basePath &&
+  basePath !== "/" &&
+  (pathname === basePath || pathname.startsWith(basePath + "/"));
 ---
 
 <a
   href={href}
   class:list={[
-    "text-sm font-medium transition-colors duration-200",
+    "text-sm transition-colors duration-200",
     isActive
-      ? "text-accent"
+      ? "text-foreground"
       : "text-muted-foreground hover:text-foreground",
     className,
   ]}

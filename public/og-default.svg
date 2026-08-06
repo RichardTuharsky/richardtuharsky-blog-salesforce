@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" width="1200" height="630">
+  <rect width="1200" height="630" fill="#F7F6F2"/>
+  <g font-family="'JetBrains Mono', ui-monospace, monospace" fill="#8891A4">
+    <text x="80" y="140" font-size="18" letter-spacing="4" text-transform="uppercase">§ HUBSPOT PRACTICE</text>
+  </g>
+  <text x="80" y="330" font-family="Georgia, serif" font-size="86" fill="#111318" font-weight="500" letter-spacing="-2">{{NAME}}</text>
+  <text x="80" y="410" font-family="system-ui, sans-serif" font-size="30" fill="#5A616E" letter-spacing="-0.5">HubSpot for teams that don't need Salesforce's weight.</text>
+  <g stroke="#8891A4" stroke-width="1" fill="none">
+    <rect x="80" y="490" width="220" height="70" rx="2"/>
+    <rect x="330" y="490" width="220" height="70" rx="2"/>
+    <rect x="580" y="490" width="220" height="70" rx="2"/>
+    <line x1="300" y1="525" x2="330" y2="525"/>
+    <line x1="550" y1="525" x2="580" y2="525"/>
+  </g>
+  <g font-family="'JetBrains Mono', ui-monospace, monospace" fill="#8891A4" font-size="12">
+    <text x="92" y="522" letter-spacing="2">CONTACT</text>
+    <text x="92" y="546" letter-spacing="1" fill="#111318">email · owner_id · stage</text>
+    <text x="342" y="522" letter-spacing="2">DEAL</text>
+    <text x="342" y="546" letter-spacing="1" fill="#111318">stage · amount · owner</text>
+    <text x="592" y="522" letter-spacing="2">COMPANY</text>
+    <text x="592" y="546" letter-spacing="1" fill="#111318">domain · lifecycle · owner</text>
+  </g>
+  <rect x="1080" y="80" width="40" height="4" fill="#3651E8"/>
+</svg>
