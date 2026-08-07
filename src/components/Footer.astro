@@ -22,11 +22,9 @@ import { SITE_METADATA } from "@/consts";
 
       <nav aria-label="Elsewhere" class="flex flex-col gap-2 text-sm text-muted-foreground">
         <span class="schema-annotation mb-1">Elsewhere</span>
-        <a href={SITE_METADATA.socials.linkedin} rel="me noopener" class="hover:text-foreground transition-colors">LinkedIn</a>
-        <a href={SITE_METADATA.socials.twitter} rel="me noopener" class="hover:text-foreground transition-colors">X</a>
-        <a href="/privacy" class="hover:text-foreground transition-colors">Privacy</a>
-        <a href="/terms" class="hover:text-foreground transition-colors">Terms</a>
-        <a href="/llms.txt" class="hover:text-foreground transition-colors">llms.txt</a>
+        <a href={SITE_METADATA.socials.linkedin} rel="me noopener" target="_blank" class="hover:text-foreground transition-colors">LinkedIn</a>
+        <a href={SITE_METADATA.socials.twitter} rel="me noopener" target="_blank" class="hover:text-foreground transition-colors">X</a>
+        <a href={SITE_METADATA.socials.youtube} rel="me noopener" target="_blank" class="hover:text-foreground transition-colors">YouTube</a>
       </nav>
     </div>
 

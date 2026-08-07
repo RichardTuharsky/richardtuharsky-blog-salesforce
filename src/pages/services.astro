@@ -5,11 +5,11 @@ import HubspotForm from "@/components/HubspotForm.astro";
 ---
 
 <RootLayout
-  title={`Services — ${SITE_METADATA.name}`}
+  title={`Services · ${SITE_METADATA.name}`}
   description="Three scoped HubSpot engagements: build, migration, and rescue. Each with a fixed shape, duration, and price."
 >
   <section class="mx-auto max-w-6xl px-4 sm:px-6 xl:px-8 pt-16 pb-16">
-    <p class="schema-annotation">§ — Services</p>
+    <p class="schema-annotation">§ · Services</p>
     <h1 class="mt-6 font-display text-4xl sm:text-6xl leading-[1.05] tracking-tight text-foreground max-w-3xl">
       Three engagements. Fixed shape. Defensible price.
     </h1>
@@ -40,7 +40,7 @@ import HubspotForm from "@/components/HubspotForm.astro";
             <div class="prose prose-neutral dark:prose-invert max-w-none">
               <p><strong class="text-foreground">Who this is for:</strong> {offer.who}</p>
               <p><strong class="text-foreground">What's delivered:</strong> {offer.delivered}</p>
-              <p class="text-sm text-muted-foreground">Full brief and outcomes are covered on the intro call — the shape of the engagement is fixed, the specifics are yours.</p>
+              <p class="text-sm text-muted-foreground">Full brief and outcomes are covered on the intro call. The shape of the engagement is fixed; the specifics are yours.</p>
             </div>
             <div class="mt-8">
               <a href="/#book" class="inline-flex items-center rounded-sm bg-accent px-5 py-3 text-sm font-medium text-accent-foreground hover:opacity-90 transition-opacity">
@@ -55,12 +55,12 @@ import HubspotForm from "@/components/HubspotForm.astro";
 
   <section class="border-t border-border/60">
     <div class="mx-auto max-w-6xl px-4 sm:px-6 xl:px-8 py-24" data-animate>
-      <p class="schema-annotation">§ — Not sure which fits</p>
+      <p class="schema-annotation">§ · Not sure which fits</p>
       <h2 class="mt-6 font-display text-3xl sm:text-4xl leading-tight text-foreground max-w-2xl">
         Send the shape of the problem. I will tell you which offer, or that none of them fit.
       </h2>
       <div class="mt-12 max-w-2xl">
-        <HubspotForm variant="audit" label="High-intent audit enquiry form goes here — replace {{FORM_ID_AUDIT}} in src/consts.ts." />
+        <HubspotForm variant="audit" label="High-intent audit enquiry form goes here, replace {{FORM_ID_AUDIT}} in src/consts.ts." />
       </div>
     </div>
   </section>

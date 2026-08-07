@@ -31,7 +31,7 @@ type Props = {
     <Footer />
 
     <script>
-      // Entrance animation observer — respects prefers-reduced-motion (handled in CSS).
+      // Entrance animation observer, respects prefers-reduced-motion (handled in CSS).
       const items = document.querySelectorAll<HTMLElement>("[data-animate]");
       const io = new IntersectionObserver(
         (entries) => {

@@ -12,9 +12,9 @@ export const ui = {
 
     "pages.notes.title": "Notes",
     "pages.notes.description":
-      "Working notes on HubSpot, RevOps, and CRM architecture — written to be defended in a discovery call.",
+      "Working notes on HubSpot, RevOps, and CRM architecture, written to be defended in a discovery call.",
     "pages.notes.empty": "No notes yet.",
-    "pages.404.title": "404 — Not found",
+    "pages.404.title": "404, Not found",
     "pages.404.description": "That page does not exist.",
     "pages.404.back": "Back to home",
 
@@ -31,6 +31,6 @@ export const ui = {
     "notes.previousNote": "Previous",
     "notes.nextNote": "Next",
 
-    "seo.pagination.page": "%s — Page {page}",
+    "seo.pagination.page": "%s, Page {page}",
   },
 };

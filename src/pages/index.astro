@@ -7,9 +7,7 @@ import SchemaObject from "@/components/SchemaObject.astro";
 import HubspotMeetings from "@/components/HubspotMeetings.astro";
 import FormattedDate from "@/components/FormattedDate.astro";
 
-const latestNotes = (await getCollection("notes", excludeDrafts))
-  .sort((a, b) => sortNotes([a, b])[0] === a ? -1 : 1)
-  .slice(0, 3);
+const latestNotes = sortNotes(await getCollection("notes", excludeDrafts)).slice(0, 3);
 ---
 
 <RootLayout title={SITE_METADATA.title} description={SITE_METADATA.description}>
@@ -22,9 +20,9 @@ const latestNotes = (await getCollection("notes", excludeDrafts))
       <div class="grid lg:grid-cols-[1.35fr_0.75fr] gap-14 items-start" data-animate>
 
         <div>
-          <p class="schema-annotation">§ 01 — Position</p>
+          <p class="schema-annotation">§ 01 · Position</p>
           <h1 class="mt-6 font-display text-[2.75rem] sm:text-6xl lg:text-[4.25rem] leading-[1.02] tracking-[-0.025em] text-foreground">
-            HubSpot, built by someone who spent {SITE_METADATA.name === "{{NAME}}" ? "{{YEARS_SF}}" : "{{YEARS_SF}}"} years inside Salesforce.
+            HubSpot, built by someone who spent {`{{YEARS_SF}}`} years inside Salesforce.
           </h1>
           <p class="mt-8 max-w-xl text-lg text-muted-foreground leading-relaxed">
             {SITE_METADATA.description}
@@ -67,11 +65,11 @@ const latestNotes = (await getCollection("notes", excludeDrafts))
   </section>
 
   <!-- ============================================================ -->
-  <!-- §02 CREDIBILITY — honest, checkable facts. No client logos.  -->
+  <!-- §02 CREDIBILITY: honest, checkable facts. No client logos.   -->
   <!-- ============================================================ -->
   <section class="border-t border-border/60 bg-muted/40">
     <div class="mx-auto max-w-6xl px-4 sm:px-6 xl:px-8 py-14" data-animate>
-      <p class="schema-annotation">§ 02 — Credibility</p>
+      <p class="schema-annotation">§ 02 · Credibility</p>
       <div class="mt-6 grid gap-10 md:grid-cols-3">
         <div>
           <p class="font-display text-4xl text-foreground leading-none">{`{{YEARS_SF}}`}</p>
@@ -79,7 +77,7 @@ const latestNotes = (await getCollection("notes", excludeDrafts))
         </div>
         <div>
           <p class="font-display text-lg text-foreground leading-snug">Environments</p>
-          <p class="mt-3 text-sm text-muted-foreground">{`{{ENV_DESCRIPTORS}}`} — described by scale and complexity, no logos on the wall.</p>
+          <p class="mt-3 text-sm text-muted-foreground">{`{{ENV_DESCRIPTORS}}`}, described by scale and complexity, no logos on the wall.</p>
         </div>
         <div>
           <p class="font-display text-lg text-foreground leading-snug">HubSpot Academy</p>
@@ -88,7 +86,7 @@ const latestNotes = (await getCollection("notes", excludeDrafts))
       </div>
 
       <!--
-        LOGO STRIP — commented out, ready to enable when there are real logos to show.
+        LOGO STRIP: commented out, ready to enable when there are real logos to show.
         Do not switch on before consent is secured for each.
       <div class="mt-14 pt-10 border-t border-border/60 opacity-60">
         <p class="schema-annotation mb-6">Worked with</p>
@@ -101,11 +99,11 @@ const latestNotes = (await getCollection("notes", excludeDrafts))
   </section>
 
   <!-- ============================================================ -->
-  <!-- §03 WHAT I DO — three scoped offers                          -->
+  <!-- §03 WHAT I DO: three scoped offers                           -->
   <!-- ============================================================ -->
   <section id="services" class="border-t border-border/60">
     <div class="mx-auto max-w-6xl px-4 sm:px-6 xl:px-8 py-24" data-animate>
-      <p class="schema-annotation">§ 03 — What I do</p>
+      <p class="schema-annotation">§ 03 · What I do</p>
       <h2 class="mt-6 font-display text-3xl sm:text-4xl leading-tight text-foreground max-w-xl">
         Three engagements. Everything else is a conversation, not a service.
       </h2>
@@ -130,48 +128,19 @@ const latestNotes = (await getCollection("notes", excludeDrafts))
       </div>
 
       <p class="mt-8 text-sm text-muted-foreground max-w-2xl">
-        Not sure which fits — <a href="#book" class="underline underline-offset-4 hover:text-foreground">book a call</a> and I will tell you honestly if none of them do.
+        Not sure which fits? <a href="#book" class="underline underline-offset-4 hover:text-foreground">Book a call</a> and I will tell you honestly if none of them do.
       </p>
     </div>
   </section>
 
   <!-- ============================================================ -->
-  <!-- §04 WHO I'M NOT FOR — qualification, unapologetic            -->
-  <!-- ============================================================ -->
-  <section class="border-t border-border/60 bg-muted/40">
-    <div class="mx-auto max-w-6xl px-4 sm:px-6 xl:px-8 py-24" data-animate>
-      <div class="grid gap-12 lg:grid-cols-[1fr_1.4fr]">
-        <div>
-          <p class="schema-annotation">§ 04 — Who I'm not for</p>
-          <h2 class="mt-6 font-display text-3xl sm:text-4xl leading-tight text-foreground">
-            The work I don't do.
-          </h2>
-          <p class="mt-6 text-sm text-muted-foreground max-w-sm">
-            Naming what I don't do is more useful than naming what I do. If your problem is on this list, someone else is a better call.
-          </p>
-        </div>
-        <ul class="space-y-4 text-lg text-foreground/90 font-display">
-          <li class="flex gap-4"><span class="font-mono text-rule text-sm pt-2">01</span>Content marketing, SEO retainers, or paid media management.</li>
-          <li class="flex gap-4"><span class="font-mono text-rule text-sm pt-2">02</span>Six-week audit decks with no build attached.</li>
-          <li class="flex gap-4"><span class="font-mono text-rule text-sm pt-2">03</span>Anything that isn't building or fixing the CRM.</li>
-          <li class="flex gap-4"><span class="font-mono text-rule text-sm pt-2">04</span>Rescue projects where the honest answer is "start over, not patch".</li>
-          <li class="flex gap-4"><span class="font-mono text-rule text-sm pt-2">05</span>Retainers that bill without a defined deliverable.</li>
-        </ul>
-      </div>
-    </div>
-  </section>
-
-  <!-- ============================================================ -->
-  <!-- §05 SALESFORCE → HUBSPOT — the one topic with real authority -->
+  <!-- §05 SALESFORCE → HUBSPOT: the one topic with real authority  -->
   <!-- ============================================================ -->
   <section id="salesforce-to-hubspot" class="border-t border-border/60">
     <div class="mx-auto max-w-6xl px-4 sm:px-6 xl:px-8 py-28" data-animate>
-      <p class="schema-annotation">§ 05 — Salesforce → HubSpot</p>
-      <h2 class="mt-6 font-display text-3xl sm:text-5xl leading-tight text-foreground max-w-3xl">
-        Migrating off Salesforce is a decision, not a project.
-      </h2>
+      <p class="schema-annotation">§ 04 · Salesforce → HubSpot</p>
       <p class="mt-8 max-w-2xl text-lg text-muted-foreground leading-relaxed">
-        I've spent {`{{YEARS_SF}}`} years inside Salesforce orgs — enough to know what breaks in a migration, what doesn't survive the schema flatten, and when the honest answer is <em class="not-italic text-foreground">stay on Salesforce</em>. This is the one topic on this site where deep authority is genuinely earned.
+        I've spent {`{{YEARS_SF}}`} years inside Salesforce orgs. Enough to know what breaks in a migration, what doesn't survive the schema flatten, and when the honest answer is <em class="not-italic text-foreground">stay on Salesforce</em>. This is the one topic on this site where deep authority is genuinely earned.
       </p>
 
       <!-- Signature: SF object morphing into a HubSpot object -->
@@ -196,11 +165,11 @@ const latestNotes = (await getCollection("notes", excludeDrafts))
       <div class="mt-14 grid gap-8 sm:grid-cols-3 text-sm">
         <div>
           <p class="font-mono text-xs uppercase tracking-widest text-rule mb-3">What actually breaks</p>
-          <p class="text-muted-foreground leading-relaxed">Record types, validation rules, and Apex-triggered automation. Migrations that treat those as "custom fields plus rules" underestimate the rebuild by 3–5×.</p>
+          <p class="text-muted-foreground leading-relaxed">Record types, validation rules, and Apex-triggered automation. Migrations that treat those as "custom fields plus rules" underestimate the rebuild by 3 to 5 times.</p>
         </div>
         <div>
           <p class="font-mono text-xs uppercase tracking-widest text-rule mb-3">Migration assessment</p>
-          <p class="text-muted-foreground leading-relaxed">A fixed-scope engagement: your Salesforce org, mapped to a HubSpot data model, with a defensible cost and a defensible timeline before you sign anything.</p>
+          <p class="text-muted-foreground leading-relaxed">A fixed-scope engagement. Your Salesforce org, mapped to a HubSpot data model, with a defensible cost and a defensible timeline before you sign anything.</p>
         </div>
         <div>
           <p class="font-mono text-xs uppercase tracking-widest text-rule mb-3">When to stay on Salesforce</p>
@@ -211,11 +180,11 @@ const latestNotes = (await getCollection("notes", excludeDrafts))
   </section>
 
   <!-- ============================================================ -->
-  <!-- §06 HOW I WORK — three phases as questions                   -->
+  <!-- §05 HOW I WORK: three phases as questions                    -->
   <!-- ============================================================ -->
   <section id="how-i-work" class="border-t border-border/60 bg-muted/40">
     <div class="mx-auto max-w-6xl px-4 sm:px-6 xl:px-8 py-28" data-animate>
-      <p class="schema-annotation">§ 06 — How I work</p>
+      <p class="schema-annotation">§ 05 · How I work</p>
       <h2 class="mt-6 font-display text-3xl sm:text-4xl leading-tight text-foreground max-w-2xl">
         Three questions, in order. Skip one and the next is guesswork.
       </h2>
@@ -238,13 +207,13 @@ const latestNotes = (await getCollection("notes", excludeDrafts))
   </section>
 
   <!-- ============================================================ -->
-  <!-- §07 NOTES — latest three, real design weight                 -->
+  <!-- §06 NOTES: latest three, real design weight                  -->
   <!-- ============================================================ -->
   <section class="border-t border-border/60">
     <div class="mx-auto max-w-6xl px-4 sm:px-6 xl:px-8 py-28" data-animate>
       <div class="flex items-end justify-between mb-14">
         <div>
-          <p class="schema-annotation">§ 07 — Notes</p>
+          <p class="schema-annotation">§ 06 · Notes</p>
           <h2 class="mt-6 font-display text-3xl sm:text-4xl leading-tight text-foreground">
             Working notes. Written to be defended in a call.
           </h2>
@@ -277,7 +246,7 @@ const latestNotes = (await getCollection("notes", excludeDrafts))
       )}
 
       <!--
-        TESTIMONIALS — stub, commented out. Enable when there are real
+        TESTIMONIALS stub, commented out. Enable when there are real
         quotes with named attribution. Anonymous quotes are worse than none.
       <div class="mt-24 pt-12 border-t border-border/60">
         <p class="schema-annotation mb-6">Voices</p>
@@ -288,15 +257,13 @@ const latestNotes = (await getCollection("notes", excludeDrafts))
   </section>
 
   <!-- ============================================================ -->
-  <!-- §08 WHAT HAPPENS ON THE CALL — de-risking                    -->
+  <!-- §07 WHAT HAPPENS ON THE CALL: de-risking                     -->
   <!-- ============================================================ -->
   <section class="border-t border-border/60 bg-muted/40">
     <div class="mx-auto max-w-6xl px-4 sm:px-6 xl:px-8 py-28" data-animate>
-      <p class="schema-annotation">§ 08 — What happens on the call</p>
+      <p class="schema-annotation">§ 07 · What happens on the call</p>
       <div class="mt-6 grid gap-14 lg:grid-cols-[1fr_1.2fr]">
-        <h2 class="font-display text-3xl sm:text-4xl leading-tight text-foreground">
-          No pitch. No slides. A working diagnostic.
-        </h2>
+        <div></div>
         <div class="space-y-8">
           <div>
             <p class="font-mono text-xs uppercase tracking-widest text-rule mb-2">What I'll ask</p>
@@ -316,12 +283,12 @@ const latestNotes = (await getCollection("notes", excludeDrafts))
   </section>
 
   <!-- ============================================================ -->
-  <!-- §09 BOOKING — HubSpot meetings embed                         -->
+  <!-- §08 BOOKING: HubSpot meetings embed                          -->
   <!-- ============================================================ -->
   <section id="book" class="border-t border-border/60">
     <div class="mx-auto max-w-6xl px-4 sm:px-6 xl:px-8 py-28" data-animate>
       <div class="max-w-2xl mb-12">
-        <p class="schema-annotation">§ 09 — Book</p>
+        <p class="schema-annotation">§ 08 · Book</p>
         <h2 class="mt-6 font-display text-3xl sm:text-4xl leading-tight text-foreground">
           Pick a slot. 30 minutes.
         </h2>

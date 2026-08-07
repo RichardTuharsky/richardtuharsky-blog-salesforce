@@ -2,11 +2,11 @@
  * Design tokens for the HubSpot consulting practice site.
  *
  * Deliberate choices (justify each):
- * - Fraunces (display) — variable serif with soft angles; distinctive at
+ * - Fraunces (display), variable serif with soft angles; distinctive at
  *   high optical size; not the tired "Instrument Serif" or "Newsreader".
- * - Manrope (body) — variable sans with warmth; not Inter, not overused
+ * - Manrope (body), variable sans with warmth; not Inter, not overused
  *   in RevOps sites; reads confident at long-form.
- * - JetBrains Mono — for annotations, schema-diagram labels, section
+ * - JetBrains Mono, for annotations, schema-diagram labels, section
  *   markers. Already suited to CRM/technical vocabulary.
  * - Palette: warm off-white / cool near-black / indigo accent / cool
  *   gray-blue rule. Six values total. Avoids the AI-design clichés:
@@ -32,12 +32,12 @@
   --font-sans: "Manrope Variable", "Manrope", system-ui, -apple-system, sans-serif;
   --font-mono: "JetBrains Mono", ui-monospace, "Courier New", monospace;
 
-  /* Palette — light mode defaults (six values) */
+  /* Palette, light mode defaults (six values) */
   --color-background: #f7f6f2;      /* warm off-white */
   --color-foreground: #111318;      /* dense warm-neutral text */
   --color-muted: #edece7;            /* card / subtle surface */
   --color-muted-foreground: #5a616e; /* secondary text */
-  --color-accent: #3651e8;           /* indigo — the one accent */
+  --color-accent: #3651e8;           /* indigo, the one accent */
   --color-accent-foreground: #ffffff;
   --color-rule: #8891a4;             /* cool gray-blue for schema lines and micro labels */
   --color-border: #dcdbd4;
@@ -57,7 +57,7 @@
   --line-height-13: 3.25rem;
   --line-height-14: 3.5rem;
 
-  /* Animations — restrained */
+  /* Animations, restrained */
   --animate-fade-up: fade-up 0.7s cubic-bezier(0.16, 1, 0.3, 1) both;
   --animate-draw-line: draw-line 1.2s cubic-bezier(0.16, 1, 0.3, 1) 0.3s both;
 }
@@ -100,7 +100,7 @@
   to   { stroke-dashoffset: 0; }
 }
 
-/* Entrance animation system (kept from original — good pattern) */
+/* Entrance animation system (kept from original, good pattern) */
 [data-animate] {
   opacity: 0;
   transform: translateY(20px);
@@ -120,7 +120,7 @@
 }
 
 /*
- * Signature element — CRM schema annotations.
+ * Signature element, CRM schema annotations.
  * Small monospace-labeled boxes connected by thin cool-gray rules.
  * Used sparingly: hero backdrop, "How I work" phase boxes, SF→HubSpot section.
  */
@@ -165,7 +165,7 @@
 .schema-field .k { color: var(--color-foreground); }
 .schema-field .t { color: var(--color-rule); }
 
-/* Section marker — the monospace "§ N — NAME" annotation at each section top */
+/* Section marker, the monospace "§ N, NAME" annotation at each section top */
 .section-marker {
   font-family: var(--font-mono);
   font-size: 0.6875rem;
@@ -178,7 +178,7 @@
   margin-bottom: 1.5rem;
 }
 
-/* Focus — visible, respects accent */
+/* Focus, visible, respects accent */
 :focus-visible {
   outline: 2px solid var(--color-accent);
   outline-offset: 2px;

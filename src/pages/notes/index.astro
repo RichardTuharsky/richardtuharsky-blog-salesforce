@@ -8,19 +8,36 @@ import { useTranslations } from "@/i18n";
 const t = useTranslations();
 const notes = sortNotes(await getCollection("notes", excludeDrafts));
 
-// Resolve first tag for display (single label per note card).
-const notesWithTag = await Promise.all(
-  notes.map(async (n) => {
-    const firstTagRef = n.data.tags[0];
+// Group notes by their first tag. Each tag becomes its own section on the
+// index (SFMC posts sit under an "SFMC" section, future tags create new ones).
+type Group = {
+  tagId: string;
+  tagName: string;
+  tagDescription: string;
+  notes: typeof notes;
+};
+
+const groupsMap = new Map<string, Group>();
+for (const note of notes) {
+  const firstTagRef = note.data.tags[0];
+  const tagId = firstTagRef?.id ?? "untagged";
+  if (!groupsMap.has(tagId)) {
     const tagEntry = firstTagRef ? await getEntry("tags", firstTagRef.id) : null;
-    return { note: n, tagName: tagEntry?.data.name ?? null };
-  }),
-);
+    groupsMap.set(tagId, {
+      tagId,
+      tagName: tagEntry?.data.name ?? "Untagged",
+      tagDescription: tagEntry?.data.description ?? "",
+      notes: [],
+    });
+  }
+  groupsMap.get(tagId)!.notes.push(note);
+}
+const groups = Array.from(groupsMap.values());
 ---
 
 <RootLayout title={t("pages.notes.title")} description={t("pages.notes.description")}>
   <section class="mx-auto max-w-6xl px-4 sm:px-6 xl:px-8 pt-16 pb-8">
-    <p class="schema-annotation">§ — Notes</p>
+    <p class="schema-annotation">§ · Notes</p>
     <h1 class="mt-6 font-display text-4xl sm:text-6xl leading-[1.05] tracking-tight text-foreground">
       Notes
     </h1>
@@ -30,31 +47,49 @@ const notesWithTag = await Promise.all(
   </section>
 
   <section class="mx-auto max-w-6xl px-4 sm:px-6 xl:px-8 pb-24">
-    {notesWithTag.length === 0 ? (
+    {groups.length === 0 ? (
       <p class="text-muted-foreground">{t("pages.notes.empty")}</p>
     ) : (
-      <ul class="border-t border-border/60">
-        {notesWithTag.map(({ note, tagName }) => (
-          <li class="border-b border-border/60">
-            <a href={`/notes/${note.id}`} class="group grid gap-6 sm:grid-cols-[auto_1fr_auto] items-baseline py-8 sm:py-10 transition-colors">
-              <p class="text-xs font-mono uppercase tracking-widest text-rule sm:w-32">
-                <FormattedDate date={note.data.date} />
-              </p>
-              <div>
-                <h2 class="font-display text-2xl sm:text-3xl leading-snug text-foreground group-hover:text-accent transition-colors">
-                  {note.data.title}
-                </h2>
-                <p class="mt-3 text-muted-foreground max-w-2xl leading-relaxed">
-                  {note.data.summary}
+      groups.map((group) => (
+        <section class="mt-20 first:mt-8">
+          <header class="pb-6 mb-2 border-b border-border/60 flex items-end justify-between gap-6 flex-wrap">
+            <div>
+              <p class="schema-annotation">topic</p>
+              <h2 class="mt-2 font-display text-3xl sm:text-4xl leading-tight text-foreground">
+                {group.tagName}
+              </h2>
+              {group.tagDescription && (
+                <p class="mt-3 max-w-2xl text-sm text-muted-foreground leading-relaxed">
+                  {group.tagDescription}
                 </p>
-              </div>
-              {tagName && (
-                <span class="text-xs font-mono uppercase tracking-widest text-rule">{tagName}</span>
               )}
-            </a>
-          </li>
-        ))}
-      </ul>
+            </div>
+            <span class="text-xs font-mono uppercase tracking-widest text-rule">
+              {group.notes.length} {group.notes.length === 1 ? "note" : "notes"}
+            </span>
+          </header>
+
+          <ul>
+            {group.notes.map((note) => (
+              <li class="border-b border-border/60">
+                <a href={`/notes/${note.id}`} class="group grid gap-6 sm:grid-cols-[auto_1fr] items-baseline py-8 sm:py-10 transition-colors">
+                  <p class="text-xs font-mono uppercase tracking-widest text-rule sm:w-32">
+                    <FormattedDate date={note.data.date} />
+                  </p>
+                  <div>
+                    <h3 class="font-display text-2xl sm:text-3xl leading-snug text-foreground group-hover:text-accent transition-colors">
+                      {note.data.title}
+                    </h3>
+                    <p class="mt-3 text-muted-foreground max-w-2xl leading-relaxed">
+                      {note.data.summary}
+                    </p>
+                  </div>
+                </a>
+              </li>
+            ))}
+          </ul>
+        </section>
+      ))
     )}
   </section>
 </RootLayout>

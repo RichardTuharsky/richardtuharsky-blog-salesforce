@@ -2,8 +2,8 @@
 import { SITE_METADATA } from "@/consts";
 
 // Isolated HubSpot form embed. Two mount points on this site:
-//   - "audit"        (high-intent) — used on /services and the homepage booking section
-//   - "lowFriction"  (low-friction) — used inline in notes / lightweight contexts
+//   - "audit"        (high-intent), used on /services and the homepage booking section
+//   - "lowFriction"  (low-friction), used inline in notes / lightweight contexts
 //
 // IMPORTANT: EU-hosted portals silently fail without the `region` parameter
 // on hbspt.forms.create. The region is read from SITE_METADATA.hubspot.region.
@@ -51,7 +51,7 @@ const domId = `hubspot-form-${variant}-${Math.random().toString(36).slice(2, 8)}
   <div class="rounded-sm border border-dashed border-rule/60 bg-muted/50 p-6">
     <div class="schema-annotation mb-2">HubSpot form · {variant}</div>
     <p class="text-sm text-muted-foreground">
-      {label ?? "Placeholder — replace {{PORTAL_ID}} and the form ID in src/consts.ts to render this embed."}
+      {label ?? "Placeholder, replace {{PORTAL_ID}} and the form ID in src/consts.ts to render this embed."}
     </p>
     <p class="mt-2 text-xs font-mono text-rule">
       Reminder: EU portals silently fail without region="eu1".

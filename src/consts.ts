@@ -2,7 +2,7 @@
  * Site-wide configuration for the HubSpot consulting practice site.
  *
  * All copy that mentions the practitioner's identity, market, or offers lives
- * inside {{PLACEHOLDER}} tokens. Fill them in one pass before shipping — a
+ * inside {{PLACEHOLDER}} tokens. Fill them in one pass before shipping, a
  * grep for `{{` will surface every remaining stub.
  */
 
@@ -10,7 +10,7 @@ export const SITE_METADATA = {
   name: "{{NAME}}",
   domain: "{{DOMAIN}}",
   siteUrl: "https://{{DOMAIN}}",
-  title: "{{NAME}} — HubSpot for teams that don't need Salesforce",
+  title: "{{NAME}}, HubSpot for teams that don't need Salesforce",
   headerTitle: "{{NAME}}",
   description:
     "Independent HubSpot practice for {{TARGET_MARKET}}. {{YEARS_SF}} years of hands-on Salesforce work in enterprise environments, now building HubSpot for companies that don't need Salesforce's weight or cost.",
@@ -19,7 +19,7 @@ export const SITE_METADATA = {
   robots: "index, follow",
   theme: "light",
 
-  // HubSpot portal — used by tracking snippet, forms, and meetings embeds.
+  // HubSpot portal, used by tracking snippet, forms, and meetings embeds.
   // The forms embed silently fails on EU portals without the correct region.
   hubspot: {
     portalId: "{{PORTAL_ID}}",
@@ -32,13 +32,14 @@ export const SITE_METADATA = {
   },
 
   socials: {
-    linkedin: "{{LI_URL}}",
-    twitter: "{{X_URL}}",
+    linkedin: "https://www.linkedin.com/in/richard-tuharsky/",
+    twitter: "https://x.com/ricarioth",
+    youtube: "https://www.youtube.com/channel/UCWpxPW-2BjNWAkxBkOIn0Ww",
   },
 } as const;
 
 /**
- * Notes pagination — kept small so the index page reads as considered, not endless.
+ * Notes pagination, kept small so the index page reads as considered, not endless.
  */
 export const ITEMS_PER_PAGE = 8;
 
@@ -53,7 +54,7 @@ export const NAVIGATION = [
 ] as const;
 
 /**
- * The three offers. Names, deliverables, durations, and prices are placeholders —
+ * The three offers. Names, deliverables, durations, and prices are placeholders ,
  * the site reads honestly with them in place ("priced per scope") and reads sharper
  * once real numbers land. Do not invent numbers.
  */
@@ -85,7 +86,7 @@ export const OFFERS = [
 ] as const;
 
 /**
- * Per-note display toggles. Notes are lean by design — no TOC sidebar, no
+ * Per-note display toggles. Notes are lean by design, no TOC sidebar, no
  * share buttons, no comments. Reading is the offer.
  */
 export const NOTE_METADATA = {

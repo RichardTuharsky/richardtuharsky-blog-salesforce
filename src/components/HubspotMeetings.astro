@@ -2,7 +2,7 @@
 import { SITE_METADATA } from "@/consts";
 
 // HubSpot Meetings embed. Booking flow lives in the homepage §09 CALL section
-// (and mirrored on /services). The embed URL is portal-specific — set
+// (and mirrored on /services). The embed URL is portal-specific, set
 // SITE_METADATA.hubspot.meetingsEmbedUrl to the exact URL from Meetings settings.
 
 const { meetingsEmbedUrl } = SITE_METADATA.hubspot;
@@ -27,7 +27,7 @@ const canEmbed = meetingsEmbedUrl && !meetingsEmbedUrl.includes("{{");
   <div class="rounded-sm border border-dashed border-rule/60 bg-muted/50 p-8 text-center">
     <div class="schema-annotation mb-3">HubSpot meetings embed</div>
     <p class="text-sm text-muted-foreground">
-      Placeholder — set <code class="font-mono text-xs">SITE_METADATA.hubspot.meetingsEmbedUrl</code>
+      Placeholder, set <code class="font-mono text-xs">SITE_METADATA.hubspot.meetingsEmbedUrl</code>
       in <code class="font-mono text-xs">src/consts.ts</code> to render the real booking flow.
     </p>
   </div>
