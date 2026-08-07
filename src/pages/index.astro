@@ -42,30 +42,71 @@ const latestNotes = await Promise.all(
   </section>
 
   <!-- ============================================================ -->
-  <!-- §02 CREDIBILITY: honest, checkable facts. No client logos.   -->
+  <!-- §02 CREDIBILITY: reassurance strip. No headline, no icons,   -->
+  <!--     no cards, no borders between columns.                    -->
   <!-- ============================================================ -->
   <section class="border-t border-border/60 bg-tint-warm">
-    <div class="mx-auto max-w-6xl px-4 sm:px-6 xl:px-8 py-14" data-animate>
+    <div class="mx-auto max-w-6xl px-4 sm:px-6 xl:px-8 py-8" data-animate>
       <p class="schema-annotation">§ 02 · Credibility</p>
-      <div class="mt-6 grid gap-10 md:grid-cols-3">
+
+      <!-- Three equal-weight text columns. Label above body. -->
+      <div class="mt-5 grid gap-8 md:grid-cols-3">
         <div>
-          <p class="font-display text-4xl text-foreground leading-none">{`{{YEARS_SF}}`}</p>
-          <p class="mt-3 text-sm text-muted-foreground">years of hands-on Salesforce work in {`{{ENV_DESCRIPTORS}}`} environments</p>
+          <p class="font-mono text-xs uppercase tracking-widest text-rule">Enterprise CRM background</p>
+          <p class="mt-2 text-sm text-foreground/90 leading-relaxed">
+            CRM and marketing automation at a global technology company. Data integrity, integrations and operations at a scale where mistakes are expensive.
+          </p>
         </div>
         <div>
-          <p class="font-display text-lg text-foreground leading-snug">Environments</p>
-          <p class="mt-3 text-sm text-muted-foreground">{`{{ENV_DESCRIPTORS}}`}, described by scale and complexity, no logos on the wall.</p>
+          <p class="font-mono text-xs uppercase tracking-widest text-rule">Platforms</p>
+          <p class="mt-2 text-sm text-foreground/90 leading-relaxed">
+            HubSpot, Salesforce, Salesforce Marketing Cloud. HubSpot is where I build for clients.
+          </p>
         </div>
         <div>
-          <p class="font-display text-lg text-foreground leading-snug">HubSpot Academy</p>
-          <p class="mt-3 text-sm text-muted-foreground font-mono leading-relaxed">{`{{CERTS}}`}</p>
+          <p class="font-mono text-xs uppercase tracking-widest text-rule">Both sides of the sync</p>
+          <p class="mt-2 text-sm text-foreground/90 leading-relaxed">
+            I read Salesforce Flows and HubSpot workflows in the same sitting. Most consultants can only see one half of the problem.
+          </p>
         </div>
       </div>
 
       <!--
-        LOGO STRIP: commented out, ready to enable when there are real logos to show.
-        Do not switch on before consent is secured for each.
-      <div class="mt-14 pt-10 border-t border-border/60 opacity-60">
+        Certification row. Left-aligned, full width. Flex-row so additional
+        badges append with a 16px gap without any layout change. No
+        placeholder or greyed-out slots for future certifications.
+      -->
+      <div class="mt-10">
+        <p class="font-mono text-xs uppercase tracking-widest text-rule">HubSpot Academy</p>
+        <ul class="mt-3 flex flex-wrap items-center gap-4">
+          <li class="flex items-center gap-4">
+            <a
+              href="https://app-eu1.hubspot.com/academy/achievements/0vbb8j3x/en/1/richard-tuharsky/hubspot-sales-hub-software"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="inline-block rounded-sm"
+            >
+              <img
+                src="/assets/certs/hubspot-sales-hub-software.jpg"
+                alt="HubSpot Sales Hub Software certification"
+                width="88"
+                height="88"
+                loading="lazy"
+                decoding="async"
+                class="block max-w-[88px] h-auto"
+              />
+            </a>
+            <p class="text-sm text-muted-foreground">
+              Sales Hub Software. Verify on HubSpot Academy.
+            </p>
+          </li>
+        </ul>
+      </div>
+
+      <!--
+        LOGO STRIP: commented out, ready to enable when there are real
+        logos to show. Do not switch on before consent is secured for each.
+      <div class="mt-10 pt-8 border-t border-border/60 opacity-60">
         <p class="schema-annotation mb-6">Worked with</p>
         <div class="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-6 gap-8 items-center">
           {LOGOS.map(logo => <img src={logo.src} alt={logo.name} class="h-6 object-contain" />)}
