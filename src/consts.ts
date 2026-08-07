@@ -55,6 +55,16 @@ export const NAVIGATION = [
 ] as const;
 
 /**
+ * Primary offer on the homepage. The Health Check is the one thing to buy
+ * from this site — everything else on §03 exists to show the work continues
+ * past the audit. Fill the price when it's set; render as plain text, no
+ * "from", no "starting at".
+ */
+export const HEALTH_CHECK = {
+  price: "{{HEALTH_CHECK_PRICE}}",
+} as const;
+
+/**
  * The three offers. Names, deliverables, durations, and prices are placeholders ,
  * the site reads honestly with them in place ("priced per scope") and reads sharper
  * once real numbers land. Do not invent numbers.
