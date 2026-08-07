@@ -54,8 +54,8 @@ const groups = Array.from(groupsMap.values());
         <section class="mt-20 first:mt-8">
           <header class="pb-6 mb-2 border-b border-border/60 flex items-end justify-between gap-6 flex-wrap">
             <div>
-              <p class="schema-annotation">topic</p>
-              <h2 class="mt-2 font-display text-3xl sm:text-4xl leading-tight text-foreground">
+              <span class="tag-pill">{group.tagName}</span>
+              <h2 class="mt-4 font-display text-3xl sm:text-4xl leading-tight text-foreground">
                 {group.tagName}
               </h2>
               {group.tagDescription && (

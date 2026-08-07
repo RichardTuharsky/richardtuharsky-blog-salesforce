@@ -46,6 +46,23 @@
   --color-accent-soft: #eef0ff;      /* light accent tint for callout backgrounds */
   --color-accent-ring: #c7ceff;      /* subtle border for accent surfaces */
 
+  /*
+   * Section surface tints. Three quiet backgrounds that rotate across
+   * sections so the page stops reading monotonic. All are close-in-value
+   * to --color-background; they add temperature, not saturation.
+   */
+  --color-tint-warm: #f4ede1;   /* warm sand */
+  --color-tint-cool: #e9eef5;   /* cool paper */
+  --color-tint-sage: #e9efe6;   /* quiet sage */
+
+  /*
+   * Warm secondary colour. Used ONLY for tag pills and small categorical
+   * labels. Not a second brand colour, not for CTAs. Indigo remains the
+   * one action colour.
+   */
+  --color-warm: #b85f35;         /* muted terracotta */
+  --color-warm-soft: #f3e4d5;    /* pill background */
+
   /* Layout */
   --radius-sm: 2px;
   --radius-md: 4px;
@@ -78,6 +95,15 @@
     --color-border: #232631;
     --color-accent-soft: #1a1f4b;
     --color-accent-ring: #2b3477;
+
+    /* Section tints — kept close to bg, slight temperature only */
+    --color-tint-warm: #1b1712;
+    --color-tint-cool: #101823;
+    --color-tint-sage: #111611;
+
+    /* Warm secondary — brightened for dark bg contrast */
+    --color-warm: #e1875a;
+    --color-warm-soft: #2b1c12;
   }
 
   html { font-family: var(--font-sans); }
@@ -138,19 +164,39 @@
   background: transparent;
   position: relative;
 }
+/* Signature corner mark — a small indigo notch top-left. Ties every
+   schema-box to the accent without adding weight to the frame itself. */
+.schema-box::after {
+  content: "";
+  position: absolute;
+  top: -1px;
+  left: -1px;
+  width: 10px;
+  height: 10px;
+  border-top: 2px solid var(--color-accent);
+  border-left: 2px solid var(--color-accent);
+  border-top-left-radius: var(--radius-sm);
+  pointer-events: none;
+}
 .schema-box::before {
   content: attr(data-object);
   position: absolute;
   top: -0.55rem;
   left: 0.75rem;
   padding: 0 0.5rem;
-  background: var(--color-background);
+  /* Inherits the surrounding section tint. Fallback is the page background. */
+  background: var(--schema-tab-bg, var(--color-background));
   font-family: var(--font-mono);
   font-size: 0.625rem;
   letter-spacing: 0.1em;
   text-transform: uppercase;
   color: var(--color-rule);
 }
+/* Section tint containers pass their tint down to schema-box tabs so the
+   punched-through label matches the underlying surface. */
+.bg-tint-warm { --schema-tab-bg: var(--color-tint-warm); }
+.bg-tint-cool { --schema-tab-bg: var(--color-tint-cool); }
+.bg-tint-sage { --schema-tab-bg: var(--color-tint-sage); }
 .schema-field {
   font-family: var(--font-mono);
   font-size: 0.75rem;
@@ -176,6 +222,25 @@
   padding-bottom: 0.75rem;
   border-bottom: 1px solid var(--color-rule);
   margin-bottom: 1.5rem;
+}
+
+/*
+ * Tag pill — small, warm, categorical. Used on note cards and the
+ * notes-index topic headers. Not to be reused for CTAs or nav.
+ */
+.tag-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+  padding: 0.2rem 0.55rem;
+  border-radius: 999px;
+  background: var(--color-warm-soft);
+  color: var(--color-warm);
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  border: 1px solid color-mix(in oklab, var(--color-warm) 22%, transparent);
 }
 
 /* Focus, visible, respects accent */

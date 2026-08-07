@@ -42,15 +42,14 @@ const related = note.data.related?.length
 >
   <article class="mx-auto max-w-3xl px-4 sm:px-6 xl:px-8 pt-16 pb-24">
     <header class="mb-14">
-      <p class="text-xs font-mono uppercase tracking-widest text-rule">
-        <FormattedDate date={note.data.date} />
-        {NOTE_METADATA.showTags && tags.length > 0 && (
-          <>
-            <span class="mx-2 opacity-50">·</span>
-            {tags.map((tag) => tag.data.name).join(" · ")}
-          </>
-        )}
-      </p>
+      <div class="flex items-center gap-3 flex-wrap">
+        {NOTE_METADATA.showTags && tags.map((tag) => (
+          <span class="tag-pill">{tag.data.name}</span>
+        ))}
+        <p class="text-xs font-mono uppercase tracking-widest text-rule">
+          <FormattedDate date={note.data.date} />
+        </p>
+      </div>
       <h1 class="mt-6 font-display text-3xl sm:text-5xl leading-[1.08] tracking-tight text-foreground">
         {note.data.title}
       </h1>
