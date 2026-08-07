@@ -31,20 +31,27 @@ type Props = {
     <Footer />
 
     <script>
-      // Entrance animation observer, respects prefers-reduced-motion (handled in CSS).
-      const items = document.querySelectorAll<HTMLElement>("[data-animate]");
-      const io = new IntersectionObserver(
-        (entries) => {
-          for (const e of entries) {
-            if (e.isIntersecting) {
-              (e.target as HTMLElement).dataset.animateIn = "true";
-              io.unobserve(e.target);
+      // Entrance animation observer. Bound to `astro:page-load` so it re-runs
+      // after every ClientRouter view transition — otherwise, elements
+      // rendered on the new page keep the initial opacity:0 from CSS and the
+      // page reads as empty (e.g. clicking the logo to return home).
+      // `astro:page-load` fires on both initial load and every SPA nav.
+      function setupEntranceAnimations() {
+        const items = document.querySelectorAll<HTMLElement>("[data-animate]");
+        const io = new IntersectionObserver(
+          (entries) => {
+            for (const e of entries) {
+              if (e.isIntersecting) {
+                (e.target as HTMLElement).dataset.animateIn = "true";
+                io.unobserve(e.target);
+              }
             }
-          }
-        },
-        { threshold: 0.1, rootMargin: "-40px" }
-      );
-      items.forEach((el) => io.observe(el));
+          },
+          { threshold: 0.1, rootMargin: "-40px" }
+        );
+        items.forEach((el) => io.observe(el));
+      }
+      document.addEventListener("astro:page-load", setupEntranceAnimations);
     </script>
   </body>
 </html>
