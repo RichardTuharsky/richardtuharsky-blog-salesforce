@@ -24,8 +24,6 @@
 @plugin "@tailwindcss/typography";
 @plugin "@tailwindcss/forms";
 
-@custom-variant dark (&:where(.dark, .dark *));
-
 @theme {
   /* Faces */
   --font-display: "Fraunces Variable", "Fraunces", Georgia, serif;
@@ -93,33 +91,6 @@
 @layer base {
   :root {
     color-scheme: light;
-  }
-  .dark {
-    color-scheme: dark;
-    --color-background: #0e1015;
-    --color-foreground: #e7e9ee;
-    --color-muted: #171a22;
-    --color-muted-foreground: #8a94a8;
-    --color-accent: #6979ff;
-    --color-accent-foreground: #0e1015;
-    --color-rule: #4a5468;
-    --color-border: #232631;
-    --color-accent-soft: #1a1f4b;
-    --color-accent-ring: #2b3477;
-
-    /* Section tints — kept close to bg, slight temperature only */
-    --color-tint-warm: #1b1712;
-    --color-tint-cool: #101823;
-    --color-tint-sage: #111611;
-
-    /* Warm secondary — brightened for dark bg contrast */
-    --color-warm: #e1875a;
-    --color-warm-soft: #2b1c12;
-
-    /* CTA in dark mode: brighter mint on near-black bg, still evergreen family */
-    --color-cta: #4ebb89;
-    --color-cta-foreground: #0e1015;
-    --color-cta-hover: #62cc9c;
   }
 
   html { font-family: var(--font-sans); }

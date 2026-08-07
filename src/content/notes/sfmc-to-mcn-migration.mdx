@@ -9,7 +9,7 @@ postLayout: "column"
 
 If you run **Salesforce Marketing Cloud Engagement (SFMC)** and you've sat through a QBR in the last year, you've heard about **Marketing Cloud Next (MCN)**. Probably framed two ways at once: *"this is the future of the platform"* and *"don't worry, nothing is being sunset."* Both statements are true. That's exactly why teams are confused.
 
-<div class="my-6 rounded-xl border-l-4 border-[#3651E8] bg-[#EEF0FF] dark:bg-[#1A1F4B]/40 dark:border-[#6979FF] px-6 py-4 text-[#1F2A7A] dark:text-[#A4B1FF]">
+<div class="my-6 rounded-xl border-l-4 border-[#3651E8] bg-[#EEF0FF] px-6 py-4 text-[#1F2A7A]">
 **The short answer before the long one:** for most MCE orgs right now, a full SFMC migration to Marketing Cloud Next is the wrong project. Getting your data ready for Data Cloud is the right one.
 </div>
 
@@ -24,21 +24,21 @@ The rest of this post explains why.
 For someone who lives in SFMC, the practical MCE to MCN translation looks like this:
 
 <div class="my-6 space-y-3">
-  <div class="rounded-lg border border-[#C7CEFF] bg-[#EEF0FF] dark:bg-[#1A1F4B]/30 dark:border-[#2B3477] p-4">
-    <p class="font-semibold text-[#0042d6] dark:text-[#6090ff] mb-1">Data Extensions â†’ Data Model Objects</p>
-    <p class="text-sm text-[#0f172a] dark:text-slate-300">Your bespoke relational tables give way to a standardized data model. Data Cloud identity resolution stitches records from CRM, commerce, service, and MCE into one unified individual - replacing the scattered subscriber-key logic most orgs run on today.</p>
+  <div class="rounded-lg border border-[#C7CEFF] bg-[#EEF0FF] p-4">
+    <p class="font-semibold text-[#0042d6] mb-1">Data Extensions â†’ Data Model Objects</p>
+    <p class="text-sm text-[#0f172a]">Your bespoke relational tables give way to a standardized data model. Data Cloud identity resolution stitches records from CRM, commerce, service, and MCE into one unified individual - replacing the scattered subscriber-key logic most orgs run on today.</p>
   </div>
-  <div class="rounded-lg border border-[#C7CEFF] bg-[#EEF0FF] dark:bg-[#1A1F4B]/30 dark:border-[#2B3477] p-4">
-    <p class="font-semibold text-[#0042d6] dark:text-[#6090ff] mb-1">Automation Studio SQL â†’ Data Cloud Segmentation</p>
-    <p class="text-sm text-[#0f172a] dark:text-slate-300">Segments are built on unified profiles in Data Cloud, including natural-language segment creation via Agentforce, instead of hand-written SQL queries against data views and data extensions.</p>
+  <div class="rounded-lg border border-[#C7CEFF] bg-[#EEF0FF] p-4">
+    <p class="font-semibold text-[#0042d6] mb-1">Automation Studio SQL â†’ Data Cloud Segmentation</p>
+    <p class="text-sm text-[#0f172a]">Segments are built on unified profiles in Data Cloud, including natural-language segment creation via Agentforce, instead of hand-written SQL queries against data views and data extensions.</p>
   </div>
-  <div class="rounded-lg border border-[#C7CEFF] bg-[#EEF0FF] dark:bg-[#1A1F4B]/30 dark:border-[#2B3477] p-4">
-    <p class="font-semibold text-[#0042d6] dark:text-[#6090ff] mb-1">Journey Builder â†’ Campaign Flows</p>
-    <p class="text-sm text-[#0f172a] dark:text-slate-300">Marketing campaigns run on the same Salesforce Flow engine used for sales and service automation, making real-time, event-driven customer journeys the default - not an integration project.</p>
+  <div class="rounded-lg border border-[#C7CEFF] bg-[#EEF0FF] p-4">
+    <p class="font-semibold text-[#0042d6] mb-1">Journey Builder â†’ Campaign Flows</p>
+    <p class="text-sm text-[#0f172a]">Marketing campaigns run on the same Salesforce Flow engine used for sales and service automation, making real-time, event-driven customer journeys the default - not an integration project.</p>
   </div>
-  <div class="rounded-lg border border-[#ff6b3d]/40 bg-[#fff4f0] dark:bg-[#3d1a0a]/30 dark:border-[#ff6b3d]/30 p-4">
-    <p class="font-semibold text-[#c04010] dark:text-[#ff8c5a] mb-1">AMPscript â†’ Dynamic Values from the Unified Profile</p>
-    <p class="text-sm text-[#0f172a] dark:text-slate-300">Personalization moves away from code-in-the-template toward data-graph-driven fields. <strong>AMPscript is not supported in Marketing Cloud Next today.</strong> If your SFMC program is heavy on AMPscript and SSJS, read that sentence twice.</p>
+  <div class="rounded-lg border border-[#ff6b3d]/40 bg-[#fff4f0] p-4">
+    <p class="font-semibold text-[#c04010] mb-1">AMPscript â†’ Dynamic Values from the Unified Profile</p>
+    <p class="text-sm text-[#0f172a]">Personalization moves away from code-in-the-template toward data-graph-driven fields. <strong>AMPscript is not supported in Marketing Cloud Next today.</strong> If your SFMC program is heavy on AMPscript and SSJS, read that sentence twice.</p>
   </div>
 </div>
 
@@ -50,9 +50,9 @@ Salesforce is deliberate about the word *convergence*. **There is no sunset date
 
 The mechanism is the **Engagement+ path**: everything in your current SFMC org stays intact, and the on-core capabilities (Marketing Cloud Advanced, Data Cloud, Agentforce) are added alongside it on a consumption basis. You build new messaging and flows in MCN and invoke your existing Journey Builder journeys from within them - a daisy-chain approach, not a lift-and-shift migration.
 
-<div class="my-6 rounded-xl border border-[#e2e8f0] dark:border-slate-700 bg-white dark:bg-slate-800/50 p-5">
-  <p class="text-sm font-semibold uppercase tracking-wide text-[#64748b] dark:text-slate-400 mb-2">What Salesforce says less loudly</p>
-  <p class="text-[#0f172a] dark:text-slate-200">As of mid-2026 there is no automated tooling for migrating SFMC content. Email templates, images, and files don't transfer with one click. Every template rebuild is a manual exercise. Anyone quoting you a fast, clean migration of a mature MCE estate hasn't looked inside a mature MCE estate.</p>
+<div class="my-6 rounded-xl border border-[#e2e8f0] bg-white p-5">
+  <p class="text-sm font-semibold uppercase tracking-wide text-[#64748b] mb-2">What Salesforce says less loudly</p>
+  <p class="text-[#0f172a]">As of mid-2026 there is no automated tooling for migrating SFMC content. Email templates, images, and files don't transfer with one click. Every template rebuild is a manual exercise. Anyone quoting you a fast, clean migration of a mature MCE estate hasn't looked inside a mature MCE estate.</p>
 </div>
 
 ---
@@ -76,32 +76,32 @@ What this means practically: your cost is no longer tied to your subscriber coun
 Wrong first question, but let's answer it anyway. It depends on what your SFMC org actually looks like.
 
 <div class="my-6 grid gap-4 sm:grid-cols-2">
-  <div class="rounded-xl border border-emerald-200 bg-emerald-50 dark:bg-emerald-950/30 dark:border-emerald-800 p-5">
-    <p class="font-semibold text-emerald-700 dark:text-emerald-400 mb-3">âś“ You can start converging to MCN now if:</p>
-    <ul class="space-y-1 text-sm text-emerald-900 dark:text-emerald-200 list-disc list-inside">
+  <div class="rounded-xl border border-emerald-200 bg-emerald-50 p-5">
+    <p class="font-semibold text-emerald-700 mb-3">âś“ You can start converging to MCN now if:</p>
+    <ul class="space-y-1 text-sm text-emerald-900 list-disc list-inside">
       <li>Journeys are mostly standard entry-source-plus-decision-splits</li>
       <li>Custom code (AMPscript, SSJS) is light</li>
       <li>CRM and MCE data are in reasonable shape</li>
       <li>You have an existing Data Cloud commitment</li>
       <li>You want Agentforce and real-time capabilities</li>
     </ul>
-    <p class="mt-3 text-xs text-emerald-700 dark:text-emerald-400 font-medium">The Engagement+ path is genuinely additive for you.</p>
+    <p class="mt-3 text-xs text-emerald-700 font-medium">The Engagement+ path is genuinely additive for you.</p>
   </div>
-  <div class="rounded-xl border border-amber-200 bg-amber-50 dark:bg-amber-950/30 dark:border-amber-700 p-5">
-    <p class="font-semibold text-amber-700 dark:text-amber-400 mb-3">âš  You should wait - but prepare - if:</p>
-    <ul class="space-y-1 text-sm text-amber-900 dark:text-amber-200 list-disc list-inside">
+  <div class="rounded-xl border border-amber-200 bg-amber-50 p-5">
+    <p class="font-semibold text-amber-700 mb-3">âš  You should wait - but prepare - if:</p>
+    <ul class="space-y-1 text-sm text-amber-900 list-disc list-inside">
       <li>Heavy AMPscript, SSJS, or CloudPages usage</li>
       <li>Complex multi-DE data models</li>
       <li>High-volume transactional sends</li>
       <li>Revenue-critical send programs you can't risk</li>
     </ul>
-    <p class="mt-3 text-xs text-amber-700 dark:text-amber-400 font-medium">This is a phased re-architecture measured in quarters. Rushing it is how revenue-critical sends break.</p>
+    <p class="mt-3 text-xs text-amber-700 font-medium">This is a phased re-architecture measured in quarters. Rushing it is how revenue-critical sends break.</p>
   </div>
 </div>
 
-<div class="my-6 rounded-xl border border-[#e2e8f0] dark:border-slate-700 bg-[#f8fafc] dark:bg-slate-800/50 px-6 py-4">
-  <p class="font-semibold text-[#0f172a] dark:text-slate-100 mb-1">Everyone, regardless of camp:</p>
-  <p class="text-[#334155] dark:text-slate-300 text-sm">Two years of Dreamforce and Connections keynotes have been Data Cloud, Agentforce, and the Salesforce core platform. MCE isn't dying, but it also isn't where the roadmap investment goes. Doing nothing is also a decision - just one you'll end up making reactively instead of on your own timeline.</p>
+<div class="my-6 rounded-xl border border-[#e2e8f0] bg-[#f8fafc] px-6 py-4">
+  <p class="font-semibold text-[#0f172a] mb-1">Everyone, regardless of camp:</p>
+  <p class="text-[#334155] text-sm">Two years of Dreamforce and Connections keynotes have been Data Cloud, Agentforce, and the Salesforce core platform. MCE isn't dying, but it also isn't where the roadmap investment goes. Doing nothing is also a decision - just one you'll end up making reactively instead of on your own timeline.</p>
 </div>
 
 ---
@@ -115,47 +115,47 @@ Data Cloud's unified profile is only as good as what feeds it. If your SFMC subs
 Which is why the pragmatic sequence for an MCE org in 2026 looks like this:
 
 <div class="my-6 space-y-3">
-  <div class="flex gap-4 rounded-lg border border-[#e2e8f0] dark:border-slate-700 bg-white dark:bg-slate-800/40 p-4">
+  <div class="flex gap-4 rounded-lg border border-[#e2e8f0] bg-white p-4">
     <div class="flex-shrink-0 w-8 h-8 rounded-full bg-[#3651E8] text-white text-sm font-bold flex items-center justify-center">1</div>
     <div>
-      <p class="font-semibold text-[#0f172a] dark:text-slate-100">Audit the SFMC estate</p>
-      <p class="text-sm text-[#334155] dark:text-slate-300 mt-0.5">Every active data extension, Journey Builder journey, Automation Studio automation, and piece of custom code - with its dependencies. Most orgs discover they don't actually know what's live.</p>
+      <p class="font-semibold text-[#0f172a]">Audit the SFMC estate</p>
+      <p class="text-sm text-[#334155] mt-0.5">Every active data extension, Journey Builder journey, Automation Studio automation, and piece of custom code - with its dependencies. Most orgs discover they don't actually know what's live.</p>
     </div>
   </div>
-  <div class="flex gap-4 rounded-lg border border-[#e2e8f0] dark:border-slate-700 bg-white dark:bg-slate-800/40 p-4">
+  <div class="flex gap-4 rounded-lg border border-[#e2e8f0] bg-white p-4">
     <div class="flex-shrink-0 w-8 h-8 rounded-full bg-[#3651E8] text-white text-sm font-bold flex items-center justify-center">2</div>
     <div>
-      <p class="font-semibold text-[#0f172a] dark:text-slate-100">Fix data hygiene and subscriber identity</p>
-      <p class="text-sm text-[#334155] dark:text-slate-300 mt-0.5">Consistent subscriber keys, documented data models, a working MCE-to-CRM sync via Marketing Cloud Connect. This pays off immediately in your current sends, before MCN enters the picture.</p>
+      <p class="font-semibold text-[#0f172a]">Fix data hygiene and subscriber identity</p>
+      <p class="text-sm text-[#334155] mt-0.5">Consistent subscriber keys, documented data models, a working MCE-to-CRM sync via Marketing Cloud Connect. This pays off immediately in your current sends, before MCN enters the picture.</p>
     </div>
   </div>
-  <div class="flex gap-4 rounded-lg border border-[#e2e8f0] dark:border-slate-700 bg-white dark:bg-slate-800/40 p-4">
+  <div class="flex gap-4 rounded-lg border border-[#e2e8f0] bg-white p-4">
     <div class="flex-shrink-0 w-8 h-8 rounded-full bg-[#3651E8] text-white text-sm font-bold flex items-center justify-center">3</div>
     <div>
-      <p class="font-semibold text-[#0f172a] dark:text-slate-100">Stand up Salesforce Data Cloud</p>
-      <p class="text-sm text-[#334155] dark:text-slate-300 mt-0.5">Connect MCE and CRM, run identity resolution, and validate that unified individuals actually resolve the way your business thinks about a customer.</p>
+      <p class="font-semibold text-[#0f172a]">Stand up Salesforce Data Cloud</p>
+      <p class="text-sm text-[#334155] mt-0.5">Connect MCE and CRM, run identity resolution, and validate that unified individuals actually resolve the way your business thinks about a customer.</p>
     </div>
   </div>
-  <div class="flex gap-4 rounded-lg border border-[#e2e8f0] dark:border-slate-700 bg-white dark:bg-slate-800/40 p-4">
+  <div class="flex gap-4 rounded-lg border border-[#e2e8f0] bg-white p-4">
     <div class="flex-shrink-0 w-8 h-8 rounded-full bg-[#3651E8] text-white text-sm font-bold flex items-center justify-center">4</div>
     <div>
-      <p class="font-semibold text-[#0f172a] dark:text-slate-100">Build new on Marketing Cloud Next, daisy-chain to existing journeys</p>
-      <p class="text-sm text-[#334155] dark:text-slate-300 mt-0.5">New use cases in MCN campaign flows, invoking existing Journey Builder journeys where they still earn their keep.</p>
+      <p class="font-semibold text-[#0f172a]">Build new on Marketing Cloud Next, daisy-chain to existing journeys</p>
+      <p class="text-sm text-[#334155] mt-0.5">New use cases in MCN campaign flows, invoking existing Journey Builder journeys where they still earn their keep.</p>
     </div>
   </div>
-  <div class="flex gap-4 rounded-lg border border-[#e2e8f0] dark:border-slate-700 bg-white dark:bg-slate-800/40 p-4">
+  <div class="flex gap-4 rounded-lg border border-[#e2e8f0] bg-white p-4">
     <div class="flex-shrink-0 w-8 h-8 rounded-full bg-[#3651E8] text-white text-sm font-bold flex items-center justify-center">5</div>
     <div>
-      <p class="font-semibold text-[#0f172a] dark:text-slate-100">Let the center of gravity shift</p>
-      <p class="text-sm text-[#334155] dark:text-slate-300 mt-0.5">Retire Journey Builder journeys as their Marketing Cloud Next replacements prove out - not before.</p>
+      <p class="font-semibold text-[#0f172a]">Let the center of gravity shift</p>
+      <p class="text-sm text-[#334155] mt-0.5">Retire Journey Builder journeys as their Marketing Cloud Next replacements prove out - not before.</p>
     </div>
   </div>
 </div>
 
 Do steps one through three and you've improved the performance of the platform you're on today and de-risked the move - whether you make it this year or in 2028.
 
-<div class="my-8 rounded-xl border-l-4 border-[#ff6b3d] bg-[#fff4f0] dark:bg-[#3d1a0a]/30 dark:border-[#ff8c5a] px-6 py-4">
-  <p class="italic text-[#7c2d12] dark:text-[#fdba74]">"Should we migrate" quietly assumes the platform is the decision. It isn't. The data is. Get the data right and the platform question stops being scary in either direction.</p>
+<div class="my-8 rounded-xl border-l-4 border-[#ff6b3d] bg-[#fff4f0] px-6 py-4">
+  <p class="italic text-[#7c2d12]">"Should we migrate" quietly assumes the platform is the decision. It isn't. The data is. Get the data right and the platform question stops being scary in either direction.</p>
 </div>
 
 Running MCE and not sure which camp you're in? That's usually a two-week audit, not a leap of faith. Happy to compare notes.
@@ -171,25 +171,25 @@ Data Cloud doesn't create a unified profile from nothing. It resolves identity a
 The three most common data problems blocking a successful MCN migration:
 
 <div class="my-6 space-y-3">
-  <div class="rounded-lg border border-[#e2e8f0] dark:border-slate-700 bg-white dark:bg-slate-800/40 p-5">
-    <p class="font-semibold text-[#0f172a] dark:text-slate-100 mb-1">SFMC subscriber key inconsistency</p>
-    <p class="text-sm text-[#334155] dark:text-slate-300">Different business units use different subscriber keys for the same person. Email address in one BU, CRM contact ID in another, a legacy numeric ID in a third. Data Cloud identity resolution sees three people where there is one customer. Every downstream segment, every Agentforce AI signal, every send decision inherits that split.</p>
+  <div class="rounded-lg border border-[#e2e8f0] bg-white p-5">
+    <p class="font-semibold text-[#0f172a] mb-1">SFMC subscriber key inconsistency</p>
+    <p class="text-sm text-[#334155]">Different business units use different subscriber keys for the same person. Email address in one BU, CRM contact ID in another, a legacy numeric ID in a third. Data Cloud identity resolution sees three people where there is one customer. Every downstream segment, every Agentforce AI signal, every send decision inherits that split.</p>
   </div>
-  <div class="rounded-lg border border-[#e2e8f0] dark:border-slate-700 bg-white dark:bg-slate-800/40 p-5">
-    <p class="font-semibold text-[#0f172a] dark:text-slate-100 mb-1">Undocumented data extensions</p>
-    <p class="text-sm text-[#334155] dark:text-slate-300">Data extensions built for a campaign three years ago and never retired. No retention rules, no owner, no record of what populates them or why. When you go to map your data model to Data Cloud objects, you're doing reverse-engineering archaeology. The mapping work stalls, the timeline slips.</p>
+  <div class="rounded-lg border border-[#e2e8f0] bg-white p-5">
+    <p class="font-semibold text-[#0f172a] mb-1">Undocumented data extensions</p>
+    <p class="text-sm text-[#334155]">Data extensions built for a campaign three years ago and never retired. No retention rules, no owner, no record of what populates them or why. When you go to map your data model to Data Cloud objects, you're doing reverse-engineering archaeology. The mapping work stalls, the timeline slips.</p>
   </div>
-  <div class="rounded-lg border border-[#e2e8f0] dark:border-slate-700 bg-white dark:bg-slate-800/40 p-5">
-    <p class="font-semibold text-[#0f172a] dark:text-slate-100 mb-1">A broken Marketing Cloud Connect sync</p>
-    <p class="text-sm text-[#334155] dark:text-slate-300">The sync configured by an agency that partially broke when someone changed a field in Sales Cloud, and has been silently mismatching records for 18 months. Consent flags not syncing. Opt-outs stuck in one direction. You find out when Data Cloud identity resolution produces unified profiles with contradictory suppression records.</p>
+  <div class="rounded-lg border border-[#e2e8f0] bg-white p-5">
+    <p class="font-semibold text-[#0f172a] mb-1">A broken Marketing Cloud Connect sync</p>
+    <p class="text-sm text-[#334155]">The sync configured by an agency that partially broke when someone changed a field in Sales Cloud, and has been silently mismatching records for 18 months. Consent flags not syncing. Opt-outs stuck in one direction. You find out when Data Cloud identity resolution produces unified profiles with contradictory suppression records.</p>
   </div>
 </div>
 
 None of these require Marketing Cloud Next to fix. All of them block MCN from working correctly if you don't.
 
-<div class="my-6 rounded-xl border border-[#C7CEFF] bg-[#EEF0FF] dark:bg-[#1A1F4B]/30 dark:border-[#2B3477] px-6 py-4">
-  <p class="font-semibold text-[#0042d6] dark:text-[#6090ff] mb-2">What "Data Cloud ready" actually means for SFMC orgs</p>
-  <ul class="space-y-1 text-sm text-[#0f172a] dark:text-slate-300 list-disc list-inside">
+<div class="my-6 rounded-xl border border-[#C7CEFF] bg-[#EEF0FF] px-6 py-4">
+  <p class="font-semibold text-[#0042d6] mb-2">What "Data Cloud ready" actually means for SFMC orgs</p>
+  <ul class="space-y-1 text-sm text-[#0f172a] list-disc list-inside">
     <li>One consistent subscriber key / identifier strategy across all business units and source systems</li>
     <li>Every active data extension documented: owner, source, purpose, retention period</li>
     <li>Marketing Cloud Connect sync validated end-to-end, consent and opt-out flags confirmed in both directions</li>

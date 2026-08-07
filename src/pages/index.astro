@@ -23,50 +23,20 @@ const latestNotes = await Promise.all(
   <!-- §01 HERO                                                     -->
   <!-- ============================================================ -->
   <section class="relative overflow-hidden">
-    <div class="mx-auto max-w-6xl px-4 sm:px-6 xl:px-8 pt-14 pb-24 md:pt-20 md:pb-36">
-      <div class="grid lg:grid-cols-[1.35fr_0.75fr] gap-14 items-start" data-animate>
-
-        <div>
-          <p class="schema-annotation">§ 01 · Position</p>
-          <h1 class="mt-6 font-display text-[2.75rem] sm:text-6xl lg:text-[4.25rem] leading-[1.02] tracking-[-0.025em] text-foreground">
-            HubSpot, built by someone who spent {`{{YEARS_SF}}`} years inside Salesforce.
-          </h1>
-          <p class="mt-8 max-w-xl text-lg text-muted-foreground leading-relaxed">
-            {SITE_METADATA.description}
-          </p>
-          <div class="mt-10 flex flex-wrap gap-3">
-            <a href="#book" class="inline-flex items-center rounded-sm bg-cta px-5 py-3 text-sm font-medium text-cta-foreground hover:bg-cta-hover transition-colors">
-              Book a call
-            </a>
-            <a href="/notes" class="inline-flex items-center rounded-sm border border-border px-5 py-3 text-sm font-medium text-foreground hover:border-foreground/40 transition-colors">
-              Read the notes
-            </a>
-          </div>
-        </div>
-
-        <!-- Signature: subtle CRM schema backdrop, uses only quiet accent tones -->
-        <div class="hidden lg:block relative">
-          <div class="space-y-6">
-            <SchemaObject object="contact" fields={[
-              { k: "email", t: "string" },
-              { k: "lifecycle_stage", t: "enum" },
-              { k: "owner_id", t: "ref → user" },
-            ]} />
-            <div class="pl-10">
-              <SchemaObject object="deal" fields={[
-                { k: "stage", t: "enum" },
-                { k: "amount", t: "number" },
-                { k: "primary_contact_id", t: "ref → contact" },
-              ]} />
-            </div>
-            <div class="pl-4">
-              <SchemaObject object="company" fields={[
-                { k: "domain", t: "string" },
-                { k: "hs_lead_status", t: "enum" },
-              ]} />
-            </div>
-          </div>
-        </div>
+    <div class="mx-auto max-w-4xl px-4 sm:px-6 xl:px-8 pt-20 pb-28 md:pt-28 md:pb-40 text-center" data-animate>
+      <h1 class="font-display text-[2.5rem] sm:text-5xl lg:text-[3.75rem] leading-[1.05] tracking-[-0.025em] text-foreground">
+        You don't need a new HubSpot. You need the one you have to work.
+      </h1>
+      <p class="mt-8 mx-auto max-w-2xl text-lg text-muted-foreground leading-relaxed">
+        Most portals don't fail at setup — they decay after it. Duplicate records, lifecycle stages nobody maintains, workflows no one dares turn off, reports leadership has stopped believing. I find what's actually broken and fix it.
+      </p>
+      <div class="mt-10 flex flex-wrap justify-center gap-3">
+        <a href="#book" class="inline-flex items-center rounded-sm bg-cta px-5 py-3 text-sm font-medium text-cta-foreground hover:bg-cta-hover transition-colors">
+          Book a call
+        </a>
+        <a href="/notes" class="inline-flex items-center rounded-sm border border-border px-5 py-3 text-sm font-medium text-foreground hover:border-foreground/40 transition-colors">
+          Read the notes
+        </a>
       </div>
     </div>
   </section>

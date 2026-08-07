@@ -3,7 +3,6 @@ import { NAVIGATION } from "@/consts";
 import HeaderLink from "./HeaderLink.astro";
 import Logo from "./Logo.astro";
 import MobileNav from "@/solid/MobileNav.tsx";
-import ThemeSwitcher from "@/solid/ThemeSwitcher.tsx";
 import { useTranslations } from "@/i18n";
 
 const t = useTranslations();
@@ -31,7 +30,6 @@ const t = useTranslations();
         >
           {t("nav.book")}
         </a>
-        <ThemeSwitcher client:only="solid-js" />
         <MobileNav client:only="solid-js" />
       </div>
     </div>
