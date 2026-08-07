@@ -63,7 +63,7 @@
   /*
    * CTA colour. Separate from --color-accent so buttons can punch harder
    * without pulling schema-marks, focus rings, or link-hover states into
-   * the same weight. Deep evergreen — adds a third temperature (green)
+   * the same weight. Deep evergreen, adds a third temperature (green)
    * to the palette alongside indigo (cool) and terracotta (warm), and
    * is unusual for CRM sites, which lean on blue/orange defaults.
    * Contrast ~7.5:1 on light bg, AAA.
@@ -151,7 +151,7 @@
   background: transparent;
   position: relative;
 }
-/* Signature corner mark — a small indigo notch top-left. Ties every
+/* Signature corner mark, a small indigo notch top-left. Ties every
    schema-box to the accent without adding weight to the frame itself. */
 .schema-box::after {
   content: "";
@@ -212,7 +212,7 @@
 }
 
 /*
- * Tag pill — small, warm, categorical. Used on note cards and the
+ * Tag pill, small, warm, categorical. Used on note cards and the
  * notes-index topic headers. Not to be reused for CTAs or nav.
  */
 .tag-pill {

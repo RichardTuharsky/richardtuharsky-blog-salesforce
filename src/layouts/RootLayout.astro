@@ -32,7 +32,7 @@ type Props = {
 
     <script>
       // Entrance animation observer. Bound to `astro:page-load` so it re-runs
-      // after every ClientRouter view transition — otherwise, elements
+      // after every ClientRouter view transition, otherwise, elements
       // rendered on the new page keep the initial opacity:0 from CSS and the
       // page reads as empty (e.g. clicking the logo to return home).
       // `astro:page-load` fires on both initial load and every SPA nav.

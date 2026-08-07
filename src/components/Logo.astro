@@ -2,7 +2,9 @@
 import { SITE_METADATA } from "@/consts";
 ---
 
-<span class="inline-flex items-baseline gap-2 font-display text-lg leading-none tracking-tight text-foreground">
-  <span>{SITE_METADATA.name}</span>
-  <span class="text-[0.6875rem] font-sans font-normal uppercase tracking-[0.14em] text-rule">hubspot practice</span>
+<span class="inline-flex flex-col leading-none tracking-tight text-foreground">
+  <span class="font-display text-base sm:text-lg">{SITE_METADATA.name}</span>
+  <span class="mt-0 font-sans text-[0.5rem] sm:text-[0.5625rem] uppercase tracking-[0.14em] text-rule">
+    {SITE_METADATA.motto}
+  </span>
 </span>

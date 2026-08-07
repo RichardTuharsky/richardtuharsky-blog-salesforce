@@ -7,11 +7,12 @@
  */
 
 export const SITE_METADATA = {
-  name: "{{NAME}}",
+  name: "Richard Tuharsky",
+  motto: "The Portal Mechanic",
   domain: "{{DOMAIN}}",
   siteUrl: "https://{{DOMAIN}}",
-  title: "{{NAME}}, HubSpot for teams that don't need Salesforce",
-  headerTitle: "{{NAME}}",
+  title: "Richard Tuharsky | The Portal Mechanic",
+  headerTitle: "Richard Tuharsky",
   description:
     "Independent HubSpot practice for {{TARGET_MARKET}}. {{YEARS_SF}} years of hands-on Salesforce work in enterprise environments, now building HubSpot for companies that don't need Salesforce's weight or cost.",
   language: "en-US",

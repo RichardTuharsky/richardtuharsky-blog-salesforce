@@ -49,17 +49,17 @@ Helpers in `src/functions.ts`: `sortNotes()`, `excludeDrafts()` (properly gated 
 1. Hero (position headline, not service description)
 2. Credibility strip (honest facts only, no logos)
 3. What I do (three offer cards from `OFFERS`)
-4. Salesforce → HubSpot (the one topic with earned authority; includes SF-object→HubSpot-object schema morph. No H2 heading — the section-marker acts as the title.)
+4. Salesforce → HubSpot (the one topic with earned authority; includes SF-object→HubSpot-object schema morph. No H2 heading, the section-marker acts as the title.)
 5. How I work (three phase-questions in schema-boxes)
 6. Notes (latest three)
 7. What happens on the call (no H2 heading; three labelled paragraphs sit directly under the section-marker)
 8. Book (HubSpot meetings embed)
 
-Every section opens with `<p class="schema-annotation">§ NN · SECTION</p>` — this is the signature aesthetic.
+Every section opens with `<p class="schema-annotation">§ NN · SECTION</p>`, this is the signature aesthetic.
 
 **Standalone pages**: `/services`, `/about`, `/404`. All use `RootLayout`.
 
-**Notes**: `/notes` (index, **grouped by first tag** — each tag becomes its own section with heading + count + description) + `/notes/[...slug]` (post, prerendered). `[...slug]` resolves `authors`, `tags`, `related` via `getEntries()`.
+**Notes**: `/notes` (index, **grouped by first tag**, each tag becomes its own section with heading + count + description) + `/notes/[...slug]` (post, prerendered). `[...slug]` resolves `authors`, `tags`, `related` via `getEntries()`.
 
 **Endpoints**: `/rss.xml` (from notes collection).
 
