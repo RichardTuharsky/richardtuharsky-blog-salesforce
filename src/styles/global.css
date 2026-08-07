@@ -57,11 +57,22 @@
 
   /*
    * Warm secondary colour. Used ONLY for tag pills and small categorical
-   * labels. Not a second brand colour, not for CTAs. Indigo remains the
-   * one action colour.
+   * labels. Not a second brand colour, not for CTAs.
    */
   --color-warm: #b85f35;         /* muted terracotta */
   --color-warm-soft: #f3e4d5;    /* pill background */
+
+  /*
+   * CTA colour. Separate from --color-accent so buttons can punch harder
+   * without pulling schema-marks, focus rings, or link-hover states into
+   * the same weight. Deep evergreen — adds a third temperature (green)
+   * to the palette alongside indigo (cool) and terracotta (warm), and
+   * is unusual for CRM sites, which lean on blue/orange defaults.
+   * Contrast ~7.5:1 on light bg, AAA.
+   */
+  --color-cta: #12563a;
+  --color-cta-foreground: #f5eee3;
+  --color-cta-hover: #0d4530;
 
   /* Layout */
   --radius-sm: 2px;
@@ -104,6 +115,11 @@
     /* Warm secondary — brightened for dark bg contrast */
     --color-warm: #e1875a;
     --color-warm-soft: #2b1c12;
+
+    /* CTA in dark mode: brighter mint on near-black bg, still evergreen family */
+    --color-cta: #4ebb89;
+    --color-cta-foreground: #0e1015;
+    --color-cta-hover: #62cc9c;
   }
 
   html { font-family: var(--font-sans); }
