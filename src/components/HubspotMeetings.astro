@@ -1,28 +1,48 @@
 ---
 import { SITE_METADATA } from "@/consts";
 
-// HubSpot Meetings embed. Booking flow lives in the homepage §09 CALL section
-// (and mirrored on /services). The embed URL is portal-specific, set
-// SITE_METADATA.hubspot.meetingsEmbedUrl to the exact URL from Meetings settings.
+// HubSpot Meetings embed. Portal is EU-hosted (meetings-eu1). The embed
+// markup below is exactly what HubSpot ships in the Meetings settings —
+// do not modify the script src or the container's data-src pattern.
+//
+// A plain-text fallback link is ALWAYS rendered underneath the embed so
+// visitors who decline cookies (which can block the third-party iframe)
+// still have a way to book.
 
 const { meetingsEmbedUrl } = SITE_METADATA.hubspot;
 const canEmbed = meetingsEmbedUrl && !meetingsEmbedUrl.includes("{{");
 ---
 
 {canEmbed ? (
-  <>
+  <div class="hubspot-meetings">
+    {/* Start of Meetings Embed Script — reserved min-height prevents
+        layout shift while the iframe loads. */}
     <div
       class="meetings-iframe-container"
       data-src={`${meetingsEmbedUrl}?embed=true`}
+      style="min-height: 700px;"
     ></div>
     <script
       is:inline
       type="text/javascript"
       src="https://static.hsappstatic.net/MeetingsEmbed/ex/MeetingsEmbedCode.js"
-      async
-      defer
     ></script>
-  </>
+    {/* End of Meetings Embed Script */}
+
+    {/* Fallback — always rendered. If the iframe is blocked (cookie
+        consent, tracker blockers) the section still has a live path. */}
+    <p class="mt-4 text-sm text-muted-foreground">
+      Scheduler not loading?{" "}
+      <a
+        href={meetingsEmbedUrl}
+        target="_blank"
+        rel="noopener noreferrer"
+        class="underline underline-offset-4 hover:text-foreground"
+      >
+        Book directly
+      </a>.
+    </p>
+  </div>
 ) : (
   <div class="rounded-sm border border-dashed border-rule/60 bg-muted/50 p-8 text-center">
     <div class="schema-annotation mb-3">HubSpot meetings embed</div>

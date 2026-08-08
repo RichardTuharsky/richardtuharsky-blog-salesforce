@@ -25,7 +25,7 @@ export const SITE_METADATA = {
   hubspot: {
     portalId: "{{PORTAL_ID}}",
     region: "{{PORTAL_REGION}}", // "na1" | "eu1"
-    meetingsEmbedUrl: "{{MEETINGS_EMBED_URL}}",
+    meetingsEmbedUrl: "https://meetings-eu1.hubspot.com/rtuharsky",
     forms: {
       audit: "{{FORM_ID_AUDIT}}",
       lowFriction: "{{FORM_ID_LOW_FRICTION}}",
