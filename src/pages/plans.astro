@@ -226,7 +226,7 @@ const money = (n: number) => "$" + n.toLocaleString("en-US");
           <ul class="list-none pl-0 m-0 space-y-3">
             {group.items.map((item, ii) => (
               <li>
-                <details class="faq-item" open={gi === 0 && ii === 0}>
+                <details class="faq-item">
                   <summary>
                     <span class="faq-num" aria-hidden="true">{String(ii + 1).padStart(2, "0")}</span>
                     <span class="faq-question">{item.q}</span>
