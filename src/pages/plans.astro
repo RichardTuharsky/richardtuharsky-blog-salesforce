@@ -11,6 +11,91 @@ const overview = [
   { label: "Meetings", value: "Bi-weekly or weekly status calls included" },
 ];
 
+/*
+ * FAQ. Same data drives both the accordion markup and the FAQPage JSON-LD.
+ * Copy rules for this section: no em dashes, no exclamation marks, first
+ * person singular. The answers ARE the qualification mechanism — do not
+ * truncate behind "read more". Only the first item renders open by default.
+ */
+type FaqItem = { q: string; a: string };
+type FaqGroup = { label: string; items: FaqItem[] };
+
+const faqGroups: FaqGroup[] = [
+  {
+    label: "Working with me",
+    items: [
+      {
+        q: "How long have you been working with HubSpot?",
+        a: "Less time than a HubSpot Solutions Partner who has been doing only this for eight years. That is the honest answer and it is worth knowing up front. My background is CRM and marketing automation at a global technology company, where the problems were the same ones your portal has: duplicate records, automation nobody owns, two systems fighting over the same field, reports that do not reconcile. HubSpot is where I work on those problems now. If you want a partner agency with fifty logos on the wall, I am not that, and I would rather you know before the call than after.",
+      },
+      {
+        q: "Are you a HubSpot Solutions Partner?",
+        a: "No. Partner tier is earned through client volume and platform revenue, not through skill, so it tells you how much business a firm has done rather than how good the work is. It does mean I have no tier discount to pass on and no HubSpot rep making introductions. It also means nobody is steering my recommendations toward more licences.",
+      },
+      {
+        q: "Is it just you?",
+        a: "Yes. The person who looks at your portal is the person who writes the findings and the person who does any fix work afterwards. No account manager, no handover to a junior. The trade-off is capacity. I take a limited number of engagements at once, so start dates are sometimes two or three weeks out.",
+      },
+      {
+        q: "What languages and time zones do you work in?",
+        a: "{{LANGUAGES}}. I am in Central European Time and work comfortably with UK, EU and US East Coast schedules.",
+      },
+      {
+        q: "Do you also build websites, run campaigns, or do marketing strategy?",
+        a: "No. I work inside the CRM: data, pipelines, lifecycle, automation, integrations and reporting. If you need content, ads or design, you need someone else, and I will say so rather than take the work.",
+      },
+    ],
+  },
+  {
+    label: "The health check",
+    items: [
+      {
+        q: "Why is the audit paid rather than free?",
+        a: "A free audit is a sales call with a document attached. Paying for it means I spend five days actually going through your portal instead of twenty minutes producing something designed to sell you a bigger project. You own the findings whether or not you ever work with me again.",
+      },
+      {
+        q: "Will you change anything in our portal?",
+        a: "No. The health check is read only. I do not merge records, delete properties, edit pipelines or turn workflows on or off. Some of those actions cannot be undone in HubSpot, which is exactly why they do not happen during a diagnosis. If you want the fixes done afterwards, that is a separate, scoped piece of work.",
+      },
+      {
+        q: "What access do you need?",
+        a: "Super Admin, because settings, workflow detail, integration configuration and property history are not visible at lower permission levels. I can work under a named user account you create and remove when the engagement ends. If Super Admin is not possible, tell me before you pay and I will tell you honestly what I would not be able to see.",
+      },
+      {
+        q: "Which HubSpot subscriptions do you work with?",
+        a: "All of them, but the tier changes the answer to almost every question. Workflows, custom objects, calculated properties and the custom report builder are gated by subscription level, so part of the audit is telling you which of your problems are configuration mistakes and which are features you are not paying for. That distinction saves people money surprisingly often.",
+      },
+      {
+        q: "What if you do not find anything serious?",
+        a: "You get a short document saying so, which is a legitimate result and worth knowing. In practice, portals that have been running twelve months or more without a dedicated owner always have something.",
+      },
+      {
+        q: "What happens after? Are we committed to more work?",
+        a: "No. The fix list is prioritised and written so your own team can work through it. Plenty of clients do exactly that. If you want me to do the work instead, we scope it from the findings.",
+      },
+      {
+        q: "How do you handle our data?",
+        a: "I work inside your portal rather than exporting your database. Where an export is needed for duplicate analysis, it is deleted at the end of the engagement. I sign NDAs and can work under your data processing agreement.",
+      },
+    ],
+  },
+];
+
+// Flatten for FAQPage JSON-LD schema.
+const faqJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: faqGroups.flatMap((g) =>
+    g.items.map(({ q, a }) => ({
+      "@type": "Question",
+      name: q,
+      acceptedAnswer: { "@type": "Answer", text: a },
+    })),
+  ),
+};
+// Escape `<` so JSON.stringify output can't break out of the <script> tag.
+const faqJsonLdString = JSON.stringify(faqJsonLd).replace(/</g, "\\u003c");
+
 // Pricing plans. Totals are computed from hours × perHour (no hardcoded
 // dollar values that could drift from the per-hour rate).
 type Plan = {
@@ -116,4 +201,62 @@ const money = (n: number) => "$" + n.toLocaleString("en-US");
       and I will tell you honestly.
     </p>
   </section>
+
+  <!-- Section 3: FAQ. Native <details> accordion, first item open.
+       Emits FAQPage JSON-LD covering every Q&A. -->
+  <section id="faq" class="mx-auto max-w-6xl px-4 sm:px-6 xl:px-8 pt-8 pb-24 scroll-mt-20" data-animate>
+    <p class="schema-annotation">§ 06 · FAQ</p>
+    <h2 class="mt-6 font-display text-3xl sm:text-4xl leading-tight text-foreground max-w-2xl">
+      Questions worth asking before the call.
+    </h2>
+
+    {faqGroups.map((group, gi) => (
+      <div class="mt-14">
+        <p class="font-mono text-xs uppercase tracking-widest text-foreground">
+          {group.label}
+        </p>
+        <ul class="mt-4 border-t border-b border-border/60 divide-y divide-border/60 list-none pl-0 m-0">
+          {group.items.map((item, ii) => (
+            <li>
+              <details class="faq-item" open={gi === 0 && ii === 0}>
+                <summary class="cursor-pointer flex items-start gap-4 py-5 select-none">
+                  <span
+                    class="faq-icon font-mono text-lg leading-none text-rule w-4 shrink-0 pt-1"
+                    aria-hidden="true"
+                  ></span>
+                  <span class="text-base font-medium text-foreground leading-snug">
+                    {item.q}
+                  </span>
+                </summary>
+                <div class="pl-8 pr-2 pb-6">
+                  <p class="text-muted-foreground leading-relaxed max-w-[68ch]">
+                    {item.a}
+                  </p>
+                </div>
+              </details>
+            </li>
+          ))}
+        </ul>
+      </div>
+    ))}
+
+    <!-- Closing line. Plain text, not a badge, not a seal. -->
+    <p class="mt-10 text-sm text-muted-foreground max-w-[68ch]">
+      Findings delivered within five working days of portal access, or you do not pay.
+    </p>
+
+    <script type="application/ld+json" is:inline set:html={faqJsonLdString}></script>
+  </section>
+
+  <style>
+    /* Native <details> styling: hide the default triangle/marker and use a
+       + / − character that flips on [open]. Keeps the disclosure keyboard
+       operable (Enter/Space) and lets the global :focus-visible outline
+       apply to <summary> for free. */
+    .faq-item summary { list-style: none; }
+    .faq-item summary::-webkit-details-marker { display: none; }
+    .faq-item summary::marker { content: ""; }
+    .faq-item .faq-icon::before { content: "+"; }
+    .faq-item[open] .faq-icon::before { content: "−"; }
+  </style>
 </RootLayout>
