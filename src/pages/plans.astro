@@ -213,9 +213,9 @@ const money = (n: number) => "$" + n.toLocaleString("en-US");
     <div class="mt-14 max-w-4xl">
       {faqGroups.map((group, gi) => (
         <div class:list={[gi === 0 ? "" : "mt-16"]}>
-          <!-- Group header: dot + label + rule + count -->
+          <!-- Group header: dot + label + rule + count. Dot uses HubSpot brand orange (#FF7A59). -->
           <header class="flex items-center gap-4 mb-6">
-            <span class="h-2 w-2 rounded-full bg-accent shrink-0"></span>
+            <span class="h-2 w-2 rounded-full bg-[#FF7A59] shrink-0"></span>
             <h3 class="font-display text-xl text-foreground leading-none">{group.label}</h3>
             <span class="flex-1 h-px bg-border/60"></span>
             <span class="font-mono text-xs uppercase tracking-widest text-rule shrink-0 tabular-nums">
