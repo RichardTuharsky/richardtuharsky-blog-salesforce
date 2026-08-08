@@ -175,18 +175,18 @@ const capabilityCardsResolved = await Promise.all(
         block is the answer to "what do I actually buy from you".
       -->
       <article class="mt-8 border-t-2 border-accent bg-accent-soft/60 border-x border-b border-accent-ring/60">
-        <div class="p-8 sm:p-10">
+        <div class="p-8 sm:p-10 text-center">
           <h2 class="font-display text-3xl sm:text-4xl leading-tight text-foreground">
             HubSpot Health Check
           </h2>
           <p class="mt-3 font-mono text-xs uppercase tracking-widest text-rule">
             Five working days. Fixed price, paid only after results.
           </p>
-          <p class="mt-6 max-w-2xl text-lg text-foreground/90 leading-relaxed">
+          <p class="mt-6 mx-auto max-w-2xl text-lg text-foreground/90 leading-relaxed">
             I go through your portal and tell you what's actually broken, what it's costing you, and what to fix first. Read only, I don't change anything in your account.
           </p>
 
-          <div class="mt-10 pt-10 border-t border-accent-ring/60 grid gap-10 md:grid-cols-2">
+          <div class="mt-10 pt-10 border-t border-accent-ring/60 grid gap-10 md:grid-cols-2 max-w-4xl mx-auto text-left">
             <div>
               <h3 class="font-mono text-xs uppercase tracking-widest text-rule">Who it's for</h3>
               <p class="mt-3 text-sm text-foreground/90 leading-relaxed">
@@ -201,12 +201,6 @@ const capabilityCardsResolved = await Promise.all(
                 <li>45-minute walkthrough call, recorded</li>
               </ul>
             </div>
-          </div>
-
-          <div class="mt-10">
-            <a href="#book" class="inline-flex items-center rounded-sm bg-cta px-5 py-3 text-sm font-medium text-cta-foreground hover:bg-cta-hover transition-colors">
-              Book a call
-            </a>
           </div>
         </div>
       </article>
@@ -242,6 +236,13 @@ const capabilityCardsResolved = await Promise.all(
             )}
           </article>
         ))}
+      </div>
+
+      <!-- Primary CTA for §03. Sits below the capability cards, centered. -->
+      <div class="mt-12 text-center">
+        <a href="#book" class="inline-flex items-center rounded-sm bg-cta px-5 py-3 text-sm font-medium text-cta-foreground hover:bg-cta-hover transition-colors">
+          Book a call
+        </a>
       </div>
 
       <!--
