@@ -9,8 +9,8 @@
 export const SITE_METADATA = {
   name: "Richard Tuharsky",
   motto: "The Portal Mechanic",
-  domain: "{{DOMAIN}}",
-  siteUrl: "https://{{DOMAIN}}",
+  domain: "richardtuharsky.com",
+  siteUrl: "https://richardtuharsky.com",
   title: "Richard Tuharsky | The Portal Mechanic",
   headerTitle: "Richard Tuharsky",
   description:
