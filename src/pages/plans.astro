@@ -210,53 +210,136 @@ const money = (n: number) => "$" + n.toLocaleString("en-US");
       Questions worth asking before the call.
     </h2>
 
-    {faqGroups.map((group, gi) => (
-      <div class="mt-14">
-        <p class="font-mono text-xs uppercase tracking-widest text-foreground">
-          {group.label}
-        </p>
-        <ul class="mt-4 border-t border-b border-border/60 divide-y divide-border/60 list-none pl-0 m-0">
-          {group.items.map((item, ii) => (
-            <li>
-              <details class="faq-item" open={gi === 0 && ii === 0}>
-                <summary class="cursor-pointer flex items-start gap-4 py-5 select-none">
-                  <span
-                    class="faq-icon font-mono text-lg leading-none text-rule w-4 shrink-0 pt-1"
-                    aria-hidden="true"
-                  ></span>
-                  <span class="text-base font-medium text-foreground leading-snug">
-                    {item.q}
-                  </span>
-                </summary>
-                <div class="pl-8 pr-2 pb-6">
-                  <p class="text-muted-foreground leading-relaxed max-w-[68ch]">
-                    {item.a}
-                  </p>
-                </div>
-              </details>
-            </li>
-          ))}
-        </ul>
-      </div>
-    ))}
+    <div class="mt-14 max-w-4xl">
+      {faqGroups.map((group, gi) => (
+        <div class:list={[gi === 0 ? "" : "mt-16"]}>
+          <!-- Group header: dot + label + rule + count -->
+          <header class="flex items-center gap-4 mb-6">
+            <span class="h-2 w-2 rounded-full bg-accent shrink-0"></span>
+            <h3 class="font-display text-xl text-foreground leading-none">{group.label}</h3>
+            <span class="flex-1 h-px bg-border/60"></span>
+            <span class="font-mono text-xs uppercase tracking-widest text-rule shrink-0 tabular-nums">
+              {String(group.items.length).padStart(2, "0")}
+            </span>
+          </header>
 
-    <!-- Closing line. Plain text, not a badge, not a seal. -->
-    <p class="mt-10 text-sm text-muted-foreground max-w-[68ch]">
-      Findings delivered within five working days of portal access, or you do not pay.
-    </p>
+          <ul class="list-none pl-0 m-0 space-y-3">
+            {group.items.map((item, ii) => (
+              <li>
+                <details class="faq-item" open={gi === 0 && ii === 0}>
+                  <summary>
+                    <span class="faq-num" aria-hidden="true">{String(ii + 1).padStart(2, "0")}</span>
+                    <span class="faq-question">{item.q}</span>
+                    <svg
+                      class="faq-chevron"
+                      viewBox="0 0 16 16"
+                      fill="none"
+                      aria-hidden="true"
+                    >
+                      <path
+                        d="M4 6l4 4 4-4"
+                        stroke="currentColor"
+                        stroke-width="1.6"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                      />
+                    </svg>
+                  </summary>
+                  <div class="faq-answer">
+                    <p>{item.a}</p>
+                  </div>
+                </details>
+              </li>
+            ))}
+          </ul>
+        </div>
+      ))}
+
+      <!-- Closing line. Plain text, not a badge, not a seal. -->
+      <p class="mt-14 pt-6 border-t border-border/60 text-sm text-muted-foreground max-w-[68ch]">
+        Findings delivered within five working days of portal access, or you do not pay.
+      </p>
+    </div>
 
     <script type="application/ld+json" is:inline set:html={faqJsonLdString}></script>
   </section>
 
   <style>
-    /* Native <details> styling: hide the default triangle/marker and use a
-       + / − character that flips on [open]. Keeps the disclosure keyboard
-       operable (Enter/Space) and lets the global :focus-visible outline
-       apply to <summary> for free. */
-    .faq-item summary { list-style: none; }
+    /*
+     * FAQ accordion — all state styling in plain CSS so it doesn't depend on
+     * Tailwind's named-group variants (which behave inconsistently in v4).
+     * Native <details>/<summary> for accessibility; :focus-visible from
+     * global.css handles keyboard focus outlines.
+     */
+    .faq-item {
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-sm);
+      background: var(--color-background);
+      transition: background-color 0.2s ease, border-color 0.2s ease;
+    }
+    .faq-item summary {
+      list-style: none;
+      cursor: pointer;
+      user-select: none;
+      display: flex;
+      align-items: flex-start;
+      gap: 1.25rem;
+      padding: 1.25rem 1.5rem;
+    }
     .faq-item summary::-webkit-details-marker { display: none; }
     .faq-item summary::marker { content: ""; }
-    .faq-item .faq-icon::before { content: "+"; }
-    .faq-item[open] .faq-icon::before { content: "−"; }
+
+    .faq-item:hover {
+      background: color-mix(in oklab, var(--color-tint-warm) 60%, transparent);
+    }
+    .faq-item[open] {
+      background: color-mix(in oklab, var(--color-accent-soft) 60%, transparent);
+      border-color: var(--color-accent-ring);
+      border-left-width: 2px;
+      border-left-color: var(--color-accent);
+    }
+
+    .faq-num {
+      font-family: var(--font-mono);
+      font-size: 0.6875rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--color-rule);
+      padding-top: 0.25rem;
+      flex-shrink: 0;
+      font-variant-numeric: tabular-nums;
+    }
+    .faq-question {
+      flex: 1;
+      font-size: 1rem;
+      font-weight: 500;
+      line-height: 1.4;
+      color: var(--color-foreground);
+    }
+    .faq-chevron {
+      flex-shrink: 0;
+      width: 1rem;
+      height: 1rem;
+      margin-top: 0.25rem;
+      color: var(--color-rule);
+      transition: transform 0.25s ease, color 0.2s ease;
+    }
+    .faq-item[open] .faq-chevron {
+      transform: rotate(180deg);
+      color: var(--color-accent);
+    }
+
+    .faq-answer {
+      padding: 0 1.5rem 1.5rem;
+    }
+    @media (min-width: 640px) {
+      .faq-answer { padding-left: 4rem; }
+    }
+    .faq-answer p {
+      color: var(--color-muted-foreground);
+      line-height: 1.7;
+      max-width: 68ch;
+      margin: 0;
+    }
   </style>
 </RootLayout>
