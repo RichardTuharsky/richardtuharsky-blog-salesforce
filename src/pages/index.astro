@@ -2,7 +2,7 @@
 import { getCollection, getEntry } from "astro:content";
 import RootLayout from "@/layouts/RootLayout.astro";
 import { excludeDrafts, sortNotes } from "@/functions";
-import { SITE_METADATA, HEALTH_CHECK } from "@/consts";
+import { SITE_METADATA } from "@/consts";
 import SchemaObject from "@/components/SchemaObject.astro";
 import HubspotMeetings from "@/components/HubspotMeetings.astro";
 import FormattedDate from "@/components/FormattedDate.astro";
@@ -176,23 +176,15 @@ const capabilityCardsResolved = await Promise.all(
       -->
       <article class="mt-8 border-t-2 border-accent bg-accent-soft/60 border-x border-b border-accent-ring/60">
         <div class="p-8 sm:p-10">
-          <div class="grid gap-6 md:grid-cols-[1fr_auto] items-start">
-            <div>
-              <h2 class="font-display text-3xl sm:text-4xl leading-tight text-foreground">
-                HubSpot Health Check
-              </h2>
-              <p class="mt-3 font-mono text-xs uppercase tracking-widest text-rule">
-                Five working days. Fixed price, paid upfront.
-              </p>
-              <p class="mt-6 max-w-2xl text-lg text-foreground/90 leading-relaxed">
-                I go through your portal and tell you what's actually broken, what it's costing you, and what to fix first. Read only, I don't change anything in your account.
-              </p>
-            </div>
-            <div class="md:text-right">
-              <p class="font-mono text-xs uppercase tracking-widest text-rule">Price</p>
-              <p class="mt-2 font-display text-3xl sm:text-4xl text-foreground">{HEALTH_CHECK.price}</p>
-            </div>
-          </div>
+          <h2 class="font-display text-3xl sm:text-4xl leading-tight text-foreground">
+            HubSpot Health Check
+          </h2>
+          <p class="mt-3 font-mono text-xs uppercase tracking-widest text-rule">
+            Five working days. Fixed price, paid only after results.
+          </p>
+          <p class="mt-6 max-w-2xl text-lg text-foreground/90 leading-relaxed">
+            I go through your portal and tell you what's actually broken, what it's costing you, and what to fix first. Read only, I don't change anything in your account.
+          </p>
 
           <div class="mt-10 pt-10 border-t border-accent-ring/60 grid gap-10 md:grid-cols-2">
             <div>
@@ -209,13 +201,6 @@ const capabilityCardsResolved = await Promise.all(
                 <li>45-minute walkthrough call, recorded</li>
               </ul>
             </div>
-          </div>
-
-          <div class="mt-10 border border-rule/40 bg-background p-6">
-            <h3 class="font-mono text-xs uppercase tracking-widest text-rule">What I need from you</h3>
-            <p class="mt-3 text-sm text-foreground/90 leading-relaxed">
-              Super Admin access to the portal, thirty minutes for a kickoff call, and one person who can answer "why is this here?". HubSpot's permissions mean settings, workflows and integrations aren't visible at lower access levels. If that's a problem, we sort it out before you pay.
-            </p>
           </div>
 
           <div class="mt-10">
