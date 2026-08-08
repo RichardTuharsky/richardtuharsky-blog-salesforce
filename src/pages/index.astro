@@ -340,30 +340,44 @@ const capabilityCardsResolved = await Promise.all(
   </section>
 
   <!-- ============================================================ -->
-  <!-- §06 BOOK A CALL: what happens + meetings embed (combined)    -->
+  <!-- §06 BOOK A CALL: single centered column stack.               -->
+  <!--   Order: eyebrow, H1, 3-up label/body row, embed, fallback.  -->
+  <!--   No side-by-side split. Embed sits below the copy.          -->
+  <!--   Vertical rhythm: 48px (H1→row), 56px (row→embed),          -->
+  <!--   24px (embed→fallback, handled inside HubspotMeetings).     -->
   <!-- ============================================================ -->
   <section id="book" class="border-t border-border/60 bg-tint-warm">
-    <div class="mx-auto max-w-6xl px-4 sm:px-6 xl:px-8 py-28" data-animate>
+    <div class="mx-auto max-w-[680px] px-5 md:px-6 py-16 md:py-24" data-animate>
       <p class="schema-annotation">§ 06 · Book a call</p>
-      <h2 class="mt-6 max-w-2xl font-display text-3xl sm:text-4xl leading-tight text-foreground">
+      <h2 class="mt-6 font-display text-3xl sm:text-4xl leading-tight text-foreground">
         Pick a slot. 30 minutes.
       </h2>
 
-      <div class="mt-12 grid gap-14 lg:grid-cols-[1.3fr_1fr] items-start">
-        <div class="space-y-8">
-          <div>
-            <p class="font-mono text-xs uppercase tracking-widest text-rule mb-2">What I'll ask</p>
-            <p class="text-foreground/90 leading-relaxed">Where the CRM lives now, what your team stops trusting first, the last few changes to your HubSpot, and who decided them.</p>
-          </div>
-          <div>
-            <p class="font-mono text-xs uppercase tracking-widest text-rule mb-2">What you don't need to prepare</p>
-            <p class="text-foreground/90 leading-relaxed">Nothing. If you can't answer a question, that's data too.</p>
-          </div>
-          <div>
-            <p class="font-mono text-xs uppercase tracking-widest text-rule mb-2">What you'll know by the end</p>
-            <p class="text-foreground/90 leading-relaxed">Whether a health check is the right next step, or whether you need someone I'm not. Named. In under 30 minutes.</p>
-          </div>
+      <!-- 3-up label/body row. Stacks to single column on mobile.
+           Labels: 11px letter-spaced uppercase in --color-rule.
+           Body: 15px in --color-foreground (primary), never accent. -->
+      <div class="mt-12 grid gap-8 md:grid-cols-3">
+        <div>
+          <p class="font-mono text-[11px] uppercase tracking-widest text-rule">What I'll ask</p>
+          <p class="mt-2 text-[15px] text-foreground leading-relaxed">
+            Where the CRM lives now, what your team stops trusting first, the last few changes to your HubSpot, and who decided them.
+          </p>
         </div>
+        <div>
+          <p class="font-mono text-[11px] uppercase tracking-widest text-rule">What you don't need to prepare</p>
+          <p class="mt-2 text-[15px] text-foreground leading-relaxed">
+            Nothing. If you can't answer a question, that's data too.
+          </p>
+        </div>
+        <div>
+          <p class="font-mono text-[11px] uppercase tracking-widest text-rule">What you'll know by the end</p>
+          <p class="mt-2 text-[15px] text-foreground leading-relaxed">
+            Whether a health check is the right next step, or whether you need someone I'm not.
+          </p>
+        </div>
+      </div>
+
+      <div class="mt-14">
         <HubspotMeetings />
       </div>
     </div>

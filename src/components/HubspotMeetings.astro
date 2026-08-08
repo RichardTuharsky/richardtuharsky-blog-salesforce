@@ -8,36 +8,42 @@ import { SITE_METADATA } from "@/consts";
 // A plain-text fallback link is ALWAYS rendered underneath the embed so
 // visitors who decline cookies (which can block the third-party iframe)
 // still have a way to book.
+//
+// Layout: max-width 680px, centered. Responsive min-height reserves
+// vertical space (560px mobile, 640px desktop) to prevent CLS while the
+// iframe loads. overflow-hidden clips any wrapper scrollbar; the iframe's
+// own internal scrollbar is cross-origin and cannot be styled.
 
 const { meetingsEmbedUrl } = SITE_METADATA.hubspot;
 const canEmbed = meetingsEmbedUrl && !meetingsEmbedUrl.includes("{{");
 ---
 
 {canEmbed ? (
-  <div class="hubspot-meetings">
-    {/* Start of Meetings Embed Script — reserved min-height prevents
-        layout shift while the iframe loads. */}
-    <div
-      class="meetings-iframe-container"
-      data-src={`${meetingsEmbedUrl}?embed=true`}
-      style="min-height: 620px;"
-    ></div>
-    <script
-      is:inline
-      type="text/javascript"
-      src="https://static.hsappstatic.net/MeetingsEmbed/ex/MeetingsEmbedCode.js"
-    ></script>
-    {/* End of Meetings Embed Script */}
+  <div class="hubspot-meetings mx-auto w-full max-w-[680px]">
+    <div class="overflow-hidden">
+      {/* Start of Meetings Embed Script */}
+      <div
+        class="meetings-iframe-container min-h-[560px] md:min-h-[640px]"
+        data-src={`${meetingsEmbedUrl}?embed=true`}
+      ></div>
+      <script
+        is:inline
+        type="text/javascript"
+        src="https://static.hsappstatic.net/MeetingsEmbed/ex/MeetingsEmbedCode.js"
+      ></script>
+      {/* End of Meetings Embed Script */}
+    </div>
 
     {/* Fallback — always rendered. If the iframe is blocked (cookie
-        consent, tracker blockers) the section still has a live path. */}
-    <p class="mt-4 text-sm text-muted-foreground">
+        consent, tracker blockers) the section still has a live path.
+        Centered, 14px, muted, underlined on hover only. */}
+    <p class="mt-6 text-center text-sm text-muted-foreground">
       Scheduler not loading?{" "}
       <a
         href={meetingsEmbedUrl}
         target="_blank"
         rel="noopener noreferrer"
-        class="underline underline-offset-4 hover:text-foreground"
+        class="no-underline hover:underline underline-offset-4 hover:text-foreground transition-colors"
       >
         Book directly
       </a>.
