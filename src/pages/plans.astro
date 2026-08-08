@@ -44,11 +44,11 @@ const money = (n: number) => "$" + n.toLocaleString("en-US");
 
   <!-- Section 1: overview — two columns, each cell is label above value -->
   <section class="mx-auto max-w-6xl px-4 sm:px-6 xl:px-8 py-8" data-animate>
-    <dl class="mt-2 grid gap-x-12 gap-y-8 sm:grid-cols-2 border-t border-b border-border/60 py-10">
+    <dl class="mt-2 grid gap-x-12 gap-y-12 sm:grid-cols-2 border-t border-b border-border/60 py-10">
       {overview.map(({ label, value }) => (
         <div>
           <dt class="font-mono text-xs uppercase tracking-widest text-foreground">{label}</dt>
-          <dd class="mt-2 text-foreground text-base leading-relaxed m-0">{value}</dd>
+          <dd class="mt-1 text-foreground text-base leading-relaxed m-0">{value}</dd>
         </div>
       ))}
     </dl>
