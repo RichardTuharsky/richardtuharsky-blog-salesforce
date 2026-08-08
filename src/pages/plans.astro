@@ -1,0 +1,112 @@
+---
+import RootLayout from "@/layouts/RootLayout.astro";
+import { SITE_METADATA } from "@/consts";
+
+// Overview rows for the top of /plans. Kept as an array so future rows
+// (e.g. "Response time", "SLA") can be appended without touching markup.
+const overview = [
+  { label: "Category", value: "Managed Services" },
+  { label: "Pricing", value: "Monthly plans with commitment discounts" },
+  { label: "Scope", value: "Flexible, evolves with your business" },
+  { label: "Meetings", value: "Bi-weekly or weekly status calls included" },
+];
+
+// Pricing plans. Totals are computed from hours × perHour (no hardcoded
+// dollar values that could drift from the per-hour rate).
+type Plan = {
+  hours: number;
+  perHour: number;
+  badge: string | null;   // rendered as a top-of-card ribbon on the emphasized plan
+  note: string | null;    // rendered as a small label above the CTA on non-emphasized plans
+  emphasized: boolean;
+};
+const plans: Plan[] = [
+  { hours: 10, perHour: 50, badge: null,           note: null,                       emphasized: false },
+  { hours: 20, perHour: 40, badge: "Most popular", note: null,                       emphasized: true  },
+  { hours: 40, perHour: 35, badge: null,           note: "Lowest per-hour rate",     emphasized: false },
+];
+const money = (n: number) => "$" + n.toLocaleString("en-US");
+---
+
+<RootLayout
+  title={`Plans · ${SITE_METADATA.name}`}
+  description="Monthly HubSpot managed-service plans. Pick the number of hours that fits your team."
+>
+  <section class="mx-auto max-w-6xl px-4 sm:px-6 xl:px-8 pt-16 pb-8">
+    <p class="schema-annotation">§ · Plans</p>
+    <h1 class="mt-6 font-display text-4xl sm:text-6xl leading-[1.05] tracking-tight text-foreground">
+      Plans
+    </h1>
+    <p class="mt-6 max-w-2xl text-lg text-muted-foreground leading-relaxed">
+      Managed-service plans for teams that need HubSpot help every month, not once. Commit for longer, pay less per hour.
+    </p>
+  </section>
+
+  <!-- Section 1: overview table -->
+  <section class="mx-auto max-w-6xl px-4 sm:px-6 xl:px-8 py-8" data-animate>
+    <dl class="mt-2 border-t border-b border-border/60 divide-y divide-border/60">
+      {overview.map(({ label, value }) => (
+        <div class="py-5 grid gap-4 sm:grid-cols-[220px_1fr] items-baseline">
+          <dt class="font-mono text-xs uppercase tracking-widest text-rule">{label}</dt>
+          <dd class="text-foreground text-base leading-relaxed m-0">{value}</dd>
+        </div>
+      ))}
+    </dl>
+  </section>
+
+  <!-- Section 2: three pricing boxes -->
+  <section class="mx-auto max-w-6xl px-4 sm:px-6 xl:px-8 pt-8 pb-24" data-animate>
+    <div class="grid gap-6 md:grid-cols-3">
+      {plans.map((plan) => {
+        const total = plan.hours * plan.perHour;
+        return (
+          <article
+            class:list={[
+              "relative flex flex-col p-8 border bg-background",
+              plan.emphasized
+                ? "border-accent-ring/60 bg-accent-soft/60 border-t-2 border-t-accent"
+                : "border-border/60",
+            ]}
+          >
+            {plan.emphasized && plan.badge && (
+              <span class="absolute -top-3 left-8 inline-flex items-center rounded-full bg-accent px-3 py-1 font-mono text-[0.625rem] uppercase tracking-widest text-accent-foreground">
+                {plan.badge}
+              </span>
+            )}
+
+            <h2 class="font-display text-3xl text-foreground leading-none">
+              {plan.hours} Hours
+            </h2>
+            <p class="mt-6 font-display text-4xl text-foreground leading-none">
+              {money(total)}
+            </p>
+            <p class="mt-3 font-mono text-sm text-muted-foreground">
+              {money(plan.perHour)}/hr
+            </p>
+
+            {!plan.emphasized && plan.note && (
+              <p class="mt-6 font-mono text-xs uppercase tracking-widest text-warm">
+                {plan.note}
+              </p>
+            )}
+
+            <div class="mt-auto pt-10">
+              <a
+                href="/#book"
+                class="w-full inline-flex justify-center items-center rounded-sm bg-cta px-5 py-3 text-sm font-medium text-cta-foreground hover:bg-cta-hover transition-colors"
+              >
+                Buy now
+              </a>
+            </div>
+          </article>
+        );
+      })}
+    </div>
+
+    <p class="mt-8 max-w-2xl text-sm text-muted-foreground leading-relaxed">
+      Unused hours roll into the next month. Not sure which plan fits?
+      <a href="/#book" class="underline underline-offset-4 hover:text-foreground">Book a call</a>
+      and I will tell you honestly.
+    </p>
+  </section>
+</RootLayout>

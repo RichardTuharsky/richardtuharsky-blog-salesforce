@@ -5,6 +5,7 @@ export const ui = {
     "siteMetadata.language": "en-US",
 
     "nav.services": "Services",
+    "nav.plans": "Plans",
     "nav.how": "How I work",
     "nav.notes": "Notes",
     "nav.about": "About",
