@@ -13,13 +13,9 @@ import SchemaObject from "@/components/SchemaObject.astro";
     <h1 class="mt-6 font-display text-4xl sm:text-6xl leading-[1.05] tracking-tight text-foreground">
       {SITE_METADATA.name}
     </h1>
-    <p class="mt-6 text-lg text-muted-foreground max-w-2xl leading-relaxed">
-      Independent HubSpot practice for {`{{TARGET_MARKET}}`}.
-    </p>
-
     <div class="mt-14 prose prose-neutral max-w-none">
       <p>
-        I spent {`{{YEARS_SF}}`} years inside Salesforce, in {`{{ENV_DESCRIPTORS}}`} environments. Long enough to see what Salesforce is good at, what it costs to keep running, and what happens to a team that inherits a Salesforce org someone else built.
+        I spent 5 years inside Salesforce, in enterprise environments. Long enough to see what Salesforce is good at, what it costs to keep running, and what happens to a team that inherits a Salesforce org someone else built.
       </p>
       <p>
         I now build HubSpot for companies that don't need Salesforce's weight or cost. That combination is the differentiator: deep CRM competence, plus a deliberate choice of tool. It is not "I've done HubSpot forever". It is "I know what Salesforce solves, I know what HubSpot solves, and I know which one you actually need".
@@ -37,7 +33,29 @@ import SchemaObject from "@/components/SchemaObject.astro";
       </ul>
 
       <h2>Certifications</h2>
-      <p class="font-mono text-sm">{`{{CERTS}}`}</p>
+      <ul class="not-prose mt-4 flex flex-wrap items-center gap-4 list-none pl-0">
+        <li class="flex items-center gap-4">
+          <a
+            href="https://app-eu1.hubspot.com/academy/achievements/0vbb8j3x/en/1/richard-tuharsky/hubspot-sales-hub-software"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="inline-block rounded-sm"
+          >
+            <img
+              src="/assets/certs/hubspot-sales-hub-software.jpg"
+              alt="HubSpot Sales Hub Software certification"
+              width="88"
+              height="88"
+              loading="lazy"
+              decoding="async"
+              class="block max-w-[88px] h-auto"
+            />
+          </a>
+          <p class="text-sm text-muted-foreground m-0">
+            HubSpot Sales Hub Software. <a href="https://app-eu1.hubspot.com/academy/achievements/0vbb8j3x/en/1/richard-tuharsky/hubspot-sales-hub-software" target="_blank" rel="noopener noreferrer" class="underline underline-offset-4 hover:text-foreground">Verify on HubSpot Academy</a>.
+          </p>
+        </li>
+      </ul>
     </div>
 
     <div class="mt-16 grid gap-6 sm:grid-cols-2">
