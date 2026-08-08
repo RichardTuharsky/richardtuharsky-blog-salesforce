@@ -29,7 +29,7 @@ const notes = defineCollection({
       lastmod: z.coerce.date().optional(),
       draft: z.boolean().default(false),
       cover: image().optional(),
-      tags: z.array(reference("tags")).default(["sfmc"]),
+      tags: z.array(reference("tags")).default(["hubspot"]),
       authors: z.array(reference("authors")).default(["default"]),
       canonicalUrl: z.string().optional(),
       related: z.array(reference("notes")).default([]),

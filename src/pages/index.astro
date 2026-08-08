@@ -3,7 +3,6 @@ import { getCollection, getEntry } from "astro:content";
 import RootLayout from "@/layouts/RootLayout.astro";
 import { excludeDrafts, sortNotes } from "@/functions";
 import { SITE_METADATA } from "@/consts";
-import SchemaObject from "@/components/SchemaObject.astro";
 import HubspotMeetings from "@/components/HubspotMeetings.astro";
 import FormattedDate from "@/components/FormattedDate.astro";
 
@@ -261,57 +260,11 @@ const capabilityCardsResolved = await Promise.all(
   </section>
 
   <!-- ============================================================ -->
-  <!-- §05 SALESFORCE → HUBSPOT: the one topic with real authority  -->
-  <!-- ============================================================ -->
-  <section id="salesforce-to-hubspot" class="border-t border-border/60 bg-tint-cool">
-    <div class="mx-auto max-w-6xl px-4 sm:px-6 xl:px-8 py-28" data-animate>
-      <p class="schema-annotation">§ 04 · Salesforce → HubSpot</p>
-      <p class="mt-8 max-w-2xl text-lg text-muted-foreground leading-relaxed">
-        I've spent {`{{YEARS_SF}}`} years inside Salesforce orgs. Enough to know what breaks in a migration, what doesn't survive the schema flatten, and when the honest answer is <em class="not-italic text-foreground">stay on Salesforce</em>. This is the one topic on this site where deep authority is genuinely earned.
-      </p>
-
-      <!-- Signature: SF object morphing into a HubSpot object -->
-      <div class="mt-14 grid gap-6 sm:grid-cols-[1fr_auto_1fr] items-center">
-        <SchemaObject object="Account (SF)" fields={[
-          { k: "Name", t: "text(255)" },
-          { k: "RecordTypeId", t: "ref → RecordType" },
-          { k: "OwnerId", t: "ref → User" },
-          { k: "Custom_Field__c", t: "picklist" },
-        ]} />
-        <div class="flex justify-center">
-          <span class="font-mono text-xs text-rule uppercase tracking-widest">migrates to →</span>
-        </div>
-        <SchemaObject object="Company (HubSpot)" fields={[
-          { k: "name", t: "string" },
-          { k: "lifecyclestage", t: "enum" },
-          { k: "hubspot_owner_id", t: "ref → user" },
-          { k: "custom_field", t: "dropdown" },
-        ]} />
-      </div>
-
-      <div class="mt-14 grid gap-8 sm:grid-cols-3 text-sm">
-        <div>
-          <p class="font-mono text-xs uppercase tracking-widest text-rule mb-3">What actually breaks</p>
-          <p class="text-muted-foreground leading-relaxed">Record types, validation rules, and Apex-triggered automation. Migrations that treat those as "custom fields plus rules" underestimate the rebuild by 3 to 5 times.</p>
-        </div>
-        <div>
-          <p class="font-mono text-xs uppercase tracking-widest text-rule mb-3">Migration assessment</p>
-          <p class="text-muted-foreground leading-relaxed">A fixed-scope engagement. Your Salesforce org, mapped to a HubSpot data model, with a defensible cost and a defensible timeline before you sign anything.</p>
-        </div>
-        <div>
-          <p class="font-mono text-xs uppercase tracking-widest text-rule mb-3">When to stay on Salesforce</p>
-          <p class="text-muted-foreground leading-relaxed">Complex approval flows, deep territory management, or industry clouds you actually use. I will tell you if that's you, unpaid.</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ============================================================ -->
-  <!-- §05 HOW I WORK: three phases as questions                    -->
+  <!-- §04 HOW I WORK: three phases as questions                    -->
   <!-- ============================================================ -->
   <section id="how-i-work" class="border-t border-border/60 bg-tint-sage">
     <div class="mx-auto max-w-6xl px-4 sm:px-6 xl:px-8 py-28" data-animate>
-      <p class="schema-annotation">§ 05 · How I work</p>
+      <p class="schema-annotation">§ 04 · How I work</p>
       <h2 class="mt-6 font-display text-3xl sm:text-4xl leading-tight text-foreground max-w-2xl">
         Three questions, in order. Skip one and the next is guesswork.
       </h2>
@@ -334,13 +287,13 @@ const capabilityCardsResolved = await Promise.all(
   </section>
 
   <!-- ============================================================ -->
-  <!-- §06 NOTES: latest three, real design weight                  -->
+  <!-- §05 NOTES: latest three, real design weight                  -->
   <!-- ============================================================ -->
   <section class="border-t border-border/60">
     <div class="mx-auto max-w-6xl px-4 sm:px-6 xl:px-8 py-28" data-animate>
       <div class="flex items-end justify-between mb-14">
         <div>
-          <p class="schema-annotation">§ 06 · Notes</p>
+          <p class="schema-annotation">§ 05 · Notes</p>
           <h2 class="mt-6 font-display text-3xl sm:text-4xl leading-tight text-foreground">
             Working notes. Written to be defended in a call.
           </h2>
@@ -387,13 +340,16 @@ const capabilityCardsResolved = await Promise.all(
   </section>
 
   <!-- ============================================================ -->
-  <!-- §07 WHAT HAPPENS ON THE CALL: de-risking                     -->
+  <!-- §06 BOOK A CALL: what happens + meetings embed (combined)    -->
   <!-- ============================================================ -->
-  <section class="border-t border-border/60 bg-tint-warm">
+  <section id="book" class="border-t border-border/60 bg-tint-warm">
     <div class="mx-auto max-w-6xl px-4 sm:px-6 xl:px-8 py-28" data-animate>
-      <p class="schema-annotation">§ 07 · What happens on the call</p>
-      <div class="mt-6 grid gap-14 lg:grid-cols-[1fr_1.2fr]">
-        <div></div>
+      <p class="schema-annotation">§ 06 · Book a call</p>
+      <h2 class="mt-6 max-w-2xl font-display text-3xl sm:text-4xl leading-tight text-foreground">
+        Pick a slot. 30 minutes.
+      </h2>
+
+      <div class="mt-12 grid gap-14 lg:grid-cols-[1fr_1.2fr] items-start">
         <div class="space-y-8">
           <div>
             <p class="font-mono text-xs uppercase tracking-widest text-rule mb-2">What I'll ask</p>
@@ -408,25 +364,11 @@ const capabilityCardsResolved = await Promise.all(
             <p class="text-foreground/90 leading-relaxed">Whether the problem is a build, a migration, a rescue, or something I don't take. Named. In under 30 minutes.</p>
           </div>
         </div>
+        <HubspotMeetings />
       </div>
     </div>
   </section>
 
-  <!-- ============================================================ -->
-  <!-- §08 BOOKING: HubSpot meetings embed                          -->
-  <!-- ============================================================ -->
-  <section id="book" class="border-t border-border/60">
-    <div class="mx-auto max-w-6xl px-4 sm:px-6 xl:px-8 py-28" data-animate>
-      <div class="max-w-2xl mb-12">
-        <p class="schema-annotation">§ 08 · Book</p>
-        <h2 class="mt-6 font-display text-3xl sm:text-4xl leading-tight text-foreground">
-          Pick a slot. 30 minutes.
-        </h2>
-      </div>
-      <HubspotMeetings />
-    </div>
-  </section>
-
-  <!-- §10 FOOTER lives in RootLayout -->
+  <!-- FOOTER lives in RootLayout -->
 
 </RootLayout>

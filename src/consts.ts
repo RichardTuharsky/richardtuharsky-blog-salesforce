@@ -14,7 +14,7 @@ export const SITE_METADATA = {
   title: "Richard Tuharsky | The Portal Mechanic",
   headerTitle: "Richard Tuharsky",
   description:
-    "Independent HubSpot practice for {{TARGET_MARKET}}. {{YEARS_SF}} years of hands-on Salesforce work in enterprise environments, now building HubSpot for companies that don't need Salesforce's weight or cost.",
+    "You don't need a new HubSpot. You need the one you have to work. I find what's actually broken in your portal and fix it.",
   language: "en-US",
   locale: "en_US",
   robots: "index, follow",
