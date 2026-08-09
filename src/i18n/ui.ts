@@ -9,6 +9,7 @@ export const ui = {
     "nav.how": "How I work",
     "nav.notes": "Notes",
     "nav.about": "About",
+    "nav.contact": "Contact",
     "nav.book": "Book a call",
 
     "pages.notes.title": "Notes",
