@@ -23,8 +23,8 @@ export const SITE_METADATA = {
   // HubSpot portal, used by tracking snippet, forms, and meetings embeds.
   // The forms embed silently fails on EU portals without the correct region.
   hubspot: {
-    portalId: "{{PORTAL_ID}}",
-    region: "{{PORTAL_REGION}}", // "na1" | "eu1"
+    portalId: "149016748",
+    region: "eu1", // "na1" | "eu1"
     meetingsEmbedUrl: "https://meetings-eu1.hubspot.com/rtuharsky",
     forms: {
       audit: "{{FORM_ID_AUDIT}}",
