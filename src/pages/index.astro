@@ -380,6 +380,18 @@ const capabilityCardsResolved = await Promise.all(
       <div class="mt-14">
         <HubspotMeetings />
       </div>
+
+      <!-- Escape hatch to /contact. Only entry point to /contact from
+           the homepage; keeps booking as the primary conversion action. -->
+      <p class="mt-6 text-center text-sm text-muted-foreground">
+        Not ready to book?{" "}
+        <a
+          href="/contact"
+          class="no-underline hover:underline underline-offset-4 hover:text-foreground transition-colors"
+        >
+          Send me the details instead.
+        </a>
+      </p>
     </div>
   </section>
 

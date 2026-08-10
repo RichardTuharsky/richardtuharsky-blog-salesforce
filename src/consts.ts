@@ -29,6 +29,7 @@ export const SITE_METADATA = {
     forms: {
       audit: "{{FORM_ID_AUDIT}}",
       lowFriction: "{{FORM_ID_LOW_FRICTION}}",
+      contact: "{{FORM_ID_CONTACT}}",
     },
   },
 
@@ -53,7 +54,6 @@ export const NAVIGATION = [
   { href: "/#how-i-work", title: "nav.how" },
   { href: "/notes", title: "nav.notes" },
   { href: "/about", title: "nav.about" },
-  { href: "/contact", title: "nav.contact" },
 ] as const;
 
 /**

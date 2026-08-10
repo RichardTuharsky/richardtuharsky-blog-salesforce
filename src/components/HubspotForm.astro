@@ -1,30 +1,46 @@
 ---
 import { SITE_METADATA } from "@/consts";
 
-// Isolated HubSpot form embed. Two mount points on this site:
-//   - "audit"        (high-intent), used on /services and the homepage booking section
-//   - "lowFriction"  (low-friction), used inline in notes / lightweight contexts
+// Isolated HubSpot form embed. Three mount points on this site:
+//   - "audit"        (high-intent), used on /services
+//   - "lowFriction"  (low-friction), reserved for inline note contexts
+//   - "contact"      (escape hatch), used on /contact
 //
 // IMPORTANT: EU-hosted portals silently fail without the `region` parameter
 // on hbspt.forms.create. The region is read from SITE_METADATA.hubspot.region.
 //
 // Placeholder-safe: if PORTAL_ID or the form ID is still {{PLACEHOLDER}}, we
 // render a visible stub instead of trying to embed a broken form.
+//
+// When the form IS live, a plain-text fallback is always rendered below it.
+// If a visitor declines cookies the embed may be blocked, and the page must
+// still have a live path to reach me.
 
-type Variant = "audit" | "lowFriction";
-interface Props { variant: Variant; label?: string }
-const { variant, label } = Astro.props;
+type Variant = "audit" | "lowFriction" | "contact";
+interface Props {
+  variant: Variant;
+  label?: string;
+  /** Reserve vertical space to prevent layout shift while the iframe loads. */
+  minHeight?: string;
+}
+const { variant, label, minHeight } = Astro.props;
 
 const { portalId, region, forms } = SITE_METADATA.hubspot;
 const formId = forms[variant];
 const canEmbed =
   portalId && !portalId.includes("{{") && formId && !formId.includes("{{");
 const domId = `hubspot-form-${variant}-${Math.random().toString(36).slice(2, 8)}`;
+const containerStyle = minHeight ? `min-height: ${minHeight};` : undefined;
 ---
 
 {canEmbed ? (
-  <>
-    <div id={domId} class="hubspot-form-mount" data-variant={variant}></div>
+  <div class="hubspot-form">
+    <div
+      id={domId}
+      class="hubspot-form-mount"
+      data-variant={variant}
+      style={containerStyle}
+    ></div>
     <script is:inline src="//js.hsforms.net/forms/embed/v2.js" async defer></script>
     <script
       is:inline
@@ -46,9 +62,20 @@ const domId = `hubspot-form-${variant}-${Math.random().toString(36).slice(2, 8)}
         tryCreate();
       })();
     `}</script>
-  </>
+
+    {/* Always-rendered fallback. Live path when the iframe is blocked. */}
+    <p class="mt-4 text-sm text-muted-foreground">
+      Form not loading?{" "}
+      <a
+        href="mailto:{{EMAIL}}"
+        class="underline underline-offset-4 hover:text-foreground transition-colors"
+      >
+        Email me at {`{{EMAIL}}`}
+      </a>.
+    </p>
+  </div>
 ) : (
-  <div class="rounded-sm border border-dashed border-rule/60 bg-muted/50 p-6">
+  <div class="rounded-sm border border-dashed border-rule/60 bg-muted/50 p-6" style={containerStyle}>
     <div class="schema-annotation mb-2">HubSpot form · {variant}</div>
     <p class="text-sm text-muted-foreground">
       {label ?? "Placeholder, replace {{PORTAL_ID}} and the form ID in src/consts.ts to render this embed."}
