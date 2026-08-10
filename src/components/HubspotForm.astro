@@ -1,20 +1,23 @@
 ---
 import { SITE_METADATA } from "@/consts";
 
-// Isolated HubSpot form embed. Three mount points on this site:
+// Isolated HubSpot form embed using HubSpot's current "hs-form-frame"
+// embed format. Three mount points on this site:
 //   - "audit"        (high-intent), used on /services
 //   - "lowFriction"  (low-friction), reserved for inline note contexts
 //   - "contact"      (escape hatch), used on /contact
 //
-// IMPORTANT: EU-hosted portals silently fail without the `region` parameter
-// on hbspt.forms.create. The region is read from SITE_METADATA.hubspot.region.
+// EU-hosted portal. Region + portal ID + form ID all read from
+// SITE_METADATA.hubspot. Do not hand-write the script src or the frame
+// attributes — mirrors HubSpot's exact generated markup so the runtime
+// initialises the form correctly.
 //
-// Placeholder-safe: if PORTAL_ID or the form ID is still {{PLACEHOLDER}}, we
-// render a visible stub instead of trying to embed a broken form.
+// Placeholder-safe: if PORTAL_ID or the form ID is still {{PLACEHOLDER}},
+// we render a visible stub instead of trying to embed a broken form.
 //
-// When the form IS live, a plain-text fallback is always rendered below it.
-// If a visitor declines cookies the embed may be blocked, and the page must
-// still have a live path to reach me.
+// When the form IS live, a plain-text fallback is always rendered below.
+// If a visitor declines cookies the embed may be blocked, and the page
+// must still have a live path to reach me.
 
 type Variant = "audit" | "lowFriction" | "contact";
 interface Props {
@@ -29,39 +32,27 @@ const { portalId, region, forms } = SITE_METADATA.hubspot;
 const formId = forms[variant];
 const canEmbed =
   portalId && !portalId.includes("{{") && formId && !formId.includes("{{");
-const domId = `hubspot-form-${variant}-${Math.random().toString(36).slice(2, 8)}`;
 const containerStyle = minHeight ? `min-height: ${minHeight};` : undefined;
+
+// Region-aware script URL. Portal ID is baked into the script path
+// itself — EU portals must use js-eu1.hsforms.net or the form silently
+// fails to render with nothing in the console.
+const scriptSrc =
+  region === "eu1"
+    ? `https://js-eu1.hsforms.net/forms/embed/${portalId}.js`
+    : `https://js.hsforms.net/forms/embed/${portalId}.js`;
 ---
 
 {canEmbed ? (
   <div class="hubspot-form">
+    <script is:inline src={scriptSrc} defer></script>
     <div
-      id={domId}
-      class="hubspot-form-mount"
-      data-variant={variant}
+      class="hs-form-frame"
+      data-region={region}
+      data-form-id={formId}
+      data-portal-id={portalId}
       style={containerStyle}
     ></div>
-    <script is:inline src="//js.hsforms.net/forms/embed/v2.js" async defer></script>
-    <script
-      is:inline
-      define:vars={{ portalId, formId, region, domId }}
-    >{`
-      (function initHubspotForm() {
-        function tryCreate() {
-          if (window.hbspt && window.hbspt.forms) {
-            window.hbspt.forms.create({
-              region: region,
-              portalId: portalId,
-              formId: formId,
-              target: '#' + domId,
-            });
-          } else {
-            setTimeout(tryCreate, 200);
-          }
-        }
-        tryCreate();
-      })();
-    `}</script>
 
     {/* Always-rendered fallback. Live path when the iframe is blocked. */}
     <p class="mt-4 text-sm text-muted-foreground">
