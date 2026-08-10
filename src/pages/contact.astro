@@ -7,39 +7,78 @@ import HubspotForm from "@/components/HubspotForm.astro";
 // Booking stays the primary conversion action site-wide. This page is NOT
 // promoted in the main nav — reached only via the footer link and a single
 // "Not ready to book?" line beneath the booking embed in §06.
+//
+// After successful submission the whole pre-submit block (eyebrow, H1,
+// sub, form, escape link) is hidden and replaced with a minimal thank-you
+// panel. HubSpot's iframe posts a `hsFormCallback` / `onFormSubmitted`
+// message to the parent window — we listen for it and toggle DOM state.
 ---
 
 <RootLayout
   title={`Contact · ${SITE_METADATA.name}`}
   description="Tell me what's going wrong with your HubSpot portal."
 >
-  <section class="mx-auto max-w-[560px] px-5 md:px-6 py-16 md:py-24" data-animate>
-    <p class="schema-annotation">§ · Contact</p>
-    <h1 class="mt-6 font-display text-3xl sm:text-4xl leading-tight text-foreground">
-      Tell me what's going wrong.
-    </h1>
-    <p class="mt-6 text-muted-foreground leading-relaxed">
-      I reply within one working day. If it's something I don't do, I'll say so and point you somewhere better.
-    </p>
+  <section class="mx-auto max-w-[560px] px-5 md:px-6 py-16 md:py-24">
+    <!-- PRE-SUBMIT: everything visible before the form is filled in.
+         Hidden the instant HubSpot fires onFormSubmitted. -->
+    <div id="contact-form-block" data-animate>
+      <p class="schema-annotation">§ · Contact</p>
+      <h1 class="mt-6 font-display text-3xl sm:text-4xl leading-tight text-foreground">
+        Tell me what's going wrong.
+      </h1>
+      <p class="mt-6 text-muted-foreground leading-relaxed">
+        I reply within one working day. If it's something I don't do, I'll say so and point you somewhere better.
+      </p>
 
-    <!--
-      HubSpot form embed. EU-hosted portal; region is set in consts.ts and
-      passed to hbspt.forms.create. Reserved min-height 520px prevents CLS.
-      Fallback email link renders automatically below the embed.
-    -->
-    <div class="mt-12">
-      <HubspotForm variant="contact" minHeight="520px" />
+      <div class="mt-12">
+        <HubspotForm variant="contact" minHeight="520px" />
+      </div>
+
+      <p class="mt-10 text-sm text-rule text-center">
+        Prefer to talk?{" "}
+        <a
+          href="/#book"
+          class="no-underline hover:underline underline-offset-4 hover:text-foreground transition-colors"
+        >
+          Book a 30-minute call. →
+        </a>
+      </p>
     </div>
 
-    <!-- Escape link. Tertiary text; underlines the link only on hover. -->
-    <p class="mt-10 text-sm text-rule text-center">
-      Prefer to talk?{" "}
-      <a
-        href="/#book"
-        class="no-underline hover:underline underline-offset-4 hover:text-foreground transition-colors"
-      >
-        Book a 30-minute call. →
-      </a>
-    </p>
+    <!-- POST-SUBMIT: revealed on onFormSubmitted. Minimal, no eyebrow,
+         no escape link. H2 (not H1) so we don't produce two H1s in the
+         DOM for SEO — the pre-submit H1 remains authoritative in the
+         indexed source. -->
+    <div id="contact-success" hidden>
+      <h2 class="font-display text-3xl sm:text-4xl leading-tight text-foreground">
+        Form submitted
+      </h2>
+      <p class="mt-6 text-muted-foreground leading-relaxed">
+        Thanks. I'll reply within one working day, usually sooner.
+      </p>
+    </div>
   </section>
+
+  <script>
+    // Listen for HubSpot's postMessage on successful form submission.
+    // Bound to astro:page-load so it re-attaches after any SPA transition.
+    function bindContactFormSuccess() {
+      const formBlock = document.getElementById("contact-form-block");
+      const success = document.getElementById("contact-success");
+      if (!formBlock || !success) return;
+
+      window.addEventListener("message", (event) => {
+        const data = event.data as { type?: string; eventName?: string } | undefined;
+        if (
+          data &&
+          data.type === "hsFormCallback" &&
+          data.eventName === "onFormSubmitted"
+        ) {
+          formBlock.hidden = true;
+          success.hidden = false;
+        }
+      });
+    }
+    document.addEventListener("astro:page-load", bindContactFormSuccess);
+  </script>
 </RootLayout>
