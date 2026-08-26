@@ -25,8 +25,10 @@ interface Props {
   label?: string;
   /** Reserve vertical space to prevent layout shift while the iframe loads. */
   minHeight?: string;
+  /** Hide the email fallback when no real fallback address is configured. */
+  showFallback?: boolean;
 }
-const { variant, label, minHeight } = Astro.props;
+const { variant, label, minHeight, showFallback = true } = Astro.props;
 
 const { portalId, region, forms } = SITE_METADATA.hubspot;
 const formId = forms[variant];
@@ -55,15 +57,17 @@ const scriptSrc =
     ></div>
 
     {/* Always-rendered fallback. Live path when the iframe is blocked. */}
-    <p class="mt-4 text-sm text-muted-foreground">
-      Form not loading?{" "}
-      <a
-        href="mailto:{{EMAIL}}"
-        class="underline underline-offset-4 hover:text-foreground transition-colors"
-      >
-        Email me at {`{{EMAIL}}`}
-      </a>.
-    </p>
+    {showFallback && (
+      <p class="mt-4 text-sm text-muted-foreground">
+        Form not loading?{" "}
+        <a
+          href="mailto:{{EMAIL}}"
+          class="underline underline-offset-4 hover:text-foreground transition-colors"
+        >
+          Email me at {`{{EMAIL}}`}
+        </a>.
+      </p>
+    )}
   </div>
 ) : (
   <div class="rounded-sm border border-dashed border-rule/60 bg-muted/50 p-6" style={containerStyle}>

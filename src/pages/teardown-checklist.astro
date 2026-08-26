@@ -1,6 +1,7 @@
 ---
 import RootLayout from "@/layouts/RootLayout.astro";
 import { SITE_METADATA } from "@/consts";
+import HubspotForm from "@/components/HubspotForm.astro";
 
 const checklistAreas = [
   {
@@ -54,49 +55,16 @@ const checklistAreas = [
             Send it to your inbox.
           </h2>
           <p class="mt-4 text-sm text-muted-foreground leading-relaxed">
-            Enter your email and I will send you the checklist when delivery is connected.
+            Enter your email and I will send you the checklist.
           </p>
 
-          <form id="teardown-checklist-form" class="mt-8" method="post" novalidate>
-            <label for="checklist-email" class="block font-mono text-xs uppercase tracking-widest text-foreground">
-              Email address
-            </label>
-            <input
-              id="checklist-email"
-              name="email"
-              type="email"
-              autocomplete="email"
-              inputmode="email"
-              required
-              placeholder="you@company.com"
-              class="mt-2 block w-full rounded-sm border-border bg-background px-4 py-3 text-foreground placeholder:text-rule focus:border-accent focus:ring-accent"
+          <div class="mt-8">
+            <HubspotForm
+              variant="lowFriction"
+              minHeight="360px"
+              showFallback={false}
             />
-            <p id="checklist-email-error" class="mt-2 text-sm text-red-700 dark:text-red-300" hidden>
-              Enter a valid email address.
-            </p>
-
-            <button
-              id="teardown-checklist-submit"
-              type="submit"
-              disabled
-              class="mt-4 inline-flex w-full items-center justify-center rounded-sm bg-cta px-5 py-3 text-sm font-medium text-cta-foreground transition-colors hover:bg-cta-hover disabled:cursor-not-allowed disabled:opacity-60"
-            >
-              Get the free checklist
-            </button>
-
-            <p class="mt-4 text-xs text-muted-foreground leading-relaxed">
-              No address is sent or stored yet. Email delivery will be connected in the next backend step.
-            </p>
-            <p
-              id="checklist-form-status"
-              class="mt-4 border-l-2 border-accent pl-3 text-sm text-foreground leading-relaxed"
-              role="status"
-              tabindex="-1"
-              hidden
-            >
-              The form is ready, but email capture is not connected yet. Your address has not been submitted.
-            </p>
-          </form>
+          </div>
         </aside>
       </div>
     </div>
@@ -127,47 +95,4 @@ const checklistAreas = [
     </div>
   </section>
 
-  <script>
-    function bindTeardownChecklistForm() {
-      const form = document.getElementById("teardown-checklist-form");
-      const email = document.getElementById("checklist-email");
-      const error = document.getElementById("checklist-email-error");
-      const status = document.getElementById("checklist-form-status");
-      const submit = document.getElementById("teardown-checklist-submit");
-
-      if (
-        !(form instanceof HTMLFormElement) ||
-        !(email instanceof HTMLInputElement) ||
-        !(error instanceof HTMLElement) ||
-        !(status instanceof HTMLElement) ||
-        !(submit instanceof HTMLButtonElement) ||
-        form.dataset.bound === "true"
-      ) return;
-
-      form.dataset.bound = "true";
-      submit.disabled = false;
-
-      email.addEventListener("input", () => {
-        error.hidden = true;
-        email.removeAttribute("aria-invalid");
-      });
-
-      form.addEventListener("submit", (event) => {
-        event.preventDefault();
-
-        if (!email.validity.valid) {
-          error.hidden = false;
-          email.setAttribute("aria-invalid", "true");
-          email.focus();
-          return;
-        }
-
-        error.hidden = true;
-        status.hidden = false;
-        status.focus();
-      });
-    }
-
-    document.addEventListener("astro:page-load", bindTeardownChecklistForm);
-  </script>
 </RootLayout>

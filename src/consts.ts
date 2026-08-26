@@ -28,7 +28,7 @@ export const SITE_METADATA = {
     meetingsEmbedUrl: "https://meetings-eu1.hubspot.com/rtuharsky",
     forms: {
       audit: "{{FORM_ID_AUDIT}}",
-      lowFriction: "{{FORM_ID_LOW_FRICTION}}",
+      lowFriction: "3039dda7-7f93-4ca2-ba4c-047022ad6a74",
       contact: "acc7eaba-b5ce-4f3f-a5f1-4839665ebc97",
     },
   },
