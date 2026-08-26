@@ -5,6 +5,7 @@ import { excludeDrafts, sortNotes } from "@/functions";
 import { SITE_METADATA } from "@/consts";
 import HubspotMeetings from "@/components/HubspotMeetings.astro";
 import FormattedDate from "@/components/FormattedDate.astro";
+import { SERVICE_CAPABILITIES } from "@/data/services";
 
 const latestNotesRaw = sortNotes(await getCollection("notes", excludeDrafts)).slice(0, 3);
 const latestNotes = await Promise.all(
@@ -21,46 +22,11 @@ const latestNotes = await Promise.all(
  * the "How I think about this →" link is hidden — never rendered as a
  * dead link or a greyed-out placeholder.
  */
-const capabilityCards = [
-  {
-    title: "Data quality",
-    description: "What's actually in the database, and what put it there.",
-    question: "How many contacts in your CRM are the same person?",
-    bullets: [
-      "Duplicate count across contacts and companies, and the pattern creating them — form variations, import formatting, or an integration",
-      "Property inventory: what exists, what's populated, what nobody has touched in a year",
-      "Import history review, so you know which upload caused which mess",
-    ],
-    noteSlug: "data-quality",
-  },
-  {
-    title: "Pipeline and lifecycle",
-    description: "Whether your stages mean anything.",
-    question: "Can two reps look at the same deal and agree what stage it's in?",
-    bullets: [
-      "Exit criteria for every stage, written down, usually for the first time",
-      "Where lifecycle stages move automatically and where someone is doing it by hand",
-      "Records sitting in a stage their own activity contradicts",
-    ],
-    noteSlug: "pipeline-lifecycle",
-  },
-  {
-    title: "Automation and sync",
-    description: "What's running, what overlaps, and who owns each field.",
-    question: "If two systems both update the same field, which one wins?",
-    bullets: [
-      "Workflow inventory: what's active, what overlaps, what writes to the same property twice",
-      "Integration sync direction and field ownership, mapped per field",
-      "Where a loop can form between HubSpot and Salesforce, and which side to break it on",
-    ],
-    noteSlug: "automation-sync",
-  },
-];
 const capabilityCardsResolved = await Promise.all(
-  capabilityCards.map(async (card) => {
-    const noteEntry = card.noteSlug
-      ? await getEntry("notes", card.noteSlug).catch(() => undefined)
-      : undefined;
+  SERVICE_CAPABILITIES.map(async (card) => {
+    const noteEntry = await Promise.resolve(getEntry("notes", card.noteSlug)).catch(
+      () => undefined,
+    );
     return { ...card, noteEntry };
   }),
 );

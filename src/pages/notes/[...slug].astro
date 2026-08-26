@@ -67,20 +67,22 @@ const related = note.data.related?.length
       <Content />
     </div>
 
-    <nav class="mt-20 pt-8 border-t border-border/60 grid gap-6 sm:grid-cols-2 text-sm">
-      {prev ? (
-        <a href={`/notes/${prev.id}`} class="group">
-          <p class="schema-annotation">← {t("notes.previousNote")}</p>
-          <p class="mt-2 font-display text-lg text-foreground group-hover:text-accent transition-colors">{prev.data.title}</p>
-        </a>
-      ) : <span></span>}
-      {next ? (
-        <a href={`/notes/${next.id}`} class="group sm:text-right">
-          <p class="schema-annotation">{t("notes.nextNote")} →</p>
-          <p class="mt-2 font-display text-lg text-foreground group-hover:text-accent transition-colors">{next.data.title}</p>
-        </a>
-      ) : <span></span>}
-    </nav>
+    {(prev || next) && (
+      <nav class="mt-20 pt-8 border-t border-border/60 grid gap-6 sm:grid-cols-2 text-sm">
+        {prev ? (
+          <a href={`/notes/${prev.id}`} class="group">
+            <p class="schema-annotation">← {t("notes.previousNote")}</p>
+            <p class="mt-2 font-display text-lg text-foreground group-hover:text-accent transition-colors">{prev.data.title}</p>
+          </a>
+        ) : <span></span>}
+        {next ? (
+          <a href={`/notes/${next.id}`} class="group sm:text-right">
+            <p class="schema-annotation">{t("notes.nextNote")} →</p>
+            <p class="mt-2 font-display text-lg text-foreground group-hover:text-accent transition-colors">{next.data.title}</p>
+          </a>
+        ) : <span></span>}
+      </nav>
+    )}
 
     {NOTE_METADATA.showRelatedNotes && related.length > 0 && (
       <section class="mt-20 pt-10 border-t border-border/60">
