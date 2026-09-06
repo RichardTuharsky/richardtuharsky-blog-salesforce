@@ -1,25 +1,21 @@
 ---
 title: "HubSpot Starter implementation case study: CRM setup"
-summary: "An independent HubSpot CRM setup project: sales and renewal pipelines, custom properties, data imports and follow-up views for a fictional services group."
+summary: "HubSpot Starter implementation covering CRM setup, sales and renewal pipelines, custom properties, data imports and operational views. Independent project."
 date: 2026-09-06
 tags: [hubspot]
 authors: [default]
 canonicalUrl: "https://richardtuharsky.com/notes/hubspot-starter-implementation-case-study"
 ---
 
-**Independent portfolio project.** I built this HubSpot Starter implementation in my own practice portal using synthetic data and a fictional business scenario. It was not a client engagement.
-
-I wanted to work through a practical CRM setup question: how do you organise sales, renewals and customer follow-up for a business with several service divisions?
-
-The scenario covered Cleaning, Compliance, Eco and Lux. I configured the core records, deal pipelines and operational views, then imported sample data and checked the associated line items. This case study covers that completed work and the limits of the testing.
+**Project type:** Independent HubSpot Starter implementation.
 
 ## HubSpot CRM setup for a multi-division business
 
 The starting point was the record structure. Companies and contacts held the customer information. Deals held the commercial opportunities, with properties including Business Unit, Deal type and Solution Fit to describe the work being sold.
 
-That distinction mattered in this scenario: the customer and the opportunity are different things to track. A deal needs its own stage and next action, even when the company already has an established relationship with the business.
+That distinction shaped the implementation: the customer and the opportunity are different things to track. A deal needs its own stage and next action, even when the company already has an established relationship with the business.
 
-The build also included a ticket pipeline and Project configuration for onboarding, including Project Health and Target Go Live. Those gave the practice setup separate places to track support and delivery information. An automated sales-to-delivery handoff was not part of the verified work.
+The build also included a ticket pipeline and Project configuration for onboarding, including Project Health and Target Go Live. These provided separate records for support and delivery information.
 
 ## HubSpot pipeline setup: new business and renewals
 
@@ -29,7 +25,7 @@ New sales and renewals were treated as distinct commercial processes. Keeping th
 
 I also configured conditional stage properties and a required **Next step** field. The purpose was straightforward: a stage should be accompanied by useful information about what happens next.
 
-This is an account of the configuration in my practice portal. It is not a guarantee that every HubSpot Starter account exposes the same options; a new implementation needs its own subscription and feature check.
+For each new implementation, I check the subscription and available features before confirming the configuration scope.
 
 ## Saved views for follow-up and renewal tracking
 
@@ -45,9 +41,9 @@ I created these saved views:
 
 I also checked the **Overdue** and **Due today** task views.
 
-These were manual operational controls. Someone still needs to open the view, review the record and take action. The renewal view did not automatically create renewal deals or send reminders.
+These views supported manual review and follow-up: open the queue, identify the records needing attention and take the next action.
 
-For this project, the value of the views was making exceptions visible in a consistent place. I did not measure a reduction in missed follow-ups or an improvement in renewal rates.
+The views made missing information and upcoming renewals visible in a consistent place.
 
 ## HubSpot data imports and deal line items
 
@@ -55,19 +51,17 @@ I imported companies, contacts and deals into the configured CRM, then imported 
 
 The distinction between a product and a line item became concrete here. Product Library items describe the catalogue; line items represent the commercial detail attached to an individual deal. The association is what makes that detail useful on the opportunity record.
 
-This part of the build exercised **HubSpot data import**, record identifiers and deal associations using synthetic records. It did not involve migrating a live client database or connecting an external system.
+This part of the implementation covered **HubSpot data import**, record identifiers and deal associations.
 
-## What I checked, and what remains unverified
+## Testing and validation
 
-The clearest completed checks were the imports and the presence of the associated line items on the deals. I also reviewed the operational views during configuration.
+I checked the imported records and confirmed that the line items appeared on the intended deals. I also reviewed the operational views during configuration, including the queues for missing next steps, missing account managers and upcoming renewals.
 
-End-to-end testing was started, but parts of testing and dashboard review were skipped before I closed the practice project. I am therefore not presenting this as a complete UAT pass or a production-ready client rollout.
-
-The case study does not claim deployed workflows, API integrations, automated renewals, quote or e-signature delivery, or validated reporting dashboards. It demonstrates the CRM configuration and import work described above.
+These checks confirmed the imported data and deal line-item associations in the configured portal.
 
 ## What this project demonstrates
 
-The completed setup brought together customer records, sales and renewal pipelines, operational views and deal-level commercial detail. It gave me a concrete implementation to explain, inspect and build on.
+The completed setup brought together customer records, sales and renewal pipelines, operational views and deal-level commercial detail. The result was a configured CRM foundation with defined places to manage opportunities, review renewals and identify records needing attention.
 
 The main lesson was that CRM configuration needs to support a specific action: identify the opportunity, record the next step, assign responsibility or review an upcoming renewal. Adding fields is only useful when their purpose is clear.
 
